@@ -65,6 +65,10 @@ function PanelController($scope)
 		return $scope.activeId ? $scope.requests[$scope.activeId] : null;
 	};
 
+	$scope.activeRoutes = function() {
+		return $scope.activeId ? $scope.requests[$scope.activeId].routes : null;
+	};
+
 	$scope.activeSessionData = function() {
 		return $scope.activeId ? $scope.requests[$scope.activeId].sessionData : null;
 	};

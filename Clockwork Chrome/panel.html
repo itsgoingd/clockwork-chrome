@@ -79,13 +79,16 @@
 								<li class="tabbed-pane-header-tab">
 									<a href="#tab-session" class="tabbed-pane-header-tab-title">Session</a>
 								</li>
+								<li class="tabbed-pane-header-tab" ng-show="activeRoutes().length">
+									<a href="#tab-routes" class="tabbed-pane-header-tab-title">Routes</a>
+								</li>
 							</ul>
 						</div>
 					</div>
 
 					<div class="tabbed-pane-content data-grid data-grid-details">
 
-					 <div id="tab-request">
+						<div id="tab-request">
 							<table id="headers" ng-show="activeHeaders().length">
 								<thead>
 									<tr>
@@ -186,7 +189,7 @@
 							</table>
 						</div>
 
-					 <div id="tab-session">
+						 <div id="tab-session">
 							<table id="sessionData">
 								<thead>
 									<tr>
@@ -202,7 +205,7 @@
 							</table>
 						</div>
 
-						 <div id="tab-cookies">
+						<div id="tab-cookies">
 							<table id="cookies">
 								<thead>
 									<tr>
@@ -213,6 +216,31 @@
 									<tr ng-repeat="param in activeCookies()">
 										<td class="key">{{param.name}}</td>
 										<td ng-bind-html="param.value | prettifyJson"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div id="tab-routes">
+							<table id="routes">
+								<thead>
+									<tr>
+										<th>Method</th>
+										<th>URI</th>
+										<th>Action</th>
+										<th>Name</th>
+										<th>Before</th>
+										<th>After</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="param in activeRoutes()">
+										<td>{{param.method}}</td>
+										<td>{{param.uri}}</td>
+										<td>{{param.action}}</td>
+										<td>{{param.name}}</td>
+										<td>{{param.before}}</td>
+										<td>{{param.after}}</td>
 									</tr>
 								</tbody>
 							</table>

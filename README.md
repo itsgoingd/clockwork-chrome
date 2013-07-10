@@ -1,7 +1,8 @@
 Clockwork
 =========
 
-Clockwork is a Chrome extension for PHP development, extending Developer Tools with a new panel providing all kinds of information useful for debugging and profiling your PHP scripts, including information on request, headers, GET and POST data, cookies, session data, database queries, visualisation of application runtime and more.
+Clockwork is a Chrome extension for PHP development, extending Developer Tools with a new panel providing all kinds of information useful for debugging and profiling your PHP scripts, including information on request, headers, GET and POST data, cookies, session data, database queries, routes, visualisation of application runtime and more.
+Clockwork includes out of the box support for Laravel 4 and Slim 2 based applications, you can add support for any other or custom framework via an extensible API.
 
 ![](https://dl.dropboxusercontent.com/u/9846387/Screenshots/Clockwork%20Chrome%200.9.0.png)
 
@@ -9,7 +10,7 @@ This extension is based on [RailsPanel](https://github.com/dejan/rails_panel), a
 
 ## Installation
 
-To use this extension you need to install a server-side component available [here](http://github.com/itsgoingd/clockwork).
+To use this extension you need to install a [server-side component](http://github.com/itsgoingd/clockwork).
 
 This extension is still under development, not yet available in the Chrome Web Store. To install this extension just download copy of this repository, open Chrome Extensions manager, enable "Developer Mode", select "Load Unpacked Extension..." and select directory with contents of this repository. Extension will be added to the Chrome Web Store as soon as first stable version (1.0.0) is released.
 
