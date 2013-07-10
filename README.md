@@ -13,12 +13,6 @@ To use this extension you need to install a server-side component available [her
 
 This extension is still under development, not yet available in the Chrome Web Store. To install this extension just download copy of this repository, open Chrome Extensions manager, enable "Developer Mode", select "Load Unpacked Extension..." and select directory with contents of this repository. Extension will be added to the Chrome Web Store as soon as first stable version (1.0.0) is released.
 
-## TODO
-
-- standalone web version embeddable directly into web sites (for users not using Chrome)
-- improve displaying of array/object values in session, GET and POST data etc.
-- improve timeline view
-
 ## Licence
 
 Copyright (c) 2013 Miroslav Rigler
