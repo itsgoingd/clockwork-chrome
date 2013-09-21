@@ -1,7 +1,7 @@
 chrome.devtools.panels.create(
 	"Clockwork",
 	"assets/images/icon-toolbar.png",
-	"panel.html",
+	"app.html",
 	function(panel) {
 		console.log("Panel created.");
 
