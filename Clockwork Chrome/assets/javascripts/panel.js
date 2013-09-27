@@ -52,7 +52,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 
 			if (requestVersion !== undefined) {
 				var uri = new URI(request.request.url);
-				var path = ((requestPath) ? requestPath.value : '') + '/__clockwork/' + requestId.value;
+				var path = ((requestPath) ? requestPath.value : '/__clockwork/') + requestId.value;
 				uri.pathname(path);
 
 				chrome.extension.sendRequest({action: 'getJSON', url: uri.toString()}, function(data){
