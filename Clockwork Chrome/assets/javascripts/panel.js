@@ -158,6 +158,10 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 	{
 		var keypairs = [];
 
+		if (!(data instanceof Object)) {
+			return keypairs;
+		}
+
 		$.each(data, function(key, value){
 			keypairs.push({name: key, value: value});
 		});
