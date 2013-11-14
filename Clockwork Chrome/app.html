@@ -1,5 +1,6 @@
 <html ng-app="Clockwork" ng-csp="">
 	<head>
+		<link rel="stylesheet" type="text/css" href="vendor/assets/stylesheets/pretty-jason.css">
 		<link rel="stylesheet" type="text/css" href="assets/stylesheets/panel.css">
 		<script src="vendor/assets/javascripts/jquery-2.0.2.min.js"></script>
 		<script src="vendor/assets/javascripts/jquery-ui-1.10.3.custom.min.js"></script>
@@ -8,7 +9,7 @@
 		<script src="vendor/assets/javascripts/URI.min.js"></script>
 		<script src="vendor/assets/javascripts/keymaster.min.js"></script>
 		<script src="vendor/assets/javascripts/angular.min.js"></script>
-		<script src="vendor/assets/javascripts/angular-sanitize.min.js"></script>
+		<script src="vendor/assets/javascripts/pretty-jason.js"></script>
 		<script src="assets/javascripts/app.js"></script>
 		<script src="assets/javascripts/panel.js"></script>
 	</head>
@@ -98,7 +99,7 @@
 								<tbody>
 									<tr ng-repeat="param in activeHeaders">
 										<td class="key">{{param.name}}</td>
-										<td class="value">{{param.value}}</td>
+										<td class="value"><pretty-print data="param.value"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -111,7 +112,7 @@
 								<tbody>
 									<tr ng-repeat="param in activeGetData">
 										<td class="key">{{param.name}}</td>
-										<td ng-bind-html="param.value | prettifyJson"></td>
+										<td><pretty-print data="param.value"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -124,7 +125,7 @@
 								<tbody>
 									<tr ng-repeat="param in activePostData">
 										<td class="key">{{param.name}}</td>
-										<td ng-bind-html="param.value | prettifyJson"></td>
+										<td><pretty-print data="param.value"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -159,7 +160,7 @@
 									<tr ng-repeat="message in activeLog">
 										<td class="log-date">{{message.time | date:'HH:mm:ss'}}</td>
 										<td class="log-level">{{message.level}}</td>
-										<td class="log-message">{{message.message}}</td>
+										<td class="log-message"><pretty-print data="message.message"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -199,7 +200,7 @@
 								<tbody>
 									<tr ng-repeat="param in activeSessionData">
 										<td class="key">{{param.name}}</td>
-										<td ng-bind-html="param.value | prettifyJson"></td>
+										<td><pretty-print data="param.value"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -215,7 +216,7 @@
 								<tbody>
 									<tr ng-repeat="param in activeCookies">
 										<td class="key">{{param.name}}</td>
-										<td ng-bind-html="param.value | prettifyJson"></td>
+										<td><pretty-print data="param.value"></td>
 									</tr>
 								</tbody>
 							</table>
