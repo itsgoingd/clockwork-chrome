@@ -141,7 +141,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 		$scope.activeRequest = $scope.requests[requestId];
 		$scope.activeRoutes = $scope.requests[requestId].routes;
 		$scope.activeSessionData = $scope.requests[requestId].sessionData;
-		$scope.activeTimeline = $scope.requests[requestId].timelineData;
+		$scope.activeTimeline = $scope.requests[requestId].timeline;
 		$scope.activeTimelineLegend = $scope.generateTimelineLegend();
 	};
 
@@ -228,6 +228,8 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 		var j = 1;
 		var maxWidth = $('.data-grid-details').width() - 230 - 20;
 
+		var timeline = [];
+
 		$.each(data.timelineData, function(i, value){
 			value.style = 'style' + j.toString();
 			value.left = (value.start - data.time) * 1000 / data.responseDuration * 100;
@@ -239,11 +241,16 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 				value.durationRounded = '< 1';
 			}
 
-			j++;
-			if (j > 3) j = 1;
+			if (i == 'total') {
+				timeline.unshift(value);
+			} else {
+				timeline.push(value);
+			}
+
+			if (++j > 3) j = 1;
 		});
 
-		return data.timelineData;
+		return timeline;
 	};
 
 	angular.element(window).bind('resize', function() {
