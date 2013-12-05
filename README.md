@@ -6,7 +6,7 @@ Clockwork includes out of the box support for Laravel 4 and Slim 2 based applica
 
 **Not a Chrome user?** Check out [embeddable web app version of Clockwork](http://github.com/itsgoingd/clockwork-web), supporting many modern browsers along chrome.
 
-![](https://dl.dropboxusercontent.com/u/9846387/Screenshots/Clockwork%20Chrome%200.9.0.png)
+![](https://dl.dropboxusercontent.com/u/9846387/Screenshots/Clockwork%20Chrome%201.2.png)
 
 This extension is based on [RailsPanel](https://github.com/dejan/rails_panel), a Chrome extension for Ruby development by [Dejan Simic](http://rors.org/).
 
