@@ -49,16 +49,14 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 			var requestId = headers.find(function(x) { return x.name == 'X-Clockwork-Id'; });
 			var requestVersion = headers.find(function(x) { return x.name == 'X-Clockwork-Version'; });
             var requestPath = headers.find(function(x) { return x.name == 'X-Clockwork-Path'; });
-            
-            var requestHeaders = {
-				Foo: 'Bar'
-            };
-			// for (var header in headers) {
-			// 	if (header.name.indexOf('X-Clockwork-Header-') === 0) {
-			// 		originalName = header.name.replace('X-Clockwork-Header-', '');
-			// 		requestHeaders[originalName] = header.value;
-			// 	}
-			// }
+
+			var requestHeaders = {};
+			$.each(headers, function(i, header) {
+				if (header.name.indexOf('X-Clockwork-Header-') === 0) {
+					originalName = header.name.replace('X-Clockwork-Header-', '');
+					requestHeaders[originalName] = header.value;
+				}
+			});
 
 			if (requestVersion !== undefined) {
 				var uri = new URI(request.request.url);
