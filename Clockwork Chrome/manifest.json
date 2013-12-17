@@ -7,7 +7,10 @@
 	"background": {
 		"scripts": [
 			"vendor/assets/javascripts/jquery-2.0.2.min.js",
-			"assets/javascripts/background.js"
+			"vendor/assets/javascripts/angular.min.js",
+			"assets/javascripts/background.js",
+			"assets/javascripts/app.js",
+			"assets/javascripts/panel.js"
 		]
 	},
 	"permissions": [
