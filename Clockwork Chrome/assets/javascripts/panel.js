@@ -50,6 +50,14 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 			var requestVersion = headers.find(function(x) { return x.name == 'X-Clockwork-Version'; });
             var requestPath = headers.find(function(x) { return x.name == 'X-Clockwork-Path'; });
 
+			var requestHeaders = {};
+			$.each(headers, function(i, header) {
+				if (header.name.indexOf('X-Clockwork-Header-') === 0) {
+					originalName = header.name.replace('X-Clockwork-Header-', '');
+					requestHeaders[originalName] = header.value;
+				}
+			});
+
 			if (requestVersion !== undefined) {
 				var uri = new URI(request.request.url);
 				var path = ((requestPath) ? requestPath.value : '/__clockwork/') + requestId.value;
@@ -60,7 +68,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 					uri.query(path[1]);
 				}
 
-				chrome.extension.sendRequest({action: 'getJSON', url: uri.toString()}, function(data){
+				chrome.extension.sendRequest({action: 'getJSON', url: uri.toString(), headers: requestHeaders}, function(data){
 					$scope.$apply(function(){
 						$scope.addRequest(requestId.value, data);
 					});
