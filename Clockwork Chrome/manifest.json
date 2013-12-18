@@ -1,16 +1,13 @@
 {
 	"name": "Clockwork",
 	"version": "1.3",
-	"manifest_version": 3,
+	"manifest_version": 2,
 	"description": "Devtools panel for PHP development",
 	"devtools_page": "devtools.html",
 	"background": {
 		"scripts": [
 			"vendor/assets/javascripts/jquery-2.0.2.min.js",
-			"vendor/assets/javascripts/angular.min.js",
-			"assets/javascripts/background.js",
-			"assets/javascripts/app.js",
-			"assets/javascripts/panel.js"
+			"assets/javascripts/background.js"
 		]
 	},
 	"permissions": [
