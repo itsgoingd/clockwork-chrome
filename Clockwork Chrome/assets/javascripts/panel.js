@@ -221,10 +221,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 
 	$scope.processLog = function(data)
 	{
-		var levels = { 1: 'DEBUG', 2: 'INFO', 3: 'NOTICE', 4: 'WARNING', 5: 'ERROR' };
-
 		$.each(data, function(key, value) {
-			value.level = levels[value.level];
 			value.time = new Date(value.time * 1000);
 		});
 
