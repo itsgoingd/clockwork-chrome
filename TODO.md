@@ -1,4 +1,4 @@
-1.3
+1.4
 - add application and/or PHP configuration
 
 Someday/maybe
