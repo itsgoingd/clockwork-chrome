@@ -9,12 +9,20 @@ var Clockwork = angular.module('Clockwork', [])
 				var data = scope.data;
 				var jason;
 
-				if (data instanceof Object) {
-					jason = new PrettyJason(data);
-				} else {
+				if (data === true) {
+					data = '<i>true</i>';
+				} else if (data === false) {
+					data = '<i>false</i>';
+				} else if (data === undefined) {
+					data = '<i>undefined</i>';
+				} else if (data === null) {
+					data = '<i>null</i>';
+				} else if (typeof data !== 'number') {
 					try {
 						jason = new PrettyJason(data);
-					} catch(e) {}
+					} catch(e) {
+						data = $('<div>').text(data).html();
+					}
 				}
 
 				var $el = $('<div></div>');
@@ -22,7 +30,7 @@ var Clockwork = angular.module('Clockwork', [])
 				if (jason) {
 					$el.append(jason.generateHtml());
 				} else {
-					$el.text(data);
+					$el.html(data);
 				}
 
 				element.replaceWith($el);
