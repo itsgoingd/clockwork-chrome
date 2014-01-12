@@ -1,3 +1,8 @@
+1.4
+- added views and emails tabs
+- empty tabs are no longer shown
+- improved compatibility when incomplete data is received
+
 1.3.1
 - log level is now specified as string by client, allowing any level names
 - added support for custom headers on metadata requests specified by client via X-Clockwork-Header-NAME headers
