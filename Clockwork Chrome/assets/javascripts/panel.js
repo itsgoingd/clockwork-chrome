@@ -5,6 +5,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 
 	$scope.activeCookies = [];
 	$scope.activeDatabaseQueries = [];
+	$scope.activeEmails = [];
 	$scope.activeGetData = [];
 	$scope.activeHeaders = [];
 	$scope.activeLog = [];
@@ -14,6 +15,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 	$scope.activeSessionData = [];
 	$scope.activeTimeline = [];
 	$scope.activeTimelineLegend = [];
+	$scope.activeViews = [];
 
 	$scope.init = function(type)
 	{
@@ -105,12 +107,14 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 		data.databaseDurationRounded = data.databaseDuration ? Math.round(data.databaseDuration) : 0;
 
 		data.cookies = $scope.createKeypairs(data.cookies);
+		data.emails = $scope.processEmails(data.emailsData);
 		data.getData = $scope.createKeypairs(data.getData);
 		data.headers = $scope.processHeaders(data.headers);
+		data.log = $scope.processLog(data.log);
 		data.postData = $scope.createKeypairs(data.postData);
 		data.sessionData = $scope.createKeypairs(data.sessionData);
-		data.log = $scope.processLog(data.log);
 		data.timeline = $scope.processTimeline(data);
+		data.views = $scope.processViews(data.viewsData);
 
 		$scope.requests[requestId] = data;
 		$scope.setActive(requestId);
@@ -125,6 +129,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 
 		$scope.activeCookies = [];
 		$scope.activeDatabaseQueries = [];
+		$scope.activeEmails = [];
 		$scope.activeGetData = [];
 		$scope.activeHeaders = [];
 		$scope.activeLog = [];
@@ -134,6 +139,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 		$scope.activeSessionData = [];
 		$scope.activeTimeline = [];
 		$scope.activeTimelineLegend = [];
+		$scope.activeViews = [];
 	};
 
 	$scope.setActive = function(requestId)
@@ -142,6 +148,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 
 		$scope.activeCookies = $scope.requests[requestId].cookies;
 		$scope.activeDatabaseQueries = $scope.requests[requestId].databaseQueries;
+		$scope.activeEmails = $scope.requests[requestId].emails;
 		$scope.activeGetData = $scope.requests[requestId].getData;
 		$scope.activeHeaders = $scope.requests[requestId].headers;
 		$scope.activeLog = $scope.requests[requestId].log;
@@ -151,6 +158,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 		$scope.activeSessionData = $scope.requests[requestId].sessionData;
 		$scope.activeTimeline = $scope.requests[requestId].timeline;
 		$scope.activeTimelineLegend = $scope.generateTimelineLegend();
+		$scope.activeViews = $scope.requests[requestId].views;
 	};
 
 	$scope.getClass = function(requestId)
@@ -202,9 +210,37 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 		return items;
 	};
 
+	$scope.processEmails = function(data)
+	{
+		var emails = [];
+
+		if (!(data instanceof Object)) {
+			return emails;
+		}
+
+		$.each(data, function(key, value)
+		{
+			if (!(value.data instanceof Object)) {
+				return;
+			}
+
+			emails.push({
+				'to':      value.data.to,
+				'subject': value.data.subject,
+				'headers': value.data.headers
+			});
+		});
+
+		return emails;
+	}
+
 	$scope.processHeaders = function(data)
 	{
 		var headers = [];
+
+		if (!(data instanceof Object)) {
+			return headers;
+		}
 
 		$.each(data, function(key, value){
 			key = key.split('-').map(function(value){
@@ -221,6 +257,10 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 
 	$scope.processLog = function(data)
 	{
+		if (!(data instanceof Object)) {
+			return [];
+		}
+
 		$.each(data, function(key, value) {
 			value.time = new Date(value.time * 1000);
 		});
@@ -257,6 +297,29 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 
 		return timeline;
 	};
+
+	$scope.processViews = function(data)
+	{
+		var views = [];
+
+		if (!(data instanceof Object)) {
+			return views;
+		}
+
+		$.each(data, function(key, value)
+		{
+			if (!(value.data instanceof Object)) {
+				return;
+			}
+
+			views.push({
+				'name': value.data.name,
+				'data': value.data.data
+			});
+		});
+
+		return views;
+	}
 
 	angular.element(window).bind('resize', function() {
 		$scope.$apply(function(){

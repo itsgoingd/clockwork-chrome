@@ -71,14 +71,20 @@
 								<li class="tabbed-pane-header-tab">
 									<a href="#tab-log" class="tabbed-pane-header-tab-title">Log</a>
 								</li>
-								<li class="tabbed-pane-header-tab">
+								<li class="tabbed-pane-header-tab" ng-show="activeDatabaseQueries.length">
 									<a href="#tab-db" class="tabbed-pane-header-tab-title">Database</a>
 								</li>
-								<li class="tabbed-pane-header-tab">
+								<li class="tabbed-pane-header-tab" ng-show="activeCookies.length">
 									<a href="#tab-cookies" class="tabbed-pane-header-tab-title">Cookies</a>
 								</li>
-								<li class="tabbed-pane-header-tab">
+								<li class="tabbed-pane-header-tab" ng-show="activeSessionData.length">
 									<a href="#tab-session" class="tabbed-pane-header-tab-title">Session</a>
+								</li>
+								<li class="tabbed-pane-header-tab" ng-show="activeViews.length">
+									<a href="#tab-views" class="tabbed-pane-header-tab-title">Views</a>
+								</li>
+								<li class="tabbed-pane-header-tab" ng-show="activeEmails.length">
+									<a href="#tab-emails" class="tabbed-pane-header-tab-title">Emails</a>
 								</li>
 								<li class="tabbed-pane-header-tab" ng-show="activeRoutes.length">
 									<a href="#tab-routes" class="tabbed-pane-header-tab-title">Routes</a>
@@ -222,6 +228,46 @@
 									</tr>
 								</tbody>
 							</table>
+						</div>
+
+						<div id="tab-views">
+							<table class="stupidtable" id="views">
+								<thead>
+									<tr>
+										<th data-sort="string">Name</th>
+										<th>Data</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="view in activeViews">
+										<td>{{view.name}}</td>
+										<td><pretty-print data="view.data"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div id="tab-emails">
+							<table class="stupidtable" id="emails">
+								<thead>
+									<tr>
+										<th data-sort="string">To</th>
+										<th data-sort="string">Subject</th>
+									</tr>
+									<tr>
+										<th colspan="2">Headers</th>
+									</tr>
+								</thead>
+								<tbody ng-repeat="email in activeEmails">
+									<tr>
+										<td>{{email.to}}</td>
+										<td>{{email.subject}}</td>
+									</tr>
+									<tr>
+										<td colspan="2"><pretty-print data="email.headers"></td>
+								</tbody>
+							</table>
+							<div class="number-of-queries">Number of emails: {{activeEmails.length}}</div>
 						</div>
 
 						<div id="tab-routes">
