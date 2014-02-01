@@ -7,7 +7,15 @@ g.PrettyJason = function(data)
 	if (data instanceof Object) {
 		this.data = data;
 	} else {
-		this.data = JSON.parse(data);
+		try {
+			this.data = JSON.parse(data);
+		} catch(e) {
+			throw new PrettyJasonException('Input is not a valid JSON string.', e);
+		}
+
+		if (!(this.data instanceof Object)) {
+			throw new PrettyJasonException('Input does not contain serialized object.');
+		}
 	}
 };
 
@@ -124,6 +132,12 @@ g.PrettyJason.prototype._objectNodeClickedCallback = function()
 		$list.hide();
 		$icon.addClass('pretty-jason-icon-closed');
 	}
+};
+
+g.PrettyJasonException = function(message, exception)
+{
+	this.message = message;
+	this.exception = exception;
 };
 
 })(window);
