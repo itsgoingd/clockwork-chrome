@@ -1,3 +1,6 @@
+1.4.1
+- fixed a bug where numeric values were displayed as empty objects
+
 1.4
 - added views and emails tabs
 - empty tabs are no longer shown
