@@ -47,15 +47,15 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 		chrome.devtools.network.onRequestFinished.addListener(function(request) {
 			console.log(request);
 
-			headers = request.response.headers;
-			var requestId = headers.find(function(x) { return x.name == 'X-Clockwork-Id'; });
-			var requestVersion = headers.find(function(x) { return x.name == 'X-Clockwork-Version'; });
-            var requestPath = headers.find(function(x) { return x.name == 'X-Clockwork-Path'; });
+			var headers = request.response.headers;
+			var requestId = headers.find(function(x) { return x.name == 'x-clockwork-id'; });
+			var requestVersion = headers.find(function(x) { return x.name == 'x-clockwork-version'; });
+            		var requestPath = headers.find(function(x) { return x.name == 'x-clockwork-path'; });
 
 			var requestHeaders = {};
 			$.each(headers, function(i, header) {
-				if (header.name.indexOf('X-Clockwork-Header-') === 0) {
-					originalName = header.name.replace('X-Clockwork-Header-', '');
+				if (header.name.indexOf('x-clockwork-header-') === 0) {
+					originalName = header.name.replace('x-clockwork-header-', '');
 					requestHeaders[originalName] = header.value;
 				}
 			});
