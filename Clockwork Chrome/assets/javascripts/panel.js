@@ -48,14 +48,14 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 			console.log(request);
 
 			var headers = request.response.headers;
-			var requestId = headers.find(function(x) { return x.name == 'x-clockwork-id'; });
-			var requestVersion = headers.find(function(x) { return x.name == 'x-clockwork-version'; });
-            		var requestPath = headers.find(function(x) { return x.name == 'x-clockwork-path'; });
+			var requestId = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-id'; });
+			var requestVersion = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-version'; });
+            		var requestPath = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-path'; });
 
 			var requestHeaders = {};
 			$.each(headers, function(i, header) {
-				if (header.name.indexOf('x-clockwork-header-') === 0) {
-					originalName = header.name.replace('x-clockwork-header-', '');
+				if (header.name.toLowerCase().indexOf('x-clockwork-header-') === 0) {
+					originalName = header.name.toLowerCase().replace('x-clockwork-header-', '');
 					requestHeaders[originalName] = header.value;
 				}
 			});
