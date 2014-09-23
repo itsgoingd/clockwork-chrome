@@ -141,12 +141,14 @@
 							<table class="stupidtable" id="db">
 								<thead>
 									<tr>
+										<th data-sort="string" ng-show="showDatabaseConnectionColumn()">Connection</th>
 										<th data-sort="string">SQL</th>
 										<th data-sort="float" class="duration">Duration</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-repeat="sql in activeDatabaseQueries">
+										<td ng-show="showDatabaseConnectionColumn()">{{sql.connection}}</td>
 										<td>{{sql.query}}</td>
 										<td class="database-duration">{{sql.duration | number:3}} ms</td>
 									</tr>

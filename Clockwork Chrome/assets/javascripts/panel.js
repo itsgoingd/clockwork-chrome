@@ -170,6 +170,18 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 		}
 	};
 
+	$scope.showDatabaseConnectionColumn = function()
+	{
+		var connections = {};
+
+		$scope.activeDatabaseQueries.forEach(function(query)
+		{
+			connections[query.connection] = true;
+		});
+
+		return Object.keys(connections).length > 1;
+	}
+
 	$scope.createKeypairs = function(data)
 	{
 		var keypairs = [];
