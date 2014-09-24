@@ -1,3 +1,6 @@
+1.4.2
+- added connection column to database tab when there are queries from multiple connections in request data
+
 1.4.1
 - fixed a bug where numeric values were displayed as empty objects
 
