@@ -1,3 +1,6 @@
+1.4.3
+- fixed compatibility with web server sending lowercase headers (thanks EvanDarwin)
+
 1.4.2
 - added connection column to database tab when there are queries from multiple connections in request data
 
