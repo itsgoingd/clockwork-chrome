@@ -13,6 +13,22 @@ th, td {
 	text-align: left;
 }
 
+.toolbar {
+	padding: 2px 4px;
+	text-align: right;
+}
+
+.toolbar a {
+	color: rgb(105, 105, 105);
+	cursor: default;
+	font-size: 15px;
+	padding: 0 5px;
+}
+
+.toolbar a:hover {
+	color: rgb(59, 59, 59);
+}
+
 .split-view {
 	bottom: 0;
 	left: 0;
@@ -186,6 +202,30 @@ th, td {
 .data-grid-requests tr:nth-child(even) td.status,
 .data-grid-requests tr:nth-child(even) td.duration {
 	background: rgb(225, 225, 225);
+}
+
+.data-grid-requests .notificationsCount {
+	float: right;
+    letter-spacing: -0.5px;
+	margin-top: 7px;
+}
+
+.data-grid-requests .notificationsCount .errorsCount i {
+	color: rgb(205, 73, 46);
+	margin-left: 2px;
+}
+
+.data-grid-requests .selected .notificationsCount .errorsCount i {
+	color: #fff;
+}
+
+.data-grid-requests .notificationsCount .warningsCount i {
+	color: rgb(244, 189, 0);
+	margin-left: 2px;
+}
+
+.data-grid-requests .selected .notificationsCount .warningsCount i {
+	color: #fff;
 }
 
 /* request details */

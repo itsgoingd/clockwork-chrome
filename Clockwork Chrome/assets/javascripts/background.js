@@ -18,11 +18,11 @@ function onRequest(request, sender, callback) {
 }
 chrome.extension.onRequest.addListener(onRequest);
 
-var devtoolsPort = null;
-chrome.extension.onConnect.addListener(function(port) {
-	devtoolsPort = port;
-});
+// var devtoolsPort = null;
+// chrome.extension.onConnect.addListener(function(port) {
+// 	devtoolsPort = port;
+// });
 
-chrome.extension.onMessage.addListener(function(request, sender, sendResponse){
-	devtoolsPort.postMessage({});
-});
+// chrome.extension.onMessage.addListener(function(request, sender, sendResponse){
+// 	devtoolsPort.postMessage({});
+// });

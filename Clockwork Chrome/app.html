@@ -2,6 +2,7 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="vendor/assets/stylesheets/pretty-jason.css">
 		<link rel="stylesheet" type="text/css" href="vendor/assets/stylesheets/jquery.resizableColumns.css">
+		<link rel="stylesheet" type="text/css" href="vendor/assets/stylesheets/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="assets/stylesheets/panel.css">
 		<script src="vendor/assets/javascripts/jquery-2.0.2.min.js"></script>
 		<script src="vendor/assets/javascripts/jquery-ui-1.10.3.custom.min.js"></script>
@@ -14,6 +15,7 @@
 		<script src="vendor/assets/javascripts/jquery.resizableColumns.min.js"></script>
 		<script src="assets/javascripts/app.js"></script>
 		<script src="assets/javascripts/panel.js"></script>
+		<script src="assets/javascripts/toolbar.js"></script>
 	</head>
 	<body>
 		<div class="split-view" ng-controller='PanelController' ng-init="init('chrome-extension')">
@@ -45,6 +47,16 @@
 							</tr>
 							<tr ng-repeat="request in requests" ng-click="setActive(request.id)" ng-class="getClass(request.id)">
 								<td class='controller' title="{{request.uri}} ({{ request.controller}}">
+									<span class="notificationsCount">
+										<span class="errorsCount" ng-show="request.errorsCount">
+											<i class="fa fa-exclamation-circle"></i>
+											{{request.errorsCount}}
+										</span>
+										<span class="warningsCount" ng-show="request.warningsCount">
+											<i class="fa fa-exclamation-triangle"></i>
+											{{request.warningsCount}}
+										</span>
+									</span>
 									{{request.uri}}<br>
 									<small>{{request.controller}}</small>
 								</td>
@@ -101,6 +113,9 @@
 								</li>
 							</ul>
 						</div>
+
+						<div class="toolbar"></div>
+
 					</div>
 
 					<div class="tabbed-pane-content data-grid data-grid-details">
