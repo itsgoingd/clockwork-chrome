@@ -20,7 +20,6 @@ Clockwork.controller('PanelController', function PanelController($scope, $http)
 	$scope.init = function(type)
 	{
 		$('#tabs').tabs();
-		$('.stupidtable').stupidtable();
 
 		if (type == 'chrome-extension') {
 			$scope.initChrome();

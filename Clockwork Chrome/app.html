@@ -1,6 +1,7 @@
 <html ng-app="Clockwork" ng-csp="">
 	<head>
 		<link rel="stylesheet" type="text/css" href="vendor/assets/stylesheets/pretty-jason.css">
+		<link rel="stylesheet" type="text/css" href="vendor/assets/stylesheets/jquery.resizableColumns.css">
 		<link rel="stylesheet" type="text/css" href="assets/stylesheets/panel.css">
 		<script src="vendor/assets/javascripts/jquery-2.0.2.min.js"></script>
 		<script src="vendor/assets/javascripts/jquery-ui-1.10.3.custom.min.js"></script>
@@ -10,6 +11,7 @@
 		<script src="vendor/assets/javascripts/keymaster.min.js"></script>
 		<script src="vendor/assets/javascripts/angular.min.js"></script>
 		<script src="vendor/assets/javascripts/pretty-jason.js"></script>
+		<script src="vendor/assets/javascripts/jquery.resizableColumns.min.js"></script>
 		<script src="assets/javascripts/app.js"></script>
 		<script src="assets/javascripts/panel.js"></script>
 	</head>
@@ -17,22 +19,30 @@
 		<div class="split-view" ng-controller='PanelController' ng-init="init('chrome-extension')">
 			<div class="split-view-contents split-view-contents-requests">
 				<div class="data-grid data-grid-requests">
-					<table class="header">
-						<tr>
-							<th class='controller'>
-								Path<br>
-								<small>Controller</small>
-							</th>
-							<th class='method'>Method</th>
-							<th class='status'>Status</th>
-							<th class='duration'>
-								Time<br>
-								<small>Database</small>
-							</th>
-						</tr>
+					<table class="header" id="requests-header" resizable-columns data-resizable-columns-sync="#requests">
+						<thead>
+							<tr>
+								<th class='controller'>
+									Path<br>
+									<small>Controller</small>
+								</th>
+								<th class='method'>Method</th>
+								<th class='status'>Status</th>
+								<th class='duration'>
+									Time<br>
+									<small>Database</small>
+								</th>
+							</tr>
+						</thead>
 					</table>
 					<div class="data-container">
-						<table id="requests">
+						<table id="requests" resizable-columns data-resizable-columns-sync="#requests-header">
+							<tr class="sizing">
+								<td class='controller'></td>
+								<td class='method'></td>
+								<td class='status'></td>
+								<td class='duration'></td>
+							</tr>
 							<tr ng-repeat="request in requests" ng-click="setActive(request.id)" ng-class="getClass(request.id)">
 								<td class='controller'>
 									{{request.uri}}<br>

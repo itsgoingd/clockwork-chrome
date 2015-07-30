@@ -108,7 +108,15 @@ th, td {
 }
 
 .data-container tr {
-	height: 28px; 
+	height: 28px;
+}
+
+.data-container tr.sizing {
+	height: 0;
+}
+
+.data-container tr.sizing td {
+	padding: 0;
 }
 
 .data-container tr.filler {
@@ -130,6 +138,7 @@ th, td {
 
 .data-grid-requests th {
 	font-weight: normal;
+	overflow: hidden;
 }
 
 .data-grid-requests small {
@@ -143,7 +152,7 @@ th, td {
 }
 
 .data-grid-requests .selected td small {
-	color: white;	
+	color: white;
 }
 
 .data-grid-requests .method,
