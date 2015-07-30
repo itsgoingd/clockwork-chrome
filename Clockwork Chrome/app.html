@@ -45,7 +45,7 @@
 								<td class='status'></td>
 								<td class='duration'></td>
 							</tr>
-							<tr ng-repeat="request in requests" ng-click="setActive(request.id)" ng-class="getClass(request.id)">
+							<tr ng-repeat="request in requests" ng-click="setActive(request.id)" ng-class="getClass(request.id)" scroll-to-new>
 								<td class='controller' title="{{request.uri}} ({{ request.controller}}">
 									<span class="notificationsCount">
 										<span class="errorsCount" ng-show="request.errorsCount">

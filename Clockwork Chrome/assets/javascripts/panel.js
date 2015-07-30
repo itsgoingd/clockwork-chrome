@@ -126,8 +126,6 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 
 		$scope.requests[requestId] = data;
 		$scope.setActive(requestId);
-
-		$('.data-container').scrollTop(100000000);
 	};
 
 	$scope.clear = function()
