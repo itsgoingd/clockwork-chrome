@@ -17,6 +17,8 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 	$scope.activeTimelineLegend = [];
 	$scope.activeViews = [];
 
+	$scope.showIncomingRequests = true;
+
 	$scope.init = function(type)
 	{
 		$('#tabs').tabs();
@@ -125,7 +127,10 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		data.warningsCount = $scope.getWarningsCount(data);
 
 		$scope.requests[requestId] = data;
-		$scope.setActive(requestId);
+
+		if ($scope.showIncomingRequests) {
+			$scope.setActive(requestId);
+		}
 	};
 
 	$scope.clear = function()
@@ -146,6 +151,8 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		$scope.activeTimeline = [];
 		$scope.activeTimelineLegend = [];
 		$scope.activeViews = [];
+
+		$scope.showIncomingRequests = true;
 	};
 
 	$scope.setActive = function(requestId)
@@ -165,6 +172,10 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		$scope.activeTimeline = $scope.requests[requestId].timeline;
 		$scope.activeTimelineLegend = $scope.generateTimelineLegend();
 		$scope.activeViews = $scope.requests[requestId].views;
+
+		var lastRequestId = Object.keys($scope.requests)[Object.keys($scope.requests).length - 1];
+
+		$scope.showIncomingRequests = requestId == lastRequestId;
 	};
 
 	$scope.getClass = function(requestId)
