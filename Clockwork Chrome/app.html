@@ -75,10 +75,10 @@
 								<li class="tabbed-pane-header-tab">
 									<a href="#tab-request" class="tabbed-pane-header-tab-title">Request</a>
 								</li>
-								<li class="tabbed-pane-header-tab">
+								<li class="tabbed-pane-header-tab" ng-show="activeTimeline.length">
 									<a href="#tab-timeline" class="tabbed-pane-header-tab-title">Timeline</a>
 								</li>
-								<li class="tabbed-pane-header-tab">
+								<li class="tabbed-pane-header-tab" ng-show="activeLog.length">
 									<a href="#tab-log" class="tabbed-pane-header-tab-title">Log</a>
 								</li>
 								<li class="tabbed-pane-header-tab" ng-show="activeDatabaseQueries.length">
