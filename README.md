@@ -2,9 +2,10 @@ Clockwork
 =========
 
 Clockwork is a Chrome extension for PHP development, extending Developer Tools with a new panel providing all kinds of information useful for debugging and profiling your PHP scripts, including information on request, headers, GET and POST data, cookies, session data, database queries, routes, visualisation of application runtime and more.
-Clockwork includes out of the box support for Laravel 4 and Slim 2 based applications, you can add support for any other or a custom framework via an extensible API.
+Clockwork includes out of the box support for Laravel and Slim 2 based applications, you can add support for any other or a custom framework via an extensible API.
 
-**Not a Chrome user?** Check out [embeddable web app version of Clockwork](http://github.com/itsgoingd/clockwork-web), supporting many modern browsers along chrome.
+**Not a Chrome user?** Check out [Firefox version](http://github.com/itsgoingd/clockwork-firefox) or [embeddable web app version of Clockwork](http://github.com/itsgoingd/clockwork-web), supporting many modern browsers along chrome.
+There are also a third-party [Firebug extension](https://github.com/sidorovich/clockwork-firebug) and a [CLI client app](https://github.com/ptrofimov/clockwork-cli) available.
 
 ![](https://dl.dropboxusercontent.com/u/9846387/Screenshots/Clockwork%20Chrome%201.2.png)
 
