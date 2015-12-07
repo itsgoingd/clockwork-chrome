@@ -1,3 +1,14 @@
+2.0
+- add a new protocol version allow all application to log what ever they need
+  - the request tabs is dynamic. ex : "request": {"Title" : {}, "Title2" : {}}, you can log here post, get, ... but also for example user logged, shopping bag, ...
+  - all the data coming from "data": {"Title" : {"Subtitle" : {}}} will create a tab for Title and create a dynamic section on this tabs with a tab describing this section. For example, you can add a Database Connection section with all connection duration to a database and a Database Query with all the query)
+  - the timeline can have many line per section (all the database queries for example)
+  - the timeline can be field with user data (sql queries, ...), you only need to have a "start" & "duration" on the data
+- add a backward compatibily function, in order to keep older protocol version working
+- added a gulp serve in order to accelerate development process
+- remove jquery tabs to implement a angular based tabs
+- upgrade to angular 1.4.8
+
 1.5
 - added support for resizing requests table columns
 - added tooltips to requests table showing cell values

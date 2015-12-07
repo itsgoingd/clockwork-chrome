@@ -9,6 +9,11 @@ var Clockwork = angular.module('Clockwork', [])
 				var data = scope.data;
 				var jason;
 
+
+				if (data.length && data.length == 1)
+					data = scope.data[0];
+
+
 				if (data === true) {
 					data = '<i>true</i>';
 				} else if (data === false) {
@@ -17,8 +22,11 @@ var Clockwork = angular.module('Clockwork', [])
 					data = '<i>undefined</i>';
 				} else if (data === null) {
 					data = '<i>null</i>';
+				} else if (typeof data === "string") {
+					data = '<pre>' + data + '</pre>';
 				} else if (typeof data !== 'number') {
 					try {
+						data = angular.copy(data);
 						jason = new PrettyJason(data);
 					} catch(e) {
 						data = $('<div>').text(data).html();
@@ -37,6 +45,44 @@ var Clockwork = angular.module('Clockwork', [])
 			}
 		};
 	})
+	.directive('stupidTable', ['$timeout', function($timeout) {
+		return {
+			restrict: 'A',
+			link: function(scope, elm, attrs) {
+				var jqueryElm = $(elm[0]);
+				$timeout(function() {
+					$(jqueryElm).stupidtable();
+				}, 100); //Calling a scoped method
+			}
+		};
+	}])
+	.filter('capitalize', function() {
+		return function(input) {
+			if (!!input) {
+				return input.charAt(0).toUpperCase() + input.substr(1).replace(/([A-Z])/g, " $1");
+			} else {
+				return '';
+			}
+		}
+	})
+	.filter('formatValue', function() {
+		return function(input, $scope, decimal) {
+			decimal = typeof decimal == "undefined" ? 3 : decimal;
+			if (typeof input == "number")
+				return $scope.formatNumber(input, decimal);
+			else
+				return input;
+		}
+	})
+	.filter('if', function() {
+		 return function(input, value) {
+			 if (typeof(input) === 'string') {
+				 input = [input, ''];
+			 }
+			 console.log(value, input);
+			 return value? input[0] : input[1];
+		 };
+	 })
 	.directive('resizableColumns', function ($parse) {
 		return {
 			link: function (scope, element, attrs) {

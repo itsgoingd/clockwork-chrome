@@ -1,0 +1,193 @@
+{
+	"id":"s5df74s",
+	"time":1379711611.8899,
+	"method":"GET",
+	"uri":"http:\/\/www.sdfsdf.com\/users",
+	"request": {
+		"requestHeaders": {
+			"host":["base.daylight.home"],
+			"x-real-ip":["10.10.10.103", "10.10.10.103", "10.10.10.103"],
+			"connection":["close"],
+			"accept":["*\/*"],
+			"user-agent":["Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/31.0.1637.0 Safari\/537.36"],
+			"accept-encoding":["gzip,deflate,sdch"],
+			"accept-language":["en-US,en;q=0.8,cs;q=0.6,sk;q=0.4"],
+			"cookie":["laravel_session=s566k2i47igcam0v6nn8i0f4h5"]
+		},
+		"responseHeaders": {
+			"host":["base.daylight.home"],
+			"x-real-ip":["10.10.10.103", "10.10.10.103", "10.10.10.103"],
+			"connection":["close"],
+			"accept":["*\/*"],
+			"user-agent":["Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/31.0.1637.0 Safari\/537.36"],
+			"accept-encoding":["gzip,deflate,sdch"],
+			"accept-language":["en-US,en;q=0.8,cs;q=0.6,sk;q=0.4"],
+			"cookie":["laravel_session=s566k2i47igcam0v6nn8i0f4h5"]
+		},
+		"session" : {
+			"_sf2_attributes": {
+				"_token":"ZI3OJ0EliZieVvp9ol3hveu11NqMjSr6MXLe3tpF"
+			}
+		},
+		"cookies": {
+		 "laravel_session":"s566k2i47igcam0v6nn8i0f4h5"
+		},
+		"get": {
+			"var1": 1,
+			"var2": "string"
+		},
+		"post": {
+			"var1": 1,
+			"var2": "string",
+			"var3": {
+				"var1": 1,
+				"var2": "string"
+			}
+		}
+	},
+
+	"controller":"UsersController@index",
+
+	"responseTime":1379711612.5321,
+	"responseStatus":404,
+	"responseDuration":642.18783378601,
+
+	"timelineData": {
+		"Total execution time":
+		[
+			{
+				"start":1379711611.8899,
+				"end":1379711612.5323,
+				"duration":642.45295524597
+			}
+		],
+		"Application initialisation":
+		[
+			{
+				"start":1379711611.8899,
+				"end":1379711612.4734,
+				"duration":583.5108757019
+			}
+		],
+		"Framework running":
+		[
+			{
+				"start":1379711612.4734,
+				"end":1379711612.5323,
+				"duration":58.935880661011
+			}
+		],
+		"Framework booting":
+		[
+			{
+				"start":1379711612.4734,
+				"end":1379711612.4743,
+				"duration":0.86092948913574
+			},
+			{
+				"start":1379711612.4833,
+				"end":1379711612.5318,
+				"duration":48.506021499634
+			}
+		],
+		"Router dispatch":
+		[
+			{
+				"start":1379711612.4833,
+				"end":1379711612.5318,
+				"duration":48.506021499634
+			}
+		]
+	},
+	"log":[
+		{
+			"time": 1379711611.8899,
+			"level": "warning",
+			"message": "Application warning"
+		},
+		{
+			"time": 1379711612.4833,
+			"level": "error",
+			"message": "Application error"
+		},
+		{
+			"time": 1379711612.4833,
+			"level": "debug",
+			"message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consectetur vestibulum ex, ultrices tincidunt ante imperdiet et. Vestibulum elementum lacus eget augue semper, dapibus lacinia lectus pretium. Curabitur tincidunt semper risus vel facilisis. Nullam feugiat dolor sit amet malesuada efficitur. Integer ultrices ligula id efficitur rutrum. Duis id feugiat nunc, pretium pretium lectus. Curabitur blandit iaculis dui nec cursus. Cras urna dui, blandit efficitur mattis eu, ultrices a quam. Nullam sit amet pellentesque purus, ac venenatis sem. Cras non nisl vitae ex eleifend semper. Nulla accumsan et lorem quis pellentesque.\n\nMauris non dolor velit. Pellentesque rhoncus porta quam, nec faucibus quam sollicitudin a. Aliquam mattis elementum efficitur. Ut et accumsan enim, vel luctus lectus. Vestibulum sem arcu, suscipit et arcu vel, rutrum tincidunt ligula. Pellentesque facilisis porta pharetra. In tincidunt nisl augue, in aliquam risus accumsan vel. Mauris euismod massa lorem, ut porta arcu congue ut. Integer bibendum sit amet felis at posuere. Etiam suscipit posuere commodo. Praesent rutrum viverra mauris, eu feugiat quam tempor quis. Quisque vulputate, risus a maximus fermentum, lacus ligula malesuada nisl, venenatis porttitor neque felis sed ante. Duis vulputate a libero et volutpat. Cras congue felis eget dignissim mattis. Suspendisse tempus nibh nisi, ac vulputate dolor molestie at."
+		}
+	],
+	"data": {
+		"Routes": {
+			"Request": [
+				{
+					"method":"GET",
+					"uri":"string value of routes uri",
+					"name":"string value of routes name",
+					"action":"string value of routes callback",
+					"before":"string value of route's before filters",
+					"after":"string value of route's after filter"
+				},
+				{
+					"method":"POST",
+					"uri":"string value of routes uri",
+					"name":"string value of routes name",
+					"action":"string value of routes callback",
+					"before":"string value of route's before filters",
+					"after":"string value of route's after filter"
+				}
+			]
+		},
+		"Database": {
+			"Connection": [
+				{
+					"start":1379711612.4833,
+					"hostname":"maindb",
+					"duration":1012.755
+				},
+				{
+					"start":1379711612.4933,
+					"hostname":"secondarydb",
+					"duration":0.26
+				}
+			],
+			"Query": [
+				{
+					"hostname":"maindb",
+					"query":"SELECT count(*) as aggregate \n\t\tFROM `languages` WHERE `id` = 'en'",
+					"duration":0.75
+				},
+				{
+					"hostname":"secondarydb",
+					"query":"SELECT * FROM `languages`",
+					"duration":0.52
+				}
+			]
+		},
+		"Cache": {
+			"Redis": [
+				{
+					"key":"user:12574",
+					"duration":0.75,
+					"type":"Set"
+				},
+				{
+					"key":"article:1234",
+					"duration":0.28,
+					"type":"Get"
+				}
+			],
+			"Query": [
+				{
+					"key":"user:12574",
+					"duration":0.75,
+					"type":"Set"
+				},
+				{
+					"key":"article:1234",
+					"duration":0.28,
+					"type":"Get"
+				}
+			]
+		}
+	}
+}

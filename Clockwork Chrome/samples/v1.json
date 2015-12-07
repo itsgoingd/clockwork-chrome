@@ -1,0 +1,114 @@
+{
+	"id":"2sd1f5s",
+	"time":1379711611.8899,
+	"method":"GET",
+	"uri":"\/users",
+	"headers": {
+		"host":["base.daylight.home"],
+		"x-real-ip":["10.10.10.103"],
+		"connection":["close"],
+		"accept":["*\/*"],
+		"user-agent":["Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/31.0.1637.0 Safari\/537.36"],
+		"accept-encoding":["gzip,deflate,sdch"],
+		"accept-language":["en-US,en;q=0.8,cs;q=0.6,sk;q=0.4"],
+		"cookie":["laravel_session=s566k2i47igcam0v6nn8i0f4h5"]
+	},
+	"controller":"UsersController@index",
+	"getData": {
+		"var1": 1,
+		"var2": "string"
+	},
+	"postData": {
+		"var1": 1,
+		"var2": "string",
+		"var3": {
+			"var1": 1,
+			"var2": "string"
+		}
+	},
+	"sessionData": {
+		"_sf2_attributes": {
+			"_token":"ZI3OJ0EliZieVvp9ol3hveu11NqMjSr6MXLe3tpF"
+		}
+	},
+	"cookies": {
+		"laravel_session":"s566k2i47igcam0v6nn8i0f4h5"
+	},
+	"responseTime":1379711612.5321,
+	"responseStatus":200,
+	"responseDuration":642.18783378601,
+	"databaseQueries": [
+		{
+			"query":"SELECT count(*) as aggregate FROM `languages` WHERE `id` = 'en'",
+			"duration":0.75
+		},
+		{
+			"query":"SELECT * FROM `languages`",
+			"duration":0.52
+		}
+	],
+	"databaseDuration":1.27,
+	"timelineData": {
+		"total": {
+			"start":1379711611.8899,
+			"end":1379711612.5323,
+			"duration":642.45295524597,
+			"description":"Total execution time."
+		},
+		"initialisation": {
+			"start":1379711611.8899,
+			"end":1379711612.4734,
+			"duration":583.5108757019,
+			"description":"Application initialisation."
+		},
+		"run": {
+			"start":1379711612.4734,
+			"end":1379711612.5323,
+			"duration":58.935880661011,
+			"description":"Framework running."
+		},
+		"boot": {
+			"start":1379711612.4734,
+			"end":1379711612.4743,
+			"duration":0.86092948913574,
+			"description":"Framework booting."
+		},
+		"dispatch": {
+			"start":1379711612.4833,
+			"end":1379711612.5318,
+			"duration":48.506021499634,
+			"description":"Router dispatch."
+		}
+	},
+	"log":[
+		{
+			"time": 1379711611.8899,
+			"level": "warning",
+			"message": "Application warning"
+		},
+		{
+			"time": 1379711612.4833,
+			"level": "error",
+			"message": "Application error"
+		}
+	],
+	"routes":[
+		{
+			"method":"GET",
+			"uri":"string value of routes uri",
+			"name":"string value of routes name",
+			"action":"string value of routes callback",
+			"before":"string value of route's before filters",
+			"after":"string value of route's after filter"
+		},
+		{
+			"method":"POST",
+			"uri":"string value of routes uri",
+			"name":"string value of routes name",
+			"action":"string value of routes callback",
+			"before":"string value of route's before filters",
+			"after":"string value of route's after filter"
+		}
+	],
+	"userData":null
+}

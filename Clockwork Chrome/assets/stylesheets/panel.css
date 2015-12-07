@@ -178,6 +178,10 @@ th, td {
 	width: 50px;
 }
 
+.data-grid-requests .errorStatus {
+	color: red;
+}
+
 .data-grid-requests .duration {
 	width: 80px;
 }
@@ -205,15 +209,14 @@ th, td {
 }
 
 .data-grid-requests .notificationsCount {
-    background: rgba(255, 255, 255, 0.8);
 	float: right;
-    height: 100%;
-    letter-spacing: -0.5px;
-    line-height: 29px;
-    padding-left: 4px;
-    padding-right: 4px;
-    position: relative;
-    right: -4px;
+	height: 100%;
+	letter-spacing: -0.5px;
+	line-height: 29px;
+	padding-left: 4px;
+	padding-right: 4px;
+	position: relative;
+	right: -4px;
 }
 
 .data-grid-requests .selected .notificationsCount {
@@ -237,6 +240,16 @@ th, td {
 .data-grid-requests .selected .notificationsCount .warningsCount i {
 	color: #fff;
 }
+
+.data-grid-requests .notificationsCount .logsCount i {
+	color: rgb(73, 143, 255);
+	margin-left: 2px;
+}
+
+.data-grid-requests .selected .notificationsCount .logsCount i {
+	color: #fff;
+}
+
 
 /* request details */
 
@@ -360,15 +373,30 @@ th, td {
 	margin-bottom: 24px;
 }
 
+#tab-request .key {
+	width: 20%;
+}
+
 /* request details - timeline */
 
 .timeline-graph {
-	background-image: -webkit-linear-gradient(left, transparent 99.5%, #e5e5e5 99.5%, #e5e5e5 100%);
-	background-image: -moz-linear-gradient(left, transparent 99.5%, #e5e5e5 99.5%, #e5e5e5 100%);
-	background-image: -o-linear-gradient(left, transparent 99.5%, #e5e5e5 99.5%, #e5e5e5 100%);
+	background-image:
+	-webkit-linear-gradient(left, transparent 99.5%, #e5e5e5 99.5%, #e5e5e5 100%);
+	background-image:
+	-moz-linear-gradient(left, transparent 99.5%, #e5e5e5 99.5%, #e5e5e5 100%);
+	background-image:
+	-o-linear-gradient(left, transparent 99.5%, #e5e5e5 99.5%, #e5e5e5 100%);
 	background-image: linear-gradient(to right, transparent 99.5%, #e5e5e5 99.5%, #e5e5e5 100%);
 	background-size: 80px 1px;
+	position: relative;
+
 }
+
+.data-grid td.timeline-graph {
+	padding-right: 0;
+	padding-left: 0;
+}
+
 
 .timeline-graph .style1 {
 	background: rgb(111, 155, 255);
@@ -392,11 +420,12 @@ th, td {
 	display: inline-block;
 	height: 12px;
 	margin-top: 2px;
+	position: absolute;
 	padding: 3px;
 }
 
 .timeline-bar-time {
-	font-size: 11px;
+	font-size: 12px;
 	font-weight: normal;
 	position: absolute;
 }
@@ -418,16 +447,35 @@ th, td {
 
 /* request details - database */
 
-.database-duration {
-	text-align: right;
+
+.section-heading {
+	font-size: 11px;
+	color: black;
+	padding: 7px 0px 7px 5px;
+	background: rgb(243, 243, 243);
+	font-weight: bold;
+	margin-bottom: 10px;
 }
 
-.number-of-queries {
-	font-size: 11px;
-	padding: 7px 0 0 5px;
-	font-weight: bold;
+.section-heading span {
+	background: rgb(111, 155, 255);
+	border: 1px solid rgb(91, 135, 235);
+	border-radius: 4px;
+	display: inline-block;
+	color: white;
+	padding: 2px 8px;
 }
 
 .stupidtable th {
 	cursor: pointer;
+}
+
+.pretty-jason, pre {
+	font-family: "Menlo", "Monaco", "Consolas", monospace;
+	color: #222;
+	font-size: 90%;
+}
+
+.ng-hide {
+	display: none;
 }

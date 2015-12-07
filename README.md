@@ -19,6 +19,10 @@ Install the latest version of Clockwork from the [Chrome Web Store](https://chro
 
 If you don't want to use Chrome Web Store, want to try the latest revision or hack on the source, you can install Clockwork as unpacked extension. To do this, download copy of this repository, open Chrome Extensions manager, enable "Developer Mode", select "Load Unpacked Extension..." and select directory with contents of this repository.
 
+## Development
+
+[Install gulp](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md) and launch it with `gulp server` will start a webbased version with sample data 
+
 ## Licence
 
 Copyright (c) 2013 Miroslav Rigler
