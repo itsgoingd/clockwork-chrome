@@ -223,7 +223,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		var formattedNumber = "";
 
 		while(numbersString.length > 3){
-			formattedNumber += thousandsSep + numbersString.slice(-3)
+			formattedNumber += thousandsSep + numbersString.slice(-3);
 			numbersString = numbersString.slice(0,-3);
 		}
 
@@ -351,7 +351,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 
 					if (typeof section == "object") {
 						$.each(section, function (index, sectionRow) {
-							if (sectionRow.duration && sectionRow.start) {
+							if (sectionRow.duration != "undefined" && sectionRow.start != "undefined" ) {
 								if (typeof timelinedata[title + " " + subtitle] === "undefined") {
 									timelinedata[title + " " + subtitle] = [];
 								}
