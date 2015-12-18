@@ -6,3 +6,7 @@ chrome.devtools.panels.create(
 		var extensionId = chrome.i18n.getMessage('@@extension_id');
 	}
 );
+
+var backgroundPageConnection = chrome.runtime.connect({
+    name: "devtools-page"
+});

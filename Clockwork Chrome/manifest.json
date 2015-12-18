@@ -1,6 +1,6 @@
 {
 	"name": "Clockwork",
-	"version": "1.5",
+	"version": "2.0",
 	"manifest_version": 2,
 	"description": "Devtools panel for PHP development",
 	"devtools_page": "devtools.html",
@@ -11,6 +11,8 @@
 		]
 	},
 	"permissions": [
+		"webRequest",
+		"webRequestBlocking",
 		"debugger",
 		"http://*/",
 		"https://*/"

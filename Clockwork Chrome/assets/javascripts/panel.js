@@ -36,7 +36,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 			var headers = request.response.headers;
 			var requestId = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-id'; });
 			var requestVersion = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-version'; });
-								var requestPath = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-path'; });
+			var requestPath = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-path'; });
 
 			var requestHeaders = {};
 			$.each(headers, function(i, header) {
@@ -167,8 +167,6 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		) {
 			$scope.activeTab = 'request';
 		}
-
-		console.log();
 
 		var lastRequestId = Object.keys($scope.requests)[Object.keys($scope.requests).length - 1];
 

@@ -1,3 +1,9 @@
+var bglog = function(obj) {
+	if(chrome && chrome.runtime) {
+		chrome.runtime.sendMessage({type: "bglog", obj: obj});
+	}
+};
+
 var Clockwork = angular.module('Clockwork', [])
 	.directive('prettyPrint', function ($parse) {
 		return {
@@ -79,7 +85,6 @@ var Clockwork = angular.module('Clockwork', [])
 			 if (typeof(input) === 'string') {
 				 input = [input, ''];
 			 }
-			 console.log(value, input);
 			 return value? input[0] : input[1];
 		 };
 	 })
