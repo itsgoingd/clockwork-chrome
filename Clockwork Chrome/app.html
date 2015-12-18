@@ -29,10 +29,7 @@
 								</th>
 								<th class='method'>Method</th>
 								<th class='status'>Status</th>
-								<th class='duration'>
-									Time<br>
-									<small>Subtime</small>
-								</th>
+								<th class='duration'>Time</th>
 							</tr>
 						</thead>
 					</table>
@@ -66,8 +63,7 @@
 								<td class='method'>{{request.method}}</td>
 								<td class='status' ng-class="(request.responseStatus >= 400) ? 'errorStatus' : ''">{{request.responseStatus}}</td>
 								<td class='duration'>
-									{{request.responseDuration|formatValue:this}} ms<br>
-									<small>{{request.responseSubDuration|formatValue:this}}</small>
+									{{request.responseDuration|formatValue:this}} ms
 								</td>
 							</tr>
 							<tr class="filler">

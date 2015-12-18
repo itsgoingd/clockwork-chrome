@@ -361,6 +361,8 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 									"end": sectionRow.start + sectionRow.duration,
 									"duration": sectionRow.duration
 								});
+
+								delete sectionRow.start;
 							}
 						});
 					}
