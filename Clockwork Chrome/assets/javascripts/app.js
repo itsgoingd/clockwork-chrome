@@ -75,7 +75,8 @@ var Clockwork = angular.module('Clockwork', [])
 		return function(input, $scope, decimal) {
 			decimal = typeof decimal == "undefined" ? 3 : decimal;
 			if (typeof input == "number") {
-				if (input.toString() != input) {
+
+				if (input.round(0).toString() != input) {
 					return $scope.formatNumber(input, decimal);
 				} else {
 					return input;
