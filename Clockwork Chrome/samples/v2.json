@@ -114,6 +114,11 @@
 			"time": 1379711612.4833,
 			"level": "debug",
 			"message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consectetur vestibulum ex, ultrices tincidunt ante imperdiet et. Vestibulum elementum lacus eget augue semper, dapibus lacinia lectus pretium. Curabitur tincidunt semper risus vel facilisis. Nullam feugiat dolor sit amet malesuada efficitur. Integer ultrices ligula id efficitur rutrum. Duis id feugiat nunc, pretium pretium lectus. Curabitur blandit iaculis dui nec cursus. Cras urna dui, blandit efficitur mattis eu, ultrices a quam. Nullam sit amet pellentesque purus, ac venenatis sem. Cras non nisl vitae ex eleifend semper. Nulla accumsan et lorem quis pellentesque.\n\nMauris non dolor velit. Pellentesque rhoncus porta quam, nec faucibus quam sollicitudin a. Aliquam mattis elementum efficitur. Ut et accumsan enim, vel luctus lectus. Vestibulum sem arcu, suscipit et arcu vel, rutrum tincidunt ligula. Pellentesque facilisis porta pharetra. In tincidunt nisl augue, in aliquam risus accumsan vel. Mauris euismod massa lorem, ut porta arcu congue ut. Integer bibendum sit amet felis at posuere. Etiam suscipit posuere commodo. Praesent rutrum viverra mauris, eu feugiat quam tempor quis. Quisque vulputate, risus a maximus fermentum, lacus ligula malesuada nisl, venenatis porttitor neque felis sed ante. Duis vulputate a libero et volutpat. Cras congue felis eget dignissim mattis. Suspendisse tempus nibh nisi, ac vulputate dolor molestie at."
+		},
+		{
+			"time": "1452167789.800100",
+			"level": "debug",
+			"message": "* Rebuilt URL to: http:\/\/www.google.com\/\n* Hostname was NOT found in DNS cache\n*   Trying 173.194.45.51...\n* Connected to www.google.com (173.194.45.51) port 80 (#2)\n> POST \/ HTTP\/1.1\r\nHost: www.google.com\r\nAccept: *\/*\r\nContent-Length: 22\r\nContent-Type: application\/x-www-form-urlencoded\r\n\r\n* upload completely sent off: 22 out of 22 bytes\n< HTTP\/1.1 405 Method Not Allowed\r\n< Allow: GET, HEAD\r\n< Date: Thu, 07 Jan 2016 11:57:04 GMT\r\n< Content-Type: text\/html; charset=UTF-8\r\n* Server gws is not blacklisted\n< Server: gws\r\n< Content-Length: 1589\r\n< X-XSS-Protection: 1; mode=block\r\n< X-Frame-Options: SAMEORIGIN\r\n< \r\n* Connection #2 to host www.google.com left intact\n\r\n&lt;!DOCTYPE html&gt;\n&lt;html lang=en&gt;\n  &lt;meta charset=utf-8&gt;\n  &lt;meta name=viewport content=&quot;initial-scale=1, minimum-scale=1, width=device-width&quot;&gt;\n  &lt;title&gt;Error 405 (Method Not Allowed)!!1&lt;\/title&gt;\n  &lt;style&gt;\n *{margin:0;padding:0}html,code{font:15px\/22px arial,sans-serif}html{background:#fff;color:#222;padding:15px}body{margin:7% auto 0;max-width:390px;min-height:180px;padding:30px 0 15px}* &gt; body{background:url(\/\/www.google.com\/images\/errors\/robot.png) 100% 5px no-repeat;padding-right:205px}p{margin:11px 0 22px;overflow:hidden}ins{color:#777;text-decoration:none}a img{border:0}@media screen and (max-width:772px){body{background:none;margin-top:0;max-width:none;padding-right:0}}#logo{background:url(\/\/www.google.com\/images\/branding\/googlelogo\/1x\/googlelogo_color_150x54dp.png) no-repeat;margin-left:-5px}@media only screen and (min-resolution:192dpi){#logo{background:url(\/\/www.google.com\/images\/branding\/googlelogo\/2x\/googlelogo_color_150x54dp.png) no-repeat 0% 0%\/100% 100%;-moz-border-image:url(\/\/www.google.com\/images\/branding\/googlelogo\/2x\/googlelogo_color_150x54dp.png) 0}}@media only screen and (-webkit-min-device-pixel-ratio:2){#logo{background:url(\/\/www.google.com\/images\/branding\/googlelogo\/2x\/googlelogo_color_150x54dp.png) no-repeat;-webkit-background-size:100% 100%}}#logo{display:inline-block;height:54px;width:150px}\n  &lt;\/style&gt;\n  &lt;a href=\/\/www.google.com\/&gt;&lt;span id=logo aria-label=Google&gt;&lt;\/span&gt;&lt;\/a&gt;\n  &lt;p&gt;&lt;b&gt;405.&lt;\/b&gt; &lt;ins&gt;That&rsquo;s an error.&lt;\/ins&gt;\n  &lt;p&gt;The request method &lt;code&gt;POST&lt;\/code&gt; is inappropriate for the URL &lt;code&gt;\/&lt;\/code&gt;.  &lt;ins&gt;That&rsquo;s all we know.&lt;\/ins&gt;\n"
 		}
 	],
 	"data": {
@@ -186,6 +191,60 @@
 					"key":"article:1234",
 					"duration":0.28,
 					"type":"Get"
+				}
+			]
+		},
+		"HttpClient": {
+			"Request": [
+				{
+					"method": "GET",
+					"url": "http:\/\/www.apple.com",
+					"code": 302,
+					"header size": 432,
+					"request size": 144,
+					"start": 1452169889.5111,
+					"duration": 121.645
+				},
+				{
+					"method": "GET",
+					"url": "http:\/\/www.google.com",
+					"code": 405,
+					"header size": 227,
+					"request size": 145,
+					"start": 1452169889.6329,
+					"duration": 24.818
+				}
+			],
+			"NameLookup": [
+				{
+					"method": "GET",
+					"url": "http:\/\/www.apple.com",
+					"code": 302,
+					"start": 1452169889.5111,
+					"duration": 28.305
+				},
+				{
+					"method": "GET",
+					"url": "http:\/\/www.google.com",
+					"code": 405,
+					"start": 1452169889.6329,
+					"duration": 4.117
+				}
+			],
+			"Connect": [
+				{
+					"method": "GET",
+					"url": "http:\/\/www.apple.com",
+					"code": 302,
+					"start": 1452169889.5394,
+					"duration": 44.149
+				},
+				{
+					"method": "GET",
+					"url": "http:\/\/www.google.com",
+					"code": 405,
+					"start": 1452169889.637,
+					"duration": 10.315
 				}
 			]
 		}
