@@ -131,7 +131,7 @@
 						</div>
 
 						<div id="tab-log" ng-show="activeTab == 'log'">
-							<table class="stupidtable" data-stupid-table id="log">
+							<table class="stupidtable wrap" data-stupid-table id="log">
 								<thead>
 									<tr>
 										<th data-sort="string">Time</th>
@@ -186,7 +186,7 @@
 									<span>{{getSectionDuration(section)}}</span>
 								</div>
 
-								<table class="stupidtable" data-stupid-table>
+								<table class="stupidtable wrap" data-stupid-table>
 									<thead >
 										<th data-sort="{{getSortType(value)}}" ng-repeat="(key, value) in section[0]">{{key|capitalize}}</th>
 									</thead>
