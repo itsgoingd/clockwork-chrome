@@ -5,6 +5,23 @@ var bglog = function(obj) {
 };
 
 var Clockwork = angular.module('Clockwork', [])
+
+	.directive('showlog', function() {
+		return {
+			restrict: 'A',
+			link: function(scope, element, attrs) {
+				element.on('click', function() {
+					console.log(element);
+					if(element.attr("class").indexOf("show") !== -1) {
+						element.removeClass("show");
+					} else {
+						element.addClass("show");
+					}
+				});
+			}
+		};
+	})
+
 	.directive('prettyPrint', function ($parse) {
 		return {
 			restrict: 'E',
@@ -15,10 +32,8 @@ var Clockwork = angular.module('Clockwork', [])
 				var data = scope.data;
 				var jason;
 
-
 				if (data.length && data.length == 1)
 					data = scope.data[0];
-
 
 				if (data === true) {
 					data = '<i>true</i>';
@@ -100,7 +115,7 @@ var Clockwork = angular.module('Clockwork', [])
 			if (typeof precision === 'undefined') precision = 1;
 			var units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
 				number = Math.floor(Math.log(bytes) / Math.log(1024));
-			return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
+			return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +	' ' + units[number];
 		}
 	})
 	.directive('resizableColumns', function ($parse) {

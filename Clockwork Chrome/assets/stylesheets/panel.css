@@ -335,6 +335,8 @@ th, td {
 	table-layout: auto;
 }
 
+
+
 .data-grid-details table tr:nth-child(even) {
 	background: rgb(234, 243, 255);
 }
@@ -470,10 +472,43 @@ th, td {
 	cursor: pointer;
 }
 
-.pretty-jason, pre {
-	font-family: "Menlo", "Monaco", "Consolas", monospace;
+.tabbed-pane-content table  * {
+	font-family: "Source Code Pro", "Menlo", "Monaco", "Consolas", monospace;
 	color: #222;
-	font-size: 90%;
+	font-size: 11px;
+}
+
+.tabbed-pane-content table pre {
+	max-height: 26px;
+	overflow: hidden;
+	display: block;
+}
+
+.tabbed-pane-content table .ellipsis-text {
+	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,80) 50%, #FFF 100%);
+	z-index: 2;
+	height: 12px;
+	margin-top: -15px;
+	width: 100%;
+	position: absolute;
+}
+
+.tabbed-pane-content table .ellipsis-text {
+	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,80) 30%, #FFF 100%);
+	z-index: 2;
+	height: 12px;
+	margin-top: -14px;
+	width: 100%;
+	position: absolute;
+}
+
+.tabbed-pane-content table  tr:nth-child(even):not(.filler) .ellipsis-text {
+	background: linear-gradient(to bottom, rgba(234, 243, 255,0) 0%, rgba(234, 243, 255,80) 30%, rgba(234, 243, 255,100) 100%);
+}
+
+.tabbed-pane-content table .show pre {
+	max-height: none;
+	background: none;
 }
 
 .ng-hide {

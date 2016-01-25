@@ -143,7 +143,10 @@
 									<tr ng-repeat="message in activeLog">
 										<td class="log-date">{{message.time | date:'HH:mm:ss.sss'}}</td>
 										<td class="log-level">{{message.level}}</td>
-										<td class="log-message"><pretty-print data="message.message"></td>
+										<td class="log-message" showlog="show">
+											<pretty-print data="message.message"></pretty-print>
+											<div class="ellipsis-text"></div>
+										</td>
 									</tr>
 								</tbody>
 							</table>
@@ -191,6 +194,7 @@
 										<tr ng-repeat="(key, sectionDetail) in section">
 											<td ng-repeat="(sectionKey, sectionValue) in sectionDetail">
 												<pre>{{sectionValue|formatValue:this}}</pre>
+												<div class="ellipsis-text"></div>
 											</td>
 										</tr>
 									</tbody>
