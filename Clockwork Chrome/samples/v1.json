@@ -39,7 +39,7 @@
 	"responseDuration":642.18783378601,
 	"databaseQueries": [
 		{
-			"query":"SELECT count(*) as aggregate FROM `languages` WHERE `id` = 'en'",
+			"query":"SELECT count(*) as aggregate \r\nFROM `languages` \r\n \r\nINNER JOIN `user` ON user.language = id \r\n WHERE `id` = 'en'",
 			"duration":0.75
 		},
 		{

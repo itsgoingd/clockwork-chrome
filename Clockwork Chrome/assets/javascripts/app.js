@@ -10,7 +10,7 @@ var Clockwork = angular.module('Clockwork', [])
 		return {
 			restrict: 'A',
 			link: function(scope, element, attrs) {
-				element.on('click', function() {
+				element.on('dblclick', function() {
 					console.log(element);
 					if(element.attr("class").indexOf("show") !== -1) {
 						element.removeClass("show");
