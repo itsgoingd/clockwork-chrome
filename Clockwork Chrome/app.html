@@ -183,6 +183,7 @@
 						</div>
 
 						<div id="tab-log">
+							<label class="toggler" ng-repeat="level in knownLogLevels"><input type="checkbox" ng-model="logLevelShow[level.name]">{{level.name}} <span class="count">{{level.count}}</span></label>
 							<table class="stupidtable" id="log">
 								<thead>
 									<tr>
@@ -192,7 +193,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-repeat="message in activeLog">
+									<tr ng-repeat="message in activeLog" ng-show="logLevelShow[message.level]">
 										<td class="log-date">{{message.time | date:'HH:mm:ss'}}</td>
 										<td class="log-level">{{message.level}}</td>
 										<td class="log-message"><pretty-print data="message.message"></td>

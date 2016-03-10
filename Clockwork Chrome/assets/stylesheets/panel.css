@@ -416,6 +416,18 @@ th, td {
 	width: 70px;
 }
 
+#tab-log label.toggler {
+	border-radius: 6px;
+    background-color: aliceblue;
+    padding: 3px;
+    margin-right: 5px;
+}
+
+#tab-log label.toggler span.count {
+	font-size: smaller;
+	color: silver;
+}
+
 /* request details - database */
 
 .database-duration {

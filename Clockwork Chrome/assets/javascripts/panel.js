@@ -16,6 +16,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 	$scope.activeTimeline = [];
 	$scope.activeTimelineLegend = [];
 	$scope.activeViews = [];
+	$scope.knownLogLevels = [];
 
 	$scope.showIncomingRequests = true;
 
@@ -123,8 +124,10 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		data.timeline = $scope.processTimeline(data);
 		data.views = $scope.processViews(data.viewsData);
 
-		data.errorsCount = $scope.getErrorsCount(data);
-		data.warningsCount = $scope.getWarningsCount(data);
+		var logLevels = $scope.getLogLevels(data);
+		data.logLevels = Object.values(logLevels);
+		data.errorsCount = typeof logLevels.error === 'object' ? logLevels.errors.count : 0;// $scope.getErrorsCount(data);
+		data.warningsCount = typeof logLevels.warnings === 'object' ? logLevels.warnings.count : 0; // $scope.getWarningsCount(data);
 
 		$scope.requests[requestId] = data;
 
@@ -151,6 +154,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		$scope.activeTimeline = [];
 		$scope.activeTimelineLegend = [];
 		$scope.activeViews = [];
+		$scope.knownLogLevels = [];
 
 		$scope.showIncomingRequests = true;
 	};
@@ -172,6 +176,11 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		$scope.activeTimeline = $scope.requests[requestId].timeline;
 		$scope.activeTimelineLegend = $scope.generateTimelineLegend();
 		$scope.activeViews = $scope.requests[requestId].views;
+		$scope.knownLogLevels = $scope.requests[requestId].logLevels;
+		$scope.logLevelShow = [];
+		for (var i = 0, I = $scope.knownLogLevels.length; i < I; i++) {
+			$scope.logLevelShow[$scope.knownLogLevels[i].name] = true;
+		}
 
 		var lastRequestId = Object.keys($scope.requests)[Object.keys($scope.requests).length - 1];
 
@@ -362,6 +371,26 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		});
 
 		return count;
+	};
+
+	$scope.getLogLevels = function(data)
+	{
+		var	levels = {},
+			idx = 0;
+
+		$.each(data.log, function(index, record)
+		{
+			if (typeof levels[record.level] === 'undefined') {
+				levels[record.level] = {
+					id: idx++,
+					name: record.level,
+					count: 1
+				};
+			} else {
+				levels[record.level].count++;
+			}
+		});
+		return levels;
 	};
 
 	$scope.getWarningsCount = function(data)
