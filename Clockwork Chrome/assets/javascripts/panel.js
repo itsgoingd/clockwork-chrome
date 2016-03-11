@@ -46,7 +46,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 			var headers = request.response.headers;
 			var requestId = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-id'; });
 			var requestVersion = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-version'; });
-            		var requestPath = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-path'; });
+			var requestPath = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-path'; });
 
 			var requestHeaders = {};
 			$.each(headers, function(i, header) {
@@ -55,7 +55,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 					requestHeaders[originalName] = header.value;
 				}
 			});
-
+			
 			if (requestVersion !== undefined) {
 				var uri = new URI(request.request.url);
 				var path = ((requestPath) ? requestPath.value : '/__clockwork/') + requestId.value;
@@ -65,7 +65,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 				if (path[1]) {
 					uri.query(path[1]);
 				}
-
+				
 				chrome.extension.sendRequest({action: 'getJSON', url: uri.toString(), headers: requestHeaders}, function(data){
 					$scope.$apply(function(){
 						$scope.addRequest(requestId.value, data);
@@ -126,8 +126,8 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 
 		var logLevels = $scope.getLogLevels(data);
 		data.logLevels = Object.values(logLevels);
-		data.errorsCount = typeof logLevels.error === 'object' ? logLevels.errors.count : 0;// $scope.getErrorsCount(data);
-		data.warningsCount = typeof logLevels.warnings === 'object' ? logLevels.warnings.count : 0; // $scope.getWarningsCount(data);
+		data.errorsCount = (typeof logLevels.error === 'object') ? logLevels.error.count : 0;
+		data.warningsCount = (typeof logLevels.warning === 'object') ? logLevels.warning.count : 0;
 
 		$scope.requests[requestId] = data;
 
@@ -359,20 +359,6 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		return views;
 	};
 
-	$scope.getErrorsCount = function(data)
-	{
-		var count = 0;
-
-		$.each(data.log, function(index, record)
-		{
-			if (record.level == 'error') {
-				count++;
-			}
-		});
-
-		return count;
-	};
-
 	$scope.getLogLevels = function(data)
 	{
 		var	levels = {},
@@ -392,21 +378,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		});
 		return levels;
 	};
-
-	$scope.getWarningsCount = function(data)
-	{
-		var count = 0;
-
-		$.each(data.log, function(index, record)
-		{
-			if (record.level == 'warning') {
-				count++;
-			}
-		});
-
-		return count;
-	};
-
+	
 	angular.element(window).bind('resize', function() {
 		$scope.$apply(function(){
 			$scope.activeTimelineLegend = $scope.generateTimelineLegend();
