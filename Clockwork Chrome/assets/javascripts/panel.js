@@ -21,8 +21,6 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 
 	$scope.init = function(type)
 	{
-		$('#tabs').tabs();
-
 		if (type == 'chrome-extension') {
 			$scope.initChrome();
 		} else {

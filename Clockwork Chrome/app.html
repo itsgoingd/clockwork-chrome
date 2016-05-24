@@ -6,7 +6,6 @@
 		<link rel="stylesheet" type="text/css" href="assets/stylesheets/panel.css">
 
 		<script src="vendor/assets/javascripts/jquery-2.0.2.min.js"></script>
-		<script src="vendor/assets/javascripts/jquery-ui-1.10.3.custom.min.js"></script>
 		<script src="vendor/assets/javascripts/stupidtable.min.js"></script>
 		<script src="vendor/assets/javascripts/sugar-1.3.9.min.js"></script>
 		<script src="vendor/assets/javascripts/URI.min.js"></script>
@@ -19,6 +18,7 @@
 		<script src="assets/javascripts/directives/pretty-print.js"></script>
 		<script src="assets/javascripts/directives/resizable-columns.js"></script>
 		<script src="assets/javascripts/directives/scroll-to-new.js"></script>
+		<script src="assets/javascripts/directives/tabs.js"></script>
 		<script src="assets/javascripts/panel.js"></script>
 		<script src="assets/javascripts/toolbar.js"></script>
 	</head>
@@ -84,37 +84,37 @@
 			</div>
 
 			<div class="split-view-contents split-view-contents-details">
-				<div id="tabs" class="tabbed-pane">
+				<div tabs class="tabbed-pane">
 
 					<div class="tabbed-pane-header">
 						<div class="tabbed-pane-header-contents">
 							<ul class="tabbed-pane-header-tabs">
-								<li class="tabbed-pane-header-tab">
-									<a href="#tab-request" class="tabbed-pane-header-tab-title">Request</a>
+								<li tab-name="request" class="tabbed-pane-header-tab active">
+									<a href="#" class="tabbed-pane-header-tab-title">Request</a>
 								</li>
-								<li class="tabbed-pane-header-tab" ng-show="activeTimeline.length">
-									<a href="#tab-timeline" class="tabbed-pane-header-tab-title">Timeline</a>
+								<li tab-name="timeline" class="tabbed-pane-header-tab" ng-show="activeTimeline.length">
+									<a href="#" class="tabbed-pane-header-tab-title">Timeline</a>
 								</li>
-								<li class="tabbed-pane-header-tab" ng-show="activeLog.length">
-									<a href="#tab-log" class="tabbed-pane-header-tab-title">Log</a>
+								<li tab-name="log" class="tabbed-pane-header-tab" ng-show="activeLog.length">
+									<a href="#" class="tabbed-pane-header-tab-title">Log</a>
 								</li>
-								<li class="tabbed-pane-header-tab" ng-show="activeDatabaseQueries.length">
-									<a href="#tab-db" class="tabbed-pane-header-tab-title">Database</a>
+								<li tab-name="db" class="tabbed-pane-header-tab" ng-show="activeDatabaseQueries.length">
+									<a href="#" class="tabbed-pane-header-tab-title">Database</a>
 								</li>
-								<li class="tabbed-pane-header-tab" ng-show="activeCookies.length">
-									<a href="#tab-cookies" class="tabbed-pane-header-tab-title">Cookies</a>
+								<li tab-name="cookies" class="tabbed-pane-header-tab" ng-show="activeCookies.length">
+									<a href="#" class="tabbed-pane-header-tab-title">Cookies</a>
 								</li>
-								<li class="tabbed-pane-header-tab" ng-show="activeSessionData.length">
-									<a href="#tab-session" class="tabbed-pane-header-tab-title">Session</a>
+								<li tab-name="session" class="tabbed-pane-header-tab" ng-show="activeSessionData.length">
+									<a href="#" class="tabbed-pane-header-tab-title">Session</a>
 								</li>
-								<li class="tabbed-pane-header-tab" ng-show="activeViews.length">
-									<a href="#tab-views" class="tabbed-pane-header-tab-title">Views</a>
+								<li tab-name="views" class="tabbed-pane-header-tab" ng-show="activeViews.length">
+									<a href="#" class="tabbed-pane-header-tab-title">Views</a>
 								</li>
-								<li class="tabbed-pane-header-tab" ng-show="activeEmails.length">
-									<a href="#tab-emails" class="tabbed-pane-header-tab-title">Emails</a>
+								<li tab-name="emails" class="tabbed-pane-header-tab" ng-show="activeEmails.length">
+									<a href="#" class="tabbed-pane-header-tab-title">Emails</a>
 								</li>
-								<li class="tabbed-pane-header-tab" ng-show="activeRoutes.length">
-									<a href="#tab-routes" class="tabbed-pane-header-tab-title">Routes</a>
+								<li tab-name="routes" class="tabbed-pane-header-tab" ng-show="activeRoutes.length">
+									<a href="#" class="tabbed-pane-header-tab-title">Routes</a>
 								</li>
 							</ul>
 						</div>
@@ -125,7 +125,7 @@
 
 					<div class="tabbed-pane-content data-grid data-grid-details">
 
-						<div id="tab-request">
+						<div tab-content="request">
 							<table id="headers" ng-show="activeHeaders.length">
 								<thead>
 									<tr>
@@ -167,7 +167,7 @@
 							</table>
 						</div>
 
-						<div id="tab-db">
+						<div tab-content="db">
 							<table class="stupidtable" id="db">
 								<thead>
 									<tr>
@@ -187,7 +187,7 @@
 							<div class="number-of-queries">Number of queries: {{activeDatabaseQueries.length}}</div>
 						</div>
 
-						<div id="tab-log">
+						<div tab-content="log">
 							<table class="stupidtable" id="log">
 								<thead>
 									<tr>
@@ -206,7 +206,7 @@
 							</table>
 						</div>
 
-						<div id="tab-timeline">
+						<div tab-content="timeline">
 							<table id="timeline" class="timeline">
 								<thead>
 									<tr>
@@ -230,7 +230,7 @@
 							</table>
 						</div>
 
-						<div id="tab-session">
+						<div tab-content="session">
 							<table id="sessionData">
 								<thead>
 									<tr>
@@ -246,7 +246,7 @@
 							</table>
 						</div>
 
-						<div id="tab-cookies">
+						<div tab-content="cookies">
 							<table id="cookies">
 								<thead>
 									<tr>
@@ -262,7 +262,7 @@
 							</table>
 						</div>
 
-						<div id="tab-views">
+						<div tab-content="views">
 							<table class="stupidtable" id="views">
 								<thead>
 									<tr>
@@ -279,7 +279,7 @@
 							</table>
 						</div>
 
-						<div id="tab-emails">
+						<div tab-content="emails">
 							<table class="stupidtable" id="emails">
 								<thead>
 									<tr>
@@ -302,7 +302,7 @@
 							<div class="number-of-queries">Number of emails: {{activeEmails.length}}</div>
 						</div>
 
-						<div id="tab-routes">
+						<div tab-content="routes">
 							<table id="routes">
 								<thead>
 									<tr>
@@ -329,6 +329,7 @@
 
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</body>

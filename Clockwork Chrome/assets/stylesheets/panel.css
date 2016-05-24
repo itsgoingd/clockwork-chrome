@@ -296,7 +296,7 @@ th, td {
 	white-space: nowrap;
 }
 
-.tabbed-pane-header .ui-tabs-active {
+.tabbed-pane-header-tab.active {
 	background-color: white;
 	border: 1px solid rgb(205, 205, 205);
 	border-bottom: none;
@@ -356,7 +356,7 @@ th, td {
 
 /* request details - request */
 
-#tab-request table {
+#request table {
 	margin-bottom: 24px;
 }
 
@@ -430,4 +430,8 @@ th, td {
 
 .stupidtable th {
 	cursor: pointer;
+}
+
+[tab-content] {
+	display: none;
 }
