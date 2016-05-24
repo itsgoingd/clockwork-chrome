@@ -216,8 +216,12 @@ th, td {
     right: -4px;
 }
 
+.data-grid-requests tr:nth-child(even) .notificationsCount {
+	background: rgba(243, 243, 243, 0.8);
+}
+
 .data-grid-requests .selected .notificationsCount {
-	background: inherit;
+	background: rgba(56, 121, 217, 0.8) !important;
 }
 
 .data-grid-requests .notificationsCount .errorsCount i {
