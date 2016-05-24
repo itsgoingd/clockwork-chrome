@@ -438,6 +438,22 @@ th, td {
 
 /* request details - database */
 
+.database-query {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.database-query-content {
+	flex: 1 0 auto;
+}
+
+.database-query-path {
+	color: #aaa;
+	flex: 0;
+	font-size: 90%;
+	margin-top: 3px;
+}
+
 .database-duration {
 	text-align: right;
 }

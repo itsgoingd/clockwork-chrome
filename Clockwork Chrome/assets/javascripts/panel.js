@@ -112,6 +112,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		data.databaseDurationRounded = data.databaseDuration ? Math.round(data.databaseDuration) : 0;
 
 		data.cookies = $scope.createKeypairs(data.cookies);
+		data.databaseQueries = $scope.processDatabaseQueries(data.databaseQueries);
 		data.emails = $scope.processEmails(data.emailsData);
 		data.getData = $scope.createKeypairs(data.getData);
 		data.headers = $scope.processHeaders(data.headers);
@@ -235,6 +236,22 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		}
 
 		return items;
+	};
+
+	$scope.processDatabaseQueries = function(data)
+	{
+		if (!(data instanceof Object)) {
+			return [];
+		}
+
+		$.each(data, function(key, value) {
+			value.model = value.model || '-';
+			value.shortModel = value.model ? value.model.split('\\').pop() : '-';
+			value.fullPath = value.file && value.line ? value.file.replace(/^\//, '') + ':' + value.line : undefined;
+			value.shortPath = value.fullPath ? value.fullPath.split(/[\/\\]/).pop() : undefined;
+		});
+
+		return data;
 	};
 
 	$scope.processEmails = function(data)

@@ -173,16 +173,25 @@
 							<table stupid-table id="db">
 								<thead>
 									<tr>
+										<th data-sort="string">Model</th>
 										<th data-sort="string" ng-show="showDatabaseConnectionColumn()">Connection</th>
 										<th data-sort="string">SQL</th>
 										<th data-sort="float" class="duration">Duration</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-repeat="sql in activeDatabaseQueries">
-										<td ng-show="showDatabaseConnectionColumn()">{{sql.connection}}</td>
-										<td>{{sql.query}}</td>
-										<td class="database-duration">{{sql.duration | number:3}} ms</td>
+									<tr ng-repeat="query in activeDatabaseQueries">
+										<td>
+											<div shortened-text="{{query.model}}">{{query.shortModel}}</div>
+										</td>
+										<td ng-show="showDatabaseConnectionColumn()">{{query.connection}}</td>
+										<td class="database-query">
+											<div class="database-query-content">{{query.query}}</div>
+											<div class="database-query-path">
+												<div shortened-text="{{query.fullPath}}">{{query.shortPath}}</div>
+											</div>
+										</td>
+										<td class="database-duration">{{query.duration | number:3}} ms</td>
 									</tr>
 								</tbody>
 							</table>
