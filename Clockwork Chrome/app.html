@@ -185,10 +185,12 @@
 											<div shortened-text="{{query.model}}">{{query.shortModel}}</div>
 										</td>
 										<td ng-show="showDatabaseConnectionColumn()">{{query.connection}}</td>
-										<td class="database-query">
-											<div class="database-query-content">{{query.query}}</div>
-											<div class="database-query-path">
-												<div shortened-text="{{query.fullPath}}">{{query.shortPath}}</div>
+										<td>
+											<div class="database-query">
+												<div class="database-query-content">{{query.query}}</div>
+												<div class="database-query-path">
+													<div shortened-text="{{query.fullPath}}">{{query.shortPath}}</div>
+												</div>
 											</div>
 										</td>
 										<td class="database-duration">{{query.duration | number:3}} ms</td>
@@ -211,12 +213,14 @@
 									<tr ng-repeat="message in activeLog">
 										<td class="log-date">{{message.time | date:'HH:mm:ss'}}</td>
 										<td class="log-level">{{message.level}}</td>
-										<td class="log-message">
-											<div class="log-message-content">
-												<pretty-print data="message.message"></pretty-print>
-											</div>
-											<div class="log-message-path">
-												<div shortened-text="{{message.fullPath}}">{{message.shortPath}}</div>
+										<td>
+											<div class="log-message">
+												<div class="log-message-content">
+													<pretty-print data="message.message"></pretty-print>
+												</div>
+												<div class="log-message-path">
+													<div shortened-text="{{message.fullPath}}">{{message.shortPath}}</div>
+												</div>
 											</div>
 										</td>
 									</tr>

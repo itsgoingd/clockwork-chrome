@@ -427,6 +427,7 @@ th, td {
 
 .log-message-content {
 	flex: 1 0 auto;
+	max-width: 100%;
 }
 
 .log-message-path {
@@ -445,6 +446,7 @@ th, td {
 
 .database-query-content {
 	flex: 1 0 auto;
+	max-width: 100%;
 }
 
 .database-query-path {
