@@ -18,6 +18,7 @@
 		<script src="assets/javascripts/directives/pretty-print.js"></script>
 		<script src="assets/javascripts/directives/resizable-columns.js"></script>
 		<script src="assets/javascripts/directives/scroll-to-new.js"></script>
+		<script src="assets/javascripts/directives/stupid-table.js"></script>
 		<script src="assets/javascripts/directives/tabs.js"></script>
 		<script src="assets/javascripts/panel.js"></script>
 		<script src="assets/javascripts/toolbar.js"></script>
@@ -168,7 +169,7 @@
 						</div>
 
 						<div tab-content="db">
-							<table class="stupidtable" id="db">
+							<table stupid-table id="db">
 								<thead>
 									<tr>
 										<th data-sort="string" ng-show="showDatabaseConnectionColumn()">Connection</th>
@@ -188,7 +189,7 @@
 						</div>
 
 						<div tab-content="log">
-							<table class="stupidtable" id="log">
+							<table stupid-table id="log">
 								<thead>
 									<tr>
 										<th data-sort="string">Time</th>
@@ -263,7 +264,7 @@
 						</div>
 
 						<div tab-content="views">
-							<table class="stupidtable" id="views">
+							<table stupid-table id="views">
 								<thead>
 									<tr>
 										<th data-sort="string">Name</th>
@@ -280,7 +281,7 @@
 						</div>
 
 						<div tab-content="emails">
-							<table class="stupidtable" id="emails">
+							<table stupid-table id="emails">
 								<thead>
 									<tr>
 										<th data-sort="string">To</th>

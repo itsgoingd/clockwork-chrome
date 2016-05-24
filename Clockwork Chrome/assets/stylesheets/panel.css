@@ -428,7 +428,7 @@ th, td {
 	font-weight: bold;
 }
 
-.stupidtable th {
+[stupid-table] th {
 	cursor: pointer;
 }
 
