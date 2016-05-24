@@ -1,4 +1,4 @@
-Clockwork.controller('PanelController', function PanelController($scope, $http, toolbar)
+Clockwork.controller('PanelController', function($scope, $http, toolbar)
 {
 	$scope.activeId = null;
 	$scope.requests = {};
