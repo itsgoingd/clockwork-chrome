@@ -271,7 +271,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 
 		$.each(data, function(key, value){
 			key = key.split('-').map(function(value){
-				return value.capitalize();
+				return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
 			}).join('-');
 
 			$.each(value, function(i, value){

@@ -6,7 +6,7 @@
 	"devtools_page": "devtools.html",
 	"background": {
 		"scripts": [
-			"vendor/assets/javascripts/jquery-2.0.2.min.js",
+			"vendor/assets/javascripts/jquery-2.2.4.min.js",
 			"assets/javascripts/background.js"
 		]
 	},
