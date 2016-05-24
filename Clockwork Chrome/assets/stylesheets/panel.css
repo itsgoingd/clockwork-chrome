@@ -420,6 +420,22 @@ th, td {
 	width: 70px;
 }
 
+.log-message {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.log-message-content {
+	flex: 1 0 auto;
+}
+
+.log-message-path {
+	color: #aaa;
+	flex: 0;
+	font-size: 90%;
+	margin-top: 3px;
+}
+
 /* request details - database */
 
 .database-duration {

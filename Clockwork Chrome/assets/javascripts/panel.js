@@ -290,6 +290,8 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 
 		$.each(data, function(key, value) {
 			value.time = new Date(value.time * 1000);
+			value.fullPath = value.file && value.line ? value.file.replace(/^\//, '') + ':' + value.line : undefined;
+			value.shortPath = value.fullPath ? value.fullPath.split(/[\/\\]/).pop() : undefined;
 		});
 
 		return data;

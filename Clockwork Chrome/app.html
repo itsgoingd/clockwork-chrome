@@ -18,6 +18,7 @@
 		<script src="assets/javascripts/directives/pretty-print.js"></script>
 		<script src="assets/javascripts/directives/resizable-columns.js"></script>
 		<script src="assets/javascripts/directives/scroll-to-new.js"></script>
+		<script src="assets/javascripts/directives/shortened-text.js"></script>
 		<script src="assets/javascripts/directives/stupid-table.js"></script>
 		<script src="assets/javascripts/directives/tabs.js"></script>
 		<script src="assets/javascripts/panel.js"></script>
@@ -136,7 +137,7 @@
 								<tbody>
 									<tr ng-repeat="param in activeHeaders">
 										<td class="key">{{param.name}}</td>
-										<td class="value"><pretty-print data="param.value"></td>
+										<td class="value"><pretty-print data="param.value"></pretty-print></td>
 									</tr>
 								</tbody>
 							</table>
@@ -149,7 +150,7 @@
 								<tbody>
 									<tr ng-repeat="param in activeGetData">
 										<td class="key">{{param.name}}</td>
-										<td><pretty-print data="param.value"></td>
+										<td><pretty-print data="param.value"></pretty-print></td>
 									</tr>
 								</tbody>
 							</table>
@@ -162,7 +163,7 @@
 								<tbody>
 									<tr ng-repeat="param in activePostData">
 										<td class="key">{{param.name}}</td>
-										<td><pretty-print data="param.value"></td>
+										<td><pretty-print data="param.value"></pretty-print></td>
 									</tr>
 								</tbody>
 							</table>
@@ -201,7 +202,14 @@
 									<tr ng-repeat="message in activeLog">
 										<td class="log-date">{{message.time | date:'HH:mm:ss'}}</td>
 										<td class="log-level">{{message.level}}</td>
-										<td class="log-message"><pretty-print data="message.message"></td>
+										<td class="log-message">
+											<div class="log-message-content">
+												<pretty-print data="message.message"></pretty-print>
+											</div>
+											<div class="log-message-path">
+												<div shortened-text="{{message.fullPath}}">{{message.shortPath}}</div>
+											</div>
+										</td>
 									</tr>
 								</tbody>
 							</table>
@@ -241,7 +249,7 @@
 								<tbody>
 									<tr ng-repeat="param in activeSessionData">
 										<td class="key">{{param.name}}</td>
-										<td><pretty-print data="param.value"></td>
+										<td><pretty-print data="param.value"></pretty-print></td>
 									</tr>
 								</tbody>
 							</table>
@@ -257,7 +265,7 @@
 								<tbody>
 									<tr ng-repeat="param in activeCookies">
 										<td class="key">{{param.name}}</td>
-										<td><pretty-print data="param.value"></td>
+										<td><pretty-print data="param.value"></pretty-print></td>
 									</tr>
 								</tbody>
 							</table>
@@ -274,7 +282,7 @@
 								<tbody>
 									<tr ng-repeat="view in activeViews">
 										<td>{{view.name}}</td>
-										<td><pretty-print data="view.data"></td>
+										<td><pretty-print data="view.data"></pretty-print></td>
 									</tr>
 								</tbody>
 							</table>
@@ -297,7 +305,7 @@
 										<td>{{email.subject}}</td>
 									</tr>
 									<tr>
-										<td colspan="2"><pretty-print data="email.headers"></td>
+										<td colspan="2"><pretty-print data="email.headers"></pretty-print></td>
 								</tbody>
 							</table>
 							<div class="number-of-queries">Number of emails: {{activeEmails.length}}</div>
