@@ -217,6 +217,9 @@
 											<div class="log-message">
 												<div class="log-message-content">
 													<pretty-print data="message.message"></pretty-print>
+													<div ng-show="message.context">
+														<pretty-print data="message.context"></pretty-print>
+													</div>
 												</div>
 												<div class="log-message-path">
 													<div shortened-text="{{message.fullPath}}">{{message.shortPath}}</div>
