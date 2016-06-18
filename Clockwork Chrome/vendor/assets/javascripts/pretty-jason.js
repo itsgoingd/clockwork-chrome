@@ -60,13 +60,16 @@ g.PrettyJason.prototype._generateHtmlNode = function(data)
 		if (valType == 'object') {
 			$item = $('<li></li>');
 
-			var $itemName = $('<span><span class="pretty-jason-icon"><i class="pretty-jason-icon-closed"></i></span><span class="pretty-jason-key">' + key + ':</span> Object</span>');
+			var $itemName = $('<span><span class="pretty-jason-icon"><i class="pretty-jason-icon-closed"></i></span><span class="pretty-jason-key"></span> Object</span>');
+			$itemName.find('.pretty-jason-key').text(key + ':');
 			var that = this;
 			$itemName.click(function(){ that._objectNodeClickedCallback(this); });
 
 			$item.append($itemName);
 		} else {
-			$item = $('<li><span><span class="pretty-jason-icon"></span><span class="pretty-jason-key">' + key + ':</span> <span class="pretty-jason-value-' + valType + '">' + val + '</span></span></li>');
+			$item = $('<li><span><span class="pretty-jason-icon"></span><span class="pretty-jason-key"></span> <span class="pretty-jason-value-' + valType + '"></span></span></li>');
+			$item.find('.pretty-jason-key').text(key + ':');
+			$item.find('.pretty-jason-value-' + valType).text(val);
 		}
 
 		$list.append($item);
@@ -90,9 +93,13 @@ g.PrettyJason.prototype._generateHtmlPreview = function(data)
 		}
 
 		if (valType == 'object') {
-			$item = $('<span class="pretty-jason-preview-item"><span class="pretty-jason-key">' + key + ':</span> <span class="pretty-jason-value">Object</span></span>');
+			$item = $('<span class="pretty-jason-preview-item"><span class="pretty-jason-key"></span> <span class="pretty-jason-value">Object</span></span>');
+			$item.find('.pretty-jason-key').text(key + ':');
+			$item.find('.pretty-jason-value-' + valType).text(val);
 		} else {
-			$item = $('<span class="pretty-jason-preview-item"><span class="pretty-jason-key">' + key + ':</span> <span class="pretty-jason-value-' + valType + '">' + val + '</span></span>');
+			$item = $('<span class="pretty-jason-preview-item"><span class="pretty-jason-key"></span> <span class="pretty-jason-value-' + valType + '"></span></span>');
+			$item.find('.pretty-jason-key').text(key + ':');
+			$item.find('.pretty-jason-value-' + valType).text(val);
 		}
 
 		$html.append($item);
