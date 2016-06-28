@@ -1,5 +1,19 @@
 Clockwork.controller('PanelController', function PanelController($scope, $http, toolbar)
 {
+	var sendMessage;
+
+	function log()
+	{
+		// forward all logging to background page
+		sendMessage({type: 'log', data: arguments});
+	}
+
+	function error()
+	{
+		// forward all errors to background page
+		sendMessage({type: 'error', data: arguments});
+	}
+
 	$scope.activeId = null;
 	$scope.requests = {};
 
@@ -17,8 +31,25 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 	$scope.activeTimelineLegend = [];
 	$scope.activeViews = [];
 	$scope.knownLogLevels = [];
+	$scope.activeXhprof = [];
 
 	$scope.showIncomingRequests = true;
+
+	$scope.processXhprof = function (requestId, data)
+	{
+		if (data !== null && typeof data !== 'undefined' && typeof data.xhprof !== 'undefined' && data.xhprof !== null) {
+			$scope.activeXhprof = [
+				requestId + '.json',
+				JSON.stringify(data.xhprof)
+			];
+		}
+		else
+		{
+			$scope.activeXhprof = [];
+		}
+
+		return $scope.activeXhprof;
+	};
 
 	$scope.init = function(type)
 	{
@@ -40,6 +71,8 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 				$scope.clear();
 			});
 		});
+
+		sendMessage = chrome.runtime.sendMessage;
 
 		chrome.devtools.network.onRequestFinished.addListener(function(request)
 		{
@@ -68,7 +101,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 				
 				chrome.extension.sendRequest({action: 'getJSON', url: uri.toString(), headers: requestHeaders}, function(data){
 					$scope.$apply(function(){
-						$scope.addRequest(requestId.value, data);
+						$scope.addRequest(requestId.value, data, request.request.url.toString());
 					});
 				});
 			}
@@ -77,6 +110,8 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 
 	$scope.initStandalone = function()
 	{
+		sendMessage = onMessage;
+
 		// generate a hash of get params from query string (http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values)
 		var getParams = (function(a) {
 			if (a === '') return {};
@@ -109,30 +144,36 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		$('.toolbar').replaceWith(toolbar.render());
 	};
 
-	$scope.addRequest = function(requestId, data)
+	$scope.addRequest = function(requestId, data, uri)
 	{
-		data.responseDurationRounded = data.responseDuration ? Math.round(data.responseDuration) : 0;
-		data.databaseDurationRounded = data.databaseDuration ? Math.round(data.databaseDuration) : 0;
+		try {
+			data.responseDurationRounded = data.responseDuration ? Math.round(data.responseDuration) : 0;
+			data.databaseDurationRounded = data.databaseDuration ? Math.round(data.databaseDuration) : 0;
 
-		data.cookies = $scope.createKeypairs(data.cookies);
-		data.emails = $scope.processEmails(data.emailsData);
-		data.getData = $scope.createKeypairs(data.getData);
-		data.headers = $scope.processHeaders(data.headers);
-		data.log = $scope.processLog(data.log);
-		data.postData = $scope.createKeypairs(data.postData);
-		data.sessionData = $scope.createKeypairs(data.sessionData);
-		data.timeline = $scope.processTimeline(data);
-		data.views = $scope.processViews(data.viewsData);
+			data.cookies = $scope.createKeypairs(data.cookies);
+			data.emails = $scope.processEmails(data.emailsData);
+			data.getData = $scope.createKeypairs(data.getData);
+			data.headers = $scope.processHeaders(data.headers);
+			data.log = $scope.processLog(data.log);
+			data.postData = $scope.createKeypairs(data.postData);
+			data.sessionData = $scope.createKeypairs(data.sessionData);
+			data.timeline = $scope.processTimeline(data);
+			data.views = $scope.processViews(data.viewsData);
 
-		var logLevels = $scope.getLogLevels(data);
-		data.logLevels = Object.values(logLevels);
-		data.errorsCount = (typeof logLevels.error === 'object') ? logLevels.error.count : 0;
-		data.warningsCount = (typeof logLevels.warning === 'object') ? logLevels.warning.count : 0;
+			data.xhprof = $scope.processXhprof(requestId, data.userData);
 
-		$scope.requests[requestId] = data;
+			var logLevels = $scope.getLogLevels(data);
+			data.logLevels = Object.values(logLevels);
+			data.errorsCount = (typeof logLevels.error === 'object') ? logLevels.error.count : 0;
+			data.warningsCount = (typeof logLevels.warning === 'object') ? logLevels.warning.count : 0;
 
-		if ($scope.showIncomingRequests) {
-			$scope.setActive(requestId);
+			$scope.requests[requestId] = data;
+
+			if ($scope.showIncomingRequests) {
+				$scope.setActive(requestId);
+			}
+		} catch (e) {
+			error('Failed adding request for ' + requestId + ' (uri: ' + uri + ')', e);
 		}
 	};
 
@@ -155,8 +196,14 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		$scope.activeTimelineLegend = [];
 		$scope.activeViews = [];
 		$scope.knownLogLevels = [];
+		$scope.activeXhprof = [];
 
 		$scope.showIncomingRequests = true;
+	};
+
+	$scope.downloadXhprof = function (data)
+	{
+		chrome.runtime.sendMessage({type: "download", data: data});
 	};
 
 	$scope.setActive = function(requestId)

@@ -13,6 +13,7 @@
 		<script src="vendor/assets/javascripts/angular.min.js"></script>
 		<script src="vendor/assets/javascripts/pretty-jason.js"></script>
 		<script src="vendor/assets/javascripts/jquery.resizableColumns.min.js"></script>
+		<script src="assets/javascripts/messagehandler.js"></script>
 		<script src="assets/javascripts/app.js"></script>
 		<script src="assets/javascripts/panel.js"></script>
 		<script src="assets/javascripts/toolbar.js"></script>
@@ -110,6 +111,9 @@
 								</li>
 								<li class="tabbed-pane-header-tab" ng-show="activeRoutes.length">
 									<a href="#tab-routes" class="tabbed-pane-header-tab-title">Routes</a>
+								</li>
+								<li class="tabbed-pane-header-tab" ng-show="activeXhprof.length">
+									<a href="#tab-xhprof" class="tabbed-pane-header-tab-title">XHProf</a>
 								</li>
 							</ul>
 						</div>
@@ -323,6 +327,9 @@
 							</table>
 						</div>
 
+						<div id="tab-xhprof">
+							<button id="download-xhprof" ng-click="downloadXhprof(activeXhprof);">Download as JSON</button>
+						</div>
 					</div>
 				</div>
 			</div>

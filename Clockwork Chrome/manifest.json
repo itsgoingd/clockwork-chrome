@@ -7,10 +7,12 @@
 	"background": {
 		"scripts": [
 			"vendor/assets/javascripts/jquery-2.0.2.min.js",
+			"assets/javascripts/messagehandler.js",
 			"assets/javascripts/background.js"
 		]
 	},
 	"permissions": [
+		"downloads",
 		"debugger",
 		"http://*/",
 		"https://*/"
