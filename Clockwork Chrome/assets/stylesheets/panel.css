@@ -216,8 +216,12 @@ th, td {
     right: -4px;
 }
 
+.data-grid-requests tr:nth-child(even) .notificationsCount {
+	background: rgba(243, 243, 243, 0.8);
+}
+
 .data-grid-requests .selected .notificationsCount {
-	background: inherit;
+	background: rgba(56, 121, 217, 0.8) !important;
 }
 
 .data-grid-requests .notificationsCount .errorsCount i {
@@ -296,7 +300,7 @@ th, td {
 	white-space: nowrap;
 }
 
-.tabbed-pane-header .ui-tabs-active {
+.tabbed-pane-header-tab.active {
 	background-color: white;
 	border: 1px solid rgb(205, 205, 205);
 	border-bottom: none;
@@ -356,7 +360,7 @@ th, td {
 
 /* request details - request */
 
-#tab-request table {
+#request table {
 	margin-bottom: 24px;
 }
 
@@ -416,19 +420,53 @@ th, td {
 	width: 70px;
 }
 
-#tab-log label.toggler {
-	border-radius: 6px;
-    background-color: aliceblue;
-    padding: 3px;
-    margin-right: 5px;
+.log-message {
+	display: flex;
+	flex-wrap: wrap;
 }
 
-#tab-log label.toggler span.count {
+.log-message-content {
+	flex: 1 0 auto;
+	max-width: 100%;
+}
+
+.log-message-path {
+	color: #aaa;
+	flex: 0;
+	font-size: 90%;
+	margin-top: 3px;
+}
+
+label.toggler {
+	border-radius: 6px;
+	background-color: aliceblue;
+	padding: 3px;
+	margin-right: 5px;
+}
+
+label.toggler span.count {
 	font-size: smaller;
 	color: silver;
 }
 
 /* request details - database */
+
+.database-query {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.database-query-content {
+	flex: 1 0 auto;
+	max-width: 100%;
+}
+
+.database-query-path {
+	color: #aaa;
+	flex: 0;
+	font-size: 90%;
+	margin-top: 3px;
+}
 
 .database-duration {
 	text-align: right;
@@ -440,6 +478,10 @@ th, td {
 	font-weight: bold;
 }
 
-.stupidtable th {
+[stupid-table] th {
 	cursor: pointer;
+}
+
+[tab-content] {
+	display: none;
 }

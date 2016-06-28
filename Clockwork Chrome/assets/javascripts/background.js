@@ -1,30 +1,26 @@
 function onRequest(request, sender, callback) {
 	if (request.action == 'getJSON') {
-		$.ajax({
-            url: request.url,
-            type: 'GET',
-            dataType: 'json',
-            success: callback,
-            error: function(error){
-                console.log('ERROR'); console.log(error);
-            },
-            beforeSend: function (xhr) {
-                $.each(request.headers, function(headerName, headerValue) {
-                    xhr.setRequestHeader(headerName, headerValue);
-                });
-            }
-        });
+		var xhr = new XMLHttpRequest();
+
+		xhr.open('GET', request.url, true);
+
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4) {
+				if (xhr.status == 200) {
+					callback(JSON.parse(xhr.responseText));
+				} else {
+					console.log('Error getting Clockwork metadata:');
+					console.log(xhr.responseText);
+				}
+			}
+		}
+
+		Object.keys(request.headers).forEach(function(headerName) {
+		    xhr.setRequestHeader(headerName, request.headers[headerName]);
+		});
+
+		xhr.send();
 	}
 }
-
 chrome.extension.onRequest.addListener(onRequest);
 chrome.runtime.onMessage.addListener(onMessage);
-
-// var devtoolsPort = null;
-// chrome.extension.onConnect.addListener(function(port) {
-// 	devtoolsPort = port;
-// });
-
-// chrome.extension.onMessage.addListener(function(request, sender, sendResponse){
-// 	devtoolsPort.postMessage({});
-// });

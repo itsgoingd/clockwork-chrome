@@ -1,7 +1,7 @@
 (function(g){
 
 "use strict";
-	
+
 g.PrettyJason = function(data)
 {
 	if (data instanceof Object) {
@@ -31,7 +31,9 @@ g.PrettyJason.prototype.generateHtml = function()
 	var $item = $('<li></li>');
 
 	var $itemName = $('<span><span class="pretty-jason-icon"><i class="pretty-jason-icon-closed"></i></span>Object </span>');
-	$itemName.click(this._objectNodeClickedCallback);
+	var that = this;
+	$itemName.click(function(){ that._objectNodeClickedCallback(this); });
+	$itemName.data('rendered', true);
 
 	$item.append($itemName);
 	$item.append(this._generateHtmlPreview(this.data));
@@ -58,13 +60,16 @@ g.PrettyJason.prototype._generateHtmlNode = function(data)
 		if (valType == 'object') {
 			$item = $('<li></li>');
 
-			var $itemName = $('<span><span class="pretty-jason-icon"><i class="pretty-jason-icon-closed"></i></span><span class="pretty-jason-key">' + key + ':</span> Object</span>');
-			$itemName.click(this._objectNodeClickedCallback);
+			var $itemName = $('<span><span class="pretty-jason-icon"><i class="pretty-jason-icon-closed"></i></span><span class="pretty-jason-key"></span> Object</span>');
+			$itemName.find('.pretty-jason-key').text(key + ':');
+			var that = this;
+			$itemName.click(function(){ that._objectNodeClickedCallback(this); });
 
 			$item.append($itemName);
-			$item.append(this._generateHtmlNode(val));
 		} else {
-			$item = $('<li><span><span class="pretty-jason-icon"></span><span class="pretty-jason-key">' + key + ':</span> <span class="pretty-jason-value-' + valType + '">' + val + '</span></span></li>');
+			$item = $('<li><span><span class="pretty-jason-icon"></span><span class="pretty-jason-key"></span> <span class="pretty-jason-value-' + valType + '"></span></span></li>');
+			$item.find('.pretty-jason-key').text(key + ':');
+			$item.find('.pretty-jason-value-' + valType).text(val);
 		}
 
 		$list.append($item);
@@ -88,9 +93,13 @@ g.PrettyJason.prototype._generateHtmlPreview = function(data)
 		}
 
 		if (valType == 'object') {
-			$item = $('<span class="pretty-jason-preview-item"><span class="pretty-jason-key">' + key + ':</span> <span class="pretty-jason-value">Object</span></span>');
+			$item = $('<span class="pretty-jason-preview-item"><span class="pretty-jason-key"></span> <span class="pretty-jason-value">Object</span></span>');
+			$item.find('.pretty-jason-key').text(key + ':');
+			$item.find('.pretty-jason-value-' + valType).text(val);
 		} else {
-			$item = $('<span class="pretty-jason-preview-item"><span class="pretty-jason-key">' + key + ':</span> <span class="pretty-jason-value-' + valType + '">' + val + '</span></span>');
+			$item = $('<span class="pretty-jason-preview-item"><span class="pretty-jason-key"></span> <span class="pretty-jason-value-' + valType + '"></span></span>');
+			$item.find('.pretty-jason-key').text(key + ':');
+			$item.find('.pretty-jason-value-' + valType).text(val);
 		}
 
 		$html.append($item);
@@ -117,10 +126,12 @@ g.PrettyJason.prototype._getValueType = function(val)
 	return valType;
 };
 
-g.PrettyJason.prototype._objectNodeClickedCallback = function()
+g.PrettyJason.prototype._objectNodeClickedCallback = function(node)
 {
-	var $list = $(this).parent().find('> ul');
-	var $icon = $(this).find('i');
+	this._renderObjectNode(node);
+
+	var $list = $(node).parent().find('> ul');
+	var $icon = $(node).find('i');
 
 	$icon.removeClass('pretty-jason-icon-closed');
 	$icon.removeClass('pretty-jason-icon-open');
@@ -132,6 +143,42 @@ g.PrettyJason.prototype._objectNodeClickedCallback = function()
 		$list.hide();
 		$icon.addClass('pretty-jason-icon-closed');
 	}
+};
+
+g.PrettyJason.prototype._renderObjectNode = function(node)
+{
+	if ($(node).data('rendered')) {
+		return;
+	}
+
+	var path = [];
+
+	$(node).parents('li').each(function(i, node)
+	{
+		if (! $(node).parents('.pretty-jason').length || $(node).find('.pretty-jason-preview').length) {
+			return;
+		}
+
+		var segment = $(node).find('.pretty-jason-key').first().text().slice(0, -1);
+
+		path.unshift(! isNaN(parseInt(segment, 10)) ? parseInt(segment, 10) : segment);
+	});
+
+	$(node).parent().append(this._generateHtmlNode(this._getDataFromPath(path)));
+
+	$(node).data('rendered', true);
+};
+
+g.PrettyJason.prototype._getDataFromPath = function(path)
+{
+	var data = this.data;
+	var segment;
+
+	while ((segment = path.shift()) !== undefined) {
+		data = data[segment];
+	}
+
+	return data;
 };
 
 g.PrettyJasonException = function(message, exception)

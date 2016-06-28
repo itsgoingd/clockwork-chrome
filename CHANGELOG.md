@@ -1,3 +1,14 @@
+1.6
+- added support for model and caller file name and line number in database tab (thanks OmarMakled and fitztrev for the idea)
+- added support for caller file name and line number in log tab (thanks crissi for the idea)
+- added support for context in the log tab (thanks crissi for the idea)
+- improved pretty jason component to lazy-render objects improving UI performance a ton when logging large objects like Eloquent collections
+- fixed sorting of database, log, view and emails tables not working
+- fixed minor style issues with requests list error/warning count overlay on dark background
+- fixed HTML injection in the pretty-jason component
+- updated angular, jquery and other 3rd party libraries
+- cleaned up and refactored some internal parts
+
 1.5
 - added support for resizing requests table columns
 - added tooltips to requests table showing cell values

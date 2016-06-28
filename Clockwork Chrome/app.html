@@ -1,13 +1,13 @@
 <html ng-app="Clockwork" ng-csp="">
 	<head>
-		<link rel="stylesheet" type="text/css" href="vendor/assets/stylesheets/pretty-jason.css">
+		<link rel="stylesheet" type="text/css" href="vendor/assets/stylesheets/angular-csp.css">
 		<link rel="stylesheet" type="text/css" href="vendor/assets/stylesheets/jquery.resizableColumns.css">
 		<link rel="stylesheet" type="text/css" href="vendor/assets/stylesheets/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="vendor/assets/stylesheets/pretty-jason.css">
 		<link rel="stylesheet" type="text/css" href="assets/stylesheets/panel.css">
-		<script src="vendor/assets/javascripts/jquery-2.0.2.min.js"></script>
-		<script src="vendor/assets/javascripts/jquery-ui-1.10.3.custom.min.js"></script>
+
+		<script src="vendor/assets/javascripts/jquery-2.2.4.min.js"></script>
 		<script src="vendor/assets/javascripts/stupidtable.min.js"></script>
-		<script src="vendor/assets/javascripts/sugar-1.3.9.min.js"></script>
 		<script src="vendor/assets/javascripts/URI.min.js"></script>
 		<script src="vendor/assets/javascripts/keymaster.min.js"></script>
 		<script src="vendor/assets/javascripts/angular.min.js"></script>
@@ -15,6 +15,12 @@
 		<script src="vendor/assets/javascripts/jquery.resizableColumns.min.js"></script>
 		<script src="assets/javascripts/messagehandler.js"></script>
 		<script src="assets/javascripts/app.js"></script>
+		<script src="assets/javascripts/directives/pretty-print.js"></script>
+		<script src="assets/javascripts/directives/resizable-columns.js"></script>
+		<script src="assets/javascripts/directives/scroll-to-new.js"></script>
+		<script src="assets/javascripts/directives/shortened-text.js"></script>
+		<script src="assets/javascripts/directives/stupid-table.js"></script>
+		<script src="assets/javascripts/directives/tabs.js"></script>
 		<script src="assets/javascripts/panel.js"></script>
 		<script src="assets/javascripts/toolbar.js"></script>
 	</head>
@@ -80,40 +86,40 @@
 			</div>
 
 			<div class="split-view-contents split-view-contents-details">
-				<div id="tabs" class="tabbed-pane">
+				<div tabs class="tabbed-pane">
 
 					<div class="tabbed-pane-header">
 						<div class="tabbed-pane-header-contents">
 							<ul class="tabbed-pane-header-tabs">
-								<li class="tabbed-pane-header-tab">
-									<a href="#tab-request" class="tabbed-pane-header-tab-title">Request</a>
+								<li tab-name="request" class="tabbed-pane-header-tab active">
+									<a href="#" class="tabbed-pane-header-tab-title">Request</a>
 								</li>
-								<li class="tabbed-pane-header-tab" ng-show="activeTimeline.length">
-									<a href="#tab-timeline" class="tabbed-pane-header-tab-title">Timeline</a>
+								<li tab-name="timeline" class="tabbed-pane-header-tab" ng-show="activeTimeline.length">
+									<a href="#" class="tabbed-pane-header-tab-title">Timeline</a>
 								</li>
-								<li class="tabbed-pane-header-tab" ng-show="activeLog.length">
-									<a href="#tab-log" class="tabbed-pane-header-tab-title">Log</a>
+								<li tab-name="log" class="tabbed-pane-header-tab" ng-show="activeLog.length">
+									<a href="#" class="tabbed-pane-header-tab-title">Log</a>
 								</li>
-								<li class="tabbed-pane-header-tab" ng-show="activeDatabaseQueries.length">
-									<a href="#tab-db" class="tabbed-pane-header-tab-title">Database</a>
+								<li tab-name="db" class="tabbed-pane-header-tab" ng-show="activeDatabaseQueries.length">
+									<a href="#" class="tabbed-pane-header-tab-title">Database</a>
 								</li>
-								<li class="tabbed-pane-header-tab" ng-show="activeCookies.length">
-									<a href="#tab-cookies" class="tabbed-pane-header-tab-title">Cookies</a>
+								<li tab-name="cookies" class="tabbed-pane-header-tab" ng-show="activeCookies.length">
+									<a href="#" class="tabbed-pane-header-tab-title">Cookies</a>
 								</li>
-								<li class="tabbed-pane-header-tab" ng-show="activeSessionData.length">
-									<a href="#tab-session" class="tabbed-pane-header-tab-title">Session</a>
+								<li tab-name="session" class="tabbed-pane-header-tab" ng-show="activeSessionData.length">
+									<a href="#" class="tabbed-pane-header-tab-title">Session</a>
 								</li>
-								<li class="tabbed-pane-header-tab" ng-show="activeViews.length">
-									<a href="#tab-views" class="tabbed-pane-header-tab-title">Views</a>
+								<li tab-name="views" class="tabbed-pane-header-tab" ng-show="activeViews.length">
+									<a href="#" class="tabbed-pane-header-tab-title">Views</a>
 								</li>
-								<li class="tabbed-pane-header-tab" ng-show="activeEmails.length">
-									<a href="#tab-emails" class="tabbed-pane-header-tab-title">Emails</a>
+								<li tab-name="emails" class="tabbed-pane-header-tab" ng-show="activeEmails.length">
+									<a href="#" class="tabbed-pane-header-tab-title">Emails</a>
 								</li>
-								<li class="tabbed-pane-header-tab" ng-show="activeRoutes.length">
-									<a href="#tab-routes" class="tabbed-pane-header-tab-title">Routes</a>
+								<li tab-name="routes" class="tabbed-pane-header-tab" ng-show="activeRoutes.length">
+									<a href="#" class="tabbed-pane-header-tab-title">Routes</a>
 								</li>
-								<li class="tabbed-pane-header-tab" ng-show="activeXhprof.length">
-									<a href="#tab-xhprof" class="tabbed-pane-header-tab-title">XHProf</a>
+								<li tab-name="xhprof" class="tabbed-pane-header-tab" ng-show="activeXhprof.length">
+									<a href="#" class="tabbed-pane-header-tab-title">XHProf</a>
 								</li>
 							</ul>
 						</div>
@@ -124,7 +130,7 @@
 
 					<div class="tabbed-pane-content data-grid data-grid-details">
 
-						<div id="tab-request">
+						<div tab-content="request">
 							<table id="headers" ng-show="activeHeaders.length">
 								<thead>
 									<tr>
@@ -134,7 +140,7 @@
 								<tbody>
 									<tr ng-repeat="param in activeHeaders">
 										<td class="key">{{param.name}}</td>
-										<td class="value"><pretty-print data="param.value"></td>
+										<td class="value"><pretty-print data="param.value"></pretty-print></td>
 									</tr>
 								</tbody>
 							</table>
@@ -147,7 +153,7 @@
 								<tbody>
 									<tr ng-repeat="param in activeGetData">
 										<td class="key">{{param.name}}</td>
-										<td><pretty-print data="param.value"></td>
+										<td><pretty-print data="param.value"></pretty-print></td>
 									</tr>
 								</tbody>
 							</table>
@@ -160,35 +166,47 @@
 								<tbody>
 									<tr ng-repeat="param in activePostData">
 										<td class="key">{{param.name}}</td>
-										<td><pretty-print data="param.value"></td>
+										<td><pretty-print data="param.value"></pretty-print></td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 
-						<div id="tab-db">
-							<table class="stupidtable" id="db">
+						<div tab-content="db">
+							<table stupid-table id="db">
 								<thead>
 									<tr>
+										<th data-sort="string">Model</th>
 										<th data-sort="string" ng-show="showDatabaseConnectionColumn()">Connection</th>
 										<th data-sort="string">SQL</th>
 										<th data-sort="float" class="duration">Duration</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-repeat="sql in activeDatabaseQueries">
-										<td ng-show="showDatabaseConnectionColumn()">{{sql.connection}}</td>
-										<td>{{sql.query}}</td>
-										<td class="database-duration">{{sql.duration | number:3}} ms</td>
+									<tr ng-repeat="query in activeDatabaseQueries">
+										<td>
+											<div shortened-text="{{query.model}}">{{query.shortModel}}</div>
+										</td>
+										<td ng-show="showDatabaseConnectionColumn()">{{query.connection}}</td>
+										<td>
+											<div class="database-query">
+												<div class="database-query-content">{{query.query}}</div>
+												<div class="database-query-path">
+													<div shortened-text="{{query.fullPath}}">{{query.shortPath}}</div>
+												</div>
+											</div>
+										</td>
+										<td class="database-duration">{{query.duration | number:3}} ms</td>
 									</tr>
 								</tbody>
 							</table>
 							<div class="number-of-queries">Number of queries: {{activeDatabaseQueries.length}}</div>
 						</div>
 
-						<div id="tab-log">
+						<div tab-content="log">
 							<label class="toggler" ng-repeat="level in knownLogLevels"><input type="checkbox" ng-model="logLevelShow[level.name]">{{level.name}} <span class="count">{{level.count}}</span></label>
-							<table class="stupidtable" id="log">
+
+							<table stupid-table id="log">
 								<thead>
 									<tr>
 										<th data-sort="string">Time</th>
@@ -200,13 +218,25 @@
 									<tr ng-repeat="message in activeLog" ng-show="logLevelShow[message.level]">
 										<td class="log-date">{{message.time | date:'HH:mm:ss'}}</td>
 										<td class="log-level">{{message.level}}</td>
-										<td class="log-message"><pretty-print data="message.message"></td>
+										<td>
+											<div class="log-message">
+												<div class="log-message-content">
+													<pretty-print data="message.message"></pretty-print>
+													<div ng-show="message.context">
+														<pretty-print data="message.context"></pretty-print>
+													</div>
+												</div>
+												<div class="log-message-path">
+													<div shortened-text="{{message.fullPath}}">{{message.shortPath}}</div>
+												</div>
+											</div>
+										</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 
-						<div id="tab-timeline">
+						<div tab-content="timeline">
 							<table id="timeline" class="timeline">
 								<thead>
 									<tr>
@@ -230,7 +260,7 @@
 							</table>
 						</div>
 
-						<div id="tab-session">
+						<div tab-content="session">
 							<table id="sessionData">
 								<thead>
 									<tr>
@@ -240,13 +270,13 @@
 								<tbody>
 									<tr ng-repeat="param in activeSessionData">
 										<td class="key">{{param.name}}</td>
-										<td><pretty-print data="param.value"></td>
+										<td><pretty-print data="param.value"></pretty-print></td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 
-						<div id="tab-cookies">
+						<div tab-content="cookies">
 							<table id="cookies">
 								<thead>
 									<tr>
@@ -256,14 +286,14 @@
 								<tbody>
 									<tr ng-repeat="param in activeCookies">
 										<td class="key">{{param.name}}</td>
-										<td><pretty-print data="param.value"></td>
+										<td><pretty-print data="param.value"></pretty-print></td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 
-						<div id="tab-views">
-							<table class="stupidtable" id="views">
+						<div tab-content="views">
+							<table stupid-table id="views">
 								<thead>
 									<tr>
 										<th data-sort="string">Name</th>
@@ -273,14 +303,14 @@
 								<tbody>
 									<tr ng-repeat="view in activeViews">
 										<td>{{view.name}}</td>
-										<td><pretty-print data="view.data"></td>
+										<td><pretty-print data="view.data"></pretty-print></td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 
-						<div id="tab-emails">
-							<table class="stupidtable" id="emails">
+						<div tab-content="emails">
+							<table stupid-table id="emails">
 								<thead>
 									<tr>
 										<th data-sort="string">To</th>
@@ -296,13 +326,13 @@
 										<td>{{email.subject}}</td>
 									</tr>
 									<tr>
-										<td colspan="2"><pretty-print data="email.headers"></td>
+										<td colspan="2"><pretty-print data="email.headers"></pretty-print></td>
 								</tbody>
 							</table>
 							<div class="number-of-queries">Number of emails: {{activeEmails.length}}</div>
 						</div>
 
-						<div id="tab-routes">
+						<div tab-content="routes">
 							<table id="routes">
 								<thead>
 									<tr>
@@ -327,12 +357,15 @@
 							</table>
 						</div>
 
-						<div id="tab-xhprof">
-							<button id="download-xhprof" ng-click="downloadXhprof(activeXhprof);">Download as JSON</button>
+						<div tab-content="xhprof">
+							<div id="xhprof">
+								<button id="download-xhprof" ng-click="downloadXhprof(activeXhprof);">Download as JSON</button>
+							</div>
 						</div>
-					</div>
 				</div>
+
 			</div>
+		</div>
 		</div>
 	</body>
 </html>

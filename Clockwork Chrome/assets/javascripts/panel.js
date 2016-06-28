@@ -1,4 +1,4 @@
-Clockwork.controller('PanelController', function PanelController($scope, $http, toolbar)
+Clockwork.controller('PanelController', function($scope, $http, toolbar)
 {
 	var sendMessage;
 
@@ -53,8 +53,6 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 
 	$scope.init = function(type)
 	{
-		$('#tabs').tabs();
-
 		if (type == 'chrome-extension') {
 			$scope.initChrome();
 		} else {
@@ -79,7 +77,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 			var headers = request.response.headers;
 			var requestId = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-id'; });
 			var requestVersion = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-version'; });
-			var requestPath = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-path'; });
+            		var requestPath = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-path'; });
 
 			var requestHeaders = {};
 			$.each(headers, function(i, header) {
@@ -88,7 +86,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 					requestHeaders[originalName] = header.value;
 				}
 			});
-			
+
 			if (requestVersion !== undefined) {
 				var uri = new URI(request.request.url);
 				var path = ((requestPath) ? requestPath.value : '/__clockwork/') + requestId.value;
@@ -98,10 +96,15 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 				if (path[1]) {
 					uri.query(path[1]);
 				}
-				
+
 				chrome.extension.sendRequest({action: 'getJSON', url: uri.toString(), headers: requestHeaders}, function(data){
 					$scope.$apply(function(){
+						try {
 						$scope.addRequest(requestId.value, data, request.request.url.toString());
+						} catch (e) {
+							error('Failed adding request for ' + requestId + ' (uri: ' + uri + ')', e.message);
+							throw e;
+						}
 					});
 				});
 			}
@@ -128,7 +131,12 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 			return;
 
 		$http.get('/__clockwork/' + getParams['id']).success(function(data){
+			try {
 			$scope.addRequest(getParams['id'], data);
+			} catch (e) {
+				error('Failed adding request for ' + requestId + ' (uri: ' + uri + ')', e.message);
+				throw e;
+			}
 		});
 	};
 
@@ -146,34 +154,33 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 
 	$scope.addRequest = function(requestId, data, uri)
 	{
-		try {
-			data.responseDurationRounded = data.responseDuration ? Math.round(data.responseDuration) : 0;
-			data.databaseDurationRounded = data.databaseDuration ? Math.round(data.databaseDuration) : 0;
+		data.responseDurationRounded = data.responseDuration ? Math.round(data.responseDuration) : 0;
+		data.databaseDurationRounded = data.databaseDuration ? Math.round(data.databaseDuration) : 0;
 
-			data.cookies = $scope.createKeypairs(data.cookies);
-			data.emails = $scope.processEmails(data.emailsData);
-			data.getData = $scope.createKeypairs(data.getData);
-			data.headers = $scope.processHeaders(data.headers);
-			data.log = $scope.processLog(data.log);
-			data.postData = $scope.createKeypairs(data.postData);
-			data.sessionData = $scope.createKeypairs(data.sessionData);
-			data.timeline = $scope.processTimeline(data);
-			data.views = $scope.processViews(data.viewsData);
+		data.cookies = $scope.createKeypairs(data.cookies);
+		data.databaseQueries = $scope.processDatabaseQueries(data.databaseQueries);
+		data.emails = $scope.processEmails(data.emailsData);
+		data.getData = $scope.createKeypairs(data.getData);
+		data.headers = $scope.processHeaders(data.headers);
+		data.log = $scope.processLog(data.log);
+		data.postData = $scope.createKeypairs(data.postData);
+		data.sessionData = $scope.createKeypairs(data.sessionData);
+		data.timeline = $scope.processTimeline(data);
+		data.views = $scope.processViews(data.viewsData);
 
-			data.xhprof = $scope.processXhprof(requestId, data.userData);
+		data.xhprof = $scope.processXhprof(requestId, data.userData);
 
-			var logLevels = $scope.getLogLevels(data);
-			data.logLevels = Object.values(logLevels);
-			data.errorsCount = (typeof logLevels.error === 'object') ? logLevels.error.count : 0;
-			data.warningsCount = (typeof logLevels.warning === 'object') ? logLevels.warning.count : 0;
+		var logLevels = $scope.getLogLevels(data);
+		var tmpLogLevels = [];
+		for (var k in logLevels) tmpLogLevels.push(logLevels[k]);
+		data.logLevels = tmpLogLevels;
+		data.errorsCount = (typeof logLevels.error === 'object') ? logLevels.error.count : 0;
+		data.warningsCount = (typeof logLevels.warning === 'object') ? logLevels.warning.count : 0;
 
-			$scope.requests[requestId] = data;
+		$scope.requests[requestId] = data;
 
-			if ($scope.showIncomingRequests) {
-				$scope.setActive(requestId);
-			}
-		} catch (e) {
-			error('Failed adding request for ' + requestId + ' (uri: ' + uri + ')', e);
+		if ($scope.showIncomingRequests) {
+			$scope.setActive(requestId);
 		}
 	};
 
@@ -295,6 +302,22 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		return items;
 	};
 
+	$scope.processDatabaseQueries = function(data)
+	{
+		if (!(data instanceof Object)) {
+			return [];
+		}
+
+		$.each(data, function(key, value) {
+			value.model = value.model || '-';
+			value.shortModel = value.model ? value.model.split('\\').pop() : '-';
+			value.fullPath = value.file && value.line ? value.file.replace(/^\//, '') + ':' + value.line : undefined;
+			value.shortPath = value.fullPath ? value.fullPath.split(/[\/\\]/).pop() : undefined;
+		});
+
+		return data;
+	};
+
 	$scope.processEmails = function(data)
 	{
 		var emails = [];
@@ -329,7 +352,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 
 		$.each(data, function(key, value){
 			key = key.split('-').map(function(value){
-				return value.capitalize();
+				return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
 			}).join('-');
 
 			$.each(value, function(i, value){
@@ -348,6 +371,9 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 
 		$.each(data, function(key, value) {
 			value.time = new Date(value.time * 1000);
+			value.context = value.context !== '[]' ? value.context : undefined;
+			value.fullPath = value.file && value.line ? value.file.replace(/^\//, '') + ':' + value.line : undefined;
+			value.shortPath = value.fullPath ? value.fullPath.split(/[\/\\]/).pop() : undefined;
 		});
 
 		return data;
@@ -425,7 +451,35 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		});
 		return levels;
 	};
-	
+
+	$scope.getErrorsCount = function(data)
+	{
+		var count = 0;
+
+		$.each(data.log, function(index, record)
+		{
+			if (record.level == 'error') {
+				count++;
+			}
+		});
+
+		return count;
+	};
+
+	$scope.getWarningsCount = function(data)
+	{
+		var count = 0;
+
+		$.each(data.log, function(index, record)
+		{
+			if (record.level == 'warning') {
+				count++;
+			}
+		});
+
+		return count;
+	};
+
 	angular.element(window).bind('resize', function() {
 		$scope.$apply(function(){
 			$scope.activeTimelineLegend = $scope.generateTimelineLegend();
