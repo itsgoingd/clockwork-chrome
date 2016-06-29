@@ -210,7 +210,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 
 	$scope.downloadXhprof = function (format, data)
 	{
-		chrome.runtime.sendMessage({type: "download", format: format, data: data});
+		sendMessage({type: "download", format: format, data: data});
 	};
 
 	$scope.setActive = function(requestId)
