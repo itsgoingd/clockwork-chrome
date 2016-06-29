@@ -359,7 +359,8 @@
 
 						<div tab-content="xhprof">
 							<div id="xhprof">
-								<button id="download-xhprof" ng-click="downloadXhprof(activeXhprof);">Download as JSON</button>
+								<button ng-click="downloadXhprof('json', activeXhprof);">Download as JSON</button>
+								<button ng-click="downloadXhprof('php-serialize', activeXhprof);">Download as serialzed php</button>
 							</div>
 						</div>
 				</div>

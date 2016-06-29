@@ -39,8 +39,8 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 	{
 		if (data !== null && typeof data !== 'undefined' && typeof data.xhprof !== 'undefined' && data.xhprof !== null) {
 			$scope.activeXhprof = [
-				requestId + '.json',
-				JSON.stringify(data.xhprof)
+				requestId,
+				data.xhprof
 			];
 		}
 		else
@@ -208,9 +208,9 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		$scope.showIncomingRequests = true;
 	};
 
-	$scope.downloadXhprof = function (data)
+	$scope.downloadXhprof = function (format, data)
 	{
-		chrome.runtime.sendMessage({type: "download", data: data});
+		chrome.runtime.sendMessage({type: "download", format: format, data: data});
 	};
 
 	$scope.setActive = function(requestId)
