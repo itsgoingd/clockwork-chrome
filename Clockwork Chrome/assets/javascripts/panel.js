@@ -38,17 +38,13 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 	$scope.processXhprof = function (requestId, data)
 	{
 		if (data !== null && typeof data !== 'undefined' && typeof data.xhprof !== 'undefined' && data.xhprof !== null) {
-			$scope.activeXhprof = [
+			return [
 				requestId,
 				data.xhprof
 			];
 		}
-		else
-		{
-			$scope.activeXhprof = [];
-		}
 
-		return $scope.activeXhprof;
+		return [];
 	};
 
 	$scope.init = function(type)
@@ -232,6 +228,8 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		$scope.activeViews = $scope.requests[requestId].views;
 		$scope.knownLogLevels = $scope.requests[requestId].logLevels;
 		$scope.logLevelShow = [];
+		$scope.activeXhprof = $scope.requests[requestId].xhprof;
+
 		for (var i = 0, I = $scope.knownLogLevels.length; i < I; i++) {
 			$scope.logLevelShow[$scope.knownLogLevels[i].name] = true;
 		}
