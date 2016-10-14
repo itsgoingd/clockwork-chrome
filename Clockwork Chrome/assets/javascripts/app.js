@@ -32,7 +32,7 @@ var Clockwork = angular.module('Clockwork', [])
 				var data = scope.data;
 				var jason;
 
-				if (data.length && data.length == 1)
+				if (data && data.length && data.length == 1)
 					data = scope.data[0];
 
 				if (data === true) {
@@ -45,7 +45,15 @@ var Clockwork = angular.module('Clockwork', [])
 					data = '<i>null</i>';
 				} else if (typeof data === "string") {
 					data = '<pre>' + data + '</pre>';
-				} else if (typeof data !== 'number') {
+				} else if (Array.isArray(data) && data.length == 0) {
+					data = '<pre>[]</pre>';
+				} else if (typeof(data) == 'object' && Object.keys(data).length === 0) {
+					data = '<pre>{}</pre>';
+				} else if (typeof data === 'number') {
+					if (data.round(0).toString() != data) {
+						data = Math.round(data * 1000, 3) / 1000;
+					}
+				} else {
 					try {
 						data = angular.copy(data);
 						jason = new PrettyJason(data);
@@ -56,8 +64,16 @@ var Clockwork = angular.module('Clockwork', [])
 
 				var $el = $('<div></div>');
 
+
 				if (jason) {
-					$el.append(jason.generateHtml());
+					$el.append($('<div></div>').addClass('raw').text(JSON.stringify(data)).hide());
+					$el.append($('<div></div>').addClass('pretty').append(jason.generateHtml()));
+
+					$el.on('dblclick', function()
+					{
+						$(this).find('.raw').toggle();
+						$(this).find('.pretty').toggle();
+					});
 				} else {
 					$el.html(data);
 				}
