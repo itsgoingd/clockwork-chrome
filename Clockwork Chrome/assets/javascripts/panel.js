@@ -279,7 +279,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 
 		data.forEach(query => {
 			query.expiration = query.expiration ? this.formatTime(query.expiration) : undefined;
-			query.value = query.type == 'write' ? query.value : '';
+			query.value = query.type == 'hit' || query.type == 'write' ? query.value : '';
 			query.fullPath = query.file && query.line ? query.file.replace(/^\//, '') + ':' + query.line : undefined;
 			query.shortPath = query.fullPath ? query.fullPath.split(/[\/\\]/).pop() : undefined;
 		});
