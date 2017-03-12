@@ -103,6 +103,9 @@
 								<li tab-name="db" class="tabbed-pane-header-tab" ng-show="activeDatabaseQueries.length">
 									<a href="#" class="tabbed-pane-header-tab-title">Database</a>
 								</li>
+								<li tab-name="cache" class="tabbed-pane-header-tab" ng-show="showCacheTab()">
+									<a href="#" class="tabbed-pane-header-tab-title">Cache</a>
+								</li>
 								<li tab-name="cookies" class="tabbed-pane-header-tab" ng-show="activeCookies.length">
 									<a href="#" class="tabbed-pane-header-tab-title">Cookies</a>
 								</li>
@@ -198,6 +201,68 @@
 								</tbody>
 							</table>
 							<div class="number-of-queries">Number of queries: {{activeDatabaseQueries.length}}</div>
+						</div>
+
+						<div tab-content="cache">
+							<div class="counters-row">
+								<div class="counter" ng-show="activeCacheStats.reads !== null">
+									<div class="counter-value">{{activeCacheStats.reads}}</div>
+									<div class="counter-title">reads</div>
+								</div>
+								<div class="counter" ng-show="activeCacheStats.hits !== null">
+									<div class="counter-value">{{activeCacheStats.hits}}</div>
+									<div class="counter-title">hits</div>
+								</div>
+								<div class="counter" ng-show="activeCacheStats.misses !== null">
+									<div class="counter-value">{{activeCacheStats.misses}}</div>
+									<div class="counter-title">misses</div>
+								</div>
+								<div class="counter" ng-show="activeCacheStats.writes !== null">
+									<div class="counter-value">{{activeCacheStats.writes}}</div>
+									<div class="counter-title">writes</div>
+								</div>
+								<div class="counter" ng-show="activeCacheStats.deletes !== null">
+									<div class="counter-value">{{activeCacheStats.deletes}}</div>
+									<div class="counter-title">deletes</div>
+								</div>
+								<div class="counter" ng-show="activeCacheStats.time !== null">
+									<div class="counter-value">{{activeCacheStats.time}}</div>
+									<div class="counter-title">time</div>
+								</div>
+							</div>
+
+							<table stupid-table id="cache" ng-show="activeCacheQueries.length">
+								<thead>
+									<tr>
+										<th data-sort="string" ng-show="showCacheQueriesConnectionColumn()">Connection</th>
+										<th data-sort="string">Action</th>
+										<th data-sort="string">Key</th>
+										<th data-sort="string">Value</th>
+										<th data-sort="float">Expires</th>
+										<th data-sort="float" class="duration" ng-show="showCacheQueriesDurationColumn()">Duration</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="query in activeCacheQueries">
+										<td ng-show="showCacheQueriesConnectionColumn()">{{query.connection}}</td>
+										<td class="queue-query-type">{{query.type}}</td>
+										<td>{{query.key}}</td>
+										<td>
+											<div class="database-query">
+												<div class="database-query-content">
+													<pretty-print data="query.value"></pretty-print>
+												</div>
+												<div class="database-query-path">
+													<div shortened-text="{{query.fullPath}}">{{query.shortPath}}</div>
+												</div>
+											</div>
+										</td>
+										<td><span ng-show="query.expiration">{{query.expiration}}</span></td>
+										<td ng-show="showCacheQueriesDurationColumn()">{{query.duration | number:3}} ms</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="number-of-queries">Number of queries: {{activeCacheQueries.length}}</div>
 						</div>
 
 						<div tab-content="log">

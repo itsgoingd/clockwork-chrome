@@ -358,6 +358,38 @@ th, td {
 	white-space: nowrap;
 }
 
+.counters-row {
+	display: flex;
+	margin: 10px 0 15px;
+}
+
+.counters-row .counter {
+	border: 1px solid rgb(205, 205, 205);
+	border-radius: 3px;
+	box-shadow: 0 2px 3px #e5e5e5;
+	margin: 0 5px;
+	flex: 1;
+	padding: 20px;
+	text-align: center;
+}
+
+.counters-row .counter:first-child {
+	margin-left: 0;
+}
+
+.counters-row .counter:last-child {
+	margin-right: 0;
+}
+
+.counters-row .counter .counter-value {
+	font-size: 200%;
+}
+
+.counters-row .counter .counter-title {
+	font-size: 125%;
+	font-variant: small-caps;
+}
+
 /* request details - request */
 
 #request table {
@@ -472,4 +504,11 @@ th, td {
 
 [tab-content] {
 	display: none;
+}
+
+/* request details - cache */
+
+.queue-query-type {
+	font-size: 125%;
+	font-variant: small-caps;
 }
