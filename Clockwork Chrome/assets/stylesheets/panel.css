@@ -455,8 +455,8 @@ th, td {
 	color: black;
 	padding: 7px 0px 7px 5px;
 	background: rgb(243, 243, 243);
+	border-top: 1px solid white;
 	font-weight: bold;
-	margin-bottom: 10px;
 }
 
 .section-heading span {
@@ -466,10 +466,6 @@ th, td {
 	display: inline-block;
 	color: white;
 	padding: 2px 8px;
-}
-
-.stupidtable th {
-	cursor: pointer;
 }
 
 .tabbed-pane-content table  * {
@@ -496,4 +492,50 @@ th, td {
 
 .ng-hide {
 	display: none;
+}
+
+.dataTables_wrapper {
+	padding: 0;
+	padding-top: 5px;
+	font-size: 11px;
+}
+
+table.dataTable, table.dataTable.no-footer {
+	margin: 0;
+}
+
+table.dataTable tbody td, table.dataTable tbody th,
+table.dataTable thead th, table.dataTable thead td {
+	padding: 8px 4px;
+}
+
+table.dataTable thead th, table.dataTable thead td {
+	border-bottom: 1px solid rgb(205, 205, 205);
+	border-top: 1px solid rgb(205, 205, 205);
+	font-weight: normal;
+}
+
+table.dataTable.no-footer {
+	border-bottom: 1px solid rgb(205, 205, 205);
+}
+
+table.dataTable thead th {
+	padding-right: 12px;
+	background: rgb(243, 243, 243);
+}
+
+.dataTables_length {
+	margin: 5px;
+}
+
+.dataTables_filter {
+	margin-right: 5px;
+}
+
+.dataTables_info {
+	display: none;
+}
+
+.dataTables_paginate {
+	margin: 5px;
 }

@@ -1,0 +1,254 @@
+{
+    "data": {
+        "Router": {
+            "Match": [
+                {
+                    "analyseRoute": 3,
+                    "name": "home",
+                    "regexp": "\/(?:fr)",
+                    "controller": "NighTech\\LocalBiz\\Controller\\Front\\Home::home",
+                    "args": [],
+                    "start": 1492200708.653019,
+                    "duration": 0.375
+                }
+            ],
+            "HtmlPage": [
+                {
+                    "elements": 2,
+                    "size": 16126,
+                    "start": 1492200708.683896,
+                    "duration": 0.205
+                }
+            ],
+            "MainController": [
+                {
+                    "controller": "NighTech\\LocalBiz\\Controller\\Front\\Home",
+                    "method": "home",
+                    "data": [],
+                    "start": 1492200708.653629,
+                    "duration": 30.502000000000002
+                }
+            ]
+        },
+        "Session": {
+            "Open": [
+                {
+                    "start": 1492200708.6551,
+                    "duration": 16.518
+                }
+            ],
+            "Read": [
+                {
+                    "length": 1057,
+                    "start": 1492200708.671643,
+                    "duration": 0.502
+                }
+            ]
+        },
+        "Db": {
+            "Connection": [
+                {
+                    "hostname": "mysql",
+                    "user": "localbiz",
+                    "port": 3306,
+                    "start": 1492200708.672366,
+                    "duration": 0.727
+                },
+                {
+                    "hostname": "mysql",
+                    "user": "localbiz",
+                    "port": 3306,
+                    "start": 1492200708.67368,
+                    "duration": 0.519
+                }
+            ],
+            "Query": [
+                {
+                    "hostname": "mysql",
+                    "database": "localbiz",
+                    "query": "SELECT *\n                FROM tbl_users_user\n                WHERE user_id = '1'",
+                    "affected": 1,
+                    "count": 1,
+                    "start": 1492200708.673105,
+                    "duration": 0.242
+                },
+                {
+                    "hostname": "mysql",
+                    "database": "localbiz",
+                    "query": "SELECT \n                    location_id,\n                    location_continent,\n                    location_country,\n                    location_subdivision_1,\n                    location_subdivision_2,\n                    location_city,\n                    location_metro,\n                    location_timezone, \n                    block_start_ip,\n                    block_end_ip,\n                    block_anonymous_proxy,\n                    block_satellite_provider,\n                    block_postal_code,\n                    block_latitude,\n                    block_longitude\n                FROM tbl_geo_location \n                INNER JOIN\n                (\n                    SELECT *\n                    FROM tbl_geo_block \n                    WHERE block_start_ip >= INET_ATON('172.18.0.10') \n                    LIMIT 1\n                ) AS r ON block_location_id = location_id\n                AND INET_ATON('172.18.0.10') <= block_end_ip",
+                    "affected": 1,
+                    "count": 1,
+                    "start": 1492200708.674211,
+                    "duration": 0.22699999999999998
+                },
+                {
+                    "hostname": "mysql",
+                    "database": "localbiz",
+                    "query": "SELECT *\n                FROM tbl_organizations_organization\n                WHERE organization_status = 'ONLINE'\n                    AND organization_deleted IS NULL",
+                    "affected": 1,
+                    "count": 1,
+                    "start": 1492200708.675731,
+                    "duration": 0.345
+                },
+                {
+                    "hostname": "mysql",
+                    "database": "localbiz",
+                    "query": "SELECT \n                    upload_id,\n                    upload_type,\n                    upload_external_id,\n                    upload_provider,\n                    upload_key,\n                    upload_path,\n                    upload_name,\n                    upload_extension,\n                    upload_content_type,\n                    upload_size,\n                    upload_order,\n                    upload_date,\n                    NULL AS upload_content,\n                    upload_deleted \n                FROM tbl_commons_upload\n                WHERE upload_type = 'ORGANIZATION' \n                    AND upload_external_id = '1' \n                    AND upload_deleted IS NULL\n                ORDER BY upload_order",
+                    "affected": 2,
+                    "count": 2,
+                    "start": 1492200708.676889,
+                    "duration": 0.247
+                },
+                {
+                    "hostname": "mysql",
+                    "database": "localbiz",
+                    "query": "SELECT \n                    upload_id,\n                    upload_type,\n                    upload_external_id,\n                    upload_provider,\n                    upload_key,\n                    upload_path,\n                    upload_name,\n                    upload_extension,\n                    upload_content_type,\n                    upload_size,\n                    upload_order,\n                    upload_date,\n                    NULL AS upload_content,\n                    upload_deleted \n                FROM tbl_commons_upload\n                WHERE upload_type = 'USER' \n                    AND upload_external_id = '1' \n                    AND upload_deleted IS NULL\n                ORDER BY upload_order",
+                    "affected": 0,
+                    "count": 0,
+                    "start": 1492200708.680082,
+                    "duration": 0.395
+                },
+                {
+                    "hostname": "mysql",
+                    "database": "localbiz",
+                    "query": "SELECT *\n                FROM tbl_orders_bag\n                WHERE bag_id = '13'",
+                    "affected": 1,
+                    "count": 1,
+                    "start": 1492200708.680909,
+                    "duration": 0.6920000000000001
+                }
+            ]
+        }
+    },
+    "id": "58f12d049f636",
+    "time": 1492200708.646589,
+    "method": "GET",
+    "uri": "https:\/\/dev.mealzen.com:3000\/fr",
+    "controller": "NighTech\\LocalBiz\\Controller\\Front\\Home::home",
+    "memory": 4194304,
+    "request": {
+        "cookies": {
+            "L": "fr",
+            "__tawkuuid": "e::mealzen.com::X wdyH26H9pPEPTdg\/QJ9YE10wxCUPBF1\/T2tbKV1BSBgwWFufuXHxIh5G5m0awU::2",
+            "Tawk_58493adefccdfa3ec853c3e2": "vs7.tawk.to::0",
+            "EU": "dismiss",
+            "SID": "389431028de8a6e5530696ea4a3553fa",
+            "_ga": "GA1.2.869222840.1487584916",
+            "TawkConnectionTime": "0"
+        },
+        "requestHeaders": {
+            "Host": "dev.mealzen.com:3000",
+            "Connection": "close",
+            "Cache-Control": "max-age=0",
+            "Upgrade-Insecure-Requests": "1",
+            "User-Agent": "Mozilla\/5.0 (X11; Linux x86_64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/57.0.2987.133 Safari\/537.36",
+            "Accept": "text\/html,application\/xhtml+xml,application\/xml;q=0.9,image\/webp,*\/*;q=0.8",
+            "Accept-Encoding": "identity",
+            "Accept-Language": "fr-FR,fr;q=0.8,en-US;q=0.6,en;q=0.4",
+            "Cookie": "L=fr; __tawkuuid=e::mealzen.com::X+wdyH26H9pPEPTdg\/QJ9YE10wxCUPBF1\/T2tbKV1BSBgwWFufuXHxIh5G5m0awU::2; __tawkuuid=e::dev.mealzen.com::EuP1o2KQ1W7+uD1H15IvgsGL+pW2VW\/aUcAuTcwJ51kBiMb6c8s8BSdPXnNutiDb::2; Tawk_58493adefccdfa3ec853c3e2=vs7.tawk.to::0; EU=dismiss; SID=389431028de8a6e5530696ea4a3553fa; _ga=GA1.2.869222840.1487584916; TawkConnectionTime=0",
+            "X-Clockwork": "on"
+        },
+        "responseHeaders": {
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            "Pragma": "no-cache",
+            "Expires": "-1",
+            "Content-Type": "text\/html; charset=utf-8",
+            "X-Clockwork-Id": "58f12d049f636",
+            "X-Clockwork-Version": "2.0"
+        },
+        "server": {
+            "EXT_INTL": "on",
+            "HOSTNAME": "92921dcdff11",
+            "EXT_BCMATH": "on",
+            "PHP_INI_DIR": "\/usr\/local\/etc\/php",
+            "PHP_ASC_URL": "https:\/\/secure.php.net\/get\/php-7.1.3.tar.xz.asc\/from\/this\/mirror",
+            "LC_ALL": "en_US.UTF-8",
+            "PHP_CFLAGS": "-fstack-protector-strong -fpic -fpie -O2",
+            "EXT_YAML": "on",
+            "PHP_MD5": "d604d688be17f4a05b99dbb7fb9581f4",
+            "EXT_MYSQL": "on",
+            "PHPIZE_DEPS": "autoconf \t\tfile \t\tg++ \t\tgcc \t\tlibc-dev \t\tmake \t\tpkg-config \t\tre2c",
+            "PHP_URL": "https:\/\/secure.php.net\/get\/php-7.1.3.tar.xz\/from\/this\/mirror",
+            "PHP_LDFLAGS": "-Wl,-O1 -Wl,--hash-style=both -pie",
+            "PATH": "\/usr\/local\/sbin:\/usr\/local\/bin:\/usr\/sbin:\/usr\/bin:\/sbin:\/bin",
+            "GPG_KEYS": "A917B1ECDA84AEC2B568FED6F50ABC807BD5DCD0 528995BFEDFBA7191D46839EF9BA0ADA31CBD89E",
+            "PHP_CPPFLAGS": "-fstack-protector-strong -fpic -fpie -O2",
+            "PWD": "\/var\/www\/app",
+            "LANG": "en_US.UTF-8",
+            "EXT_IMAGICK": "on",
+            "SHLVL": "0",
+            "HOME": "\/var\/www",
+            "EXT_REDIS": "on",
+            "LANGUAGE": "en_US:en",
+            "PHP_SHA256": "e4887c2634778e37fd962fbdf5c4a7d32cd708482fe07b448804625570cb0bb0",
+            "EXT_BLACKFIRE": "on",
+            "EXT_SOCKETS": "on",
+            "APP_ENV": "DEVELOPMENT",
+            "PHP_EXT_OPCACHE_VALIDATE_TIMESTAMPS": "1",
+            "PHP_VERSION": "7.1.3",
+            "PHP_EXTRA_CONFIGURE_ARGS": "--enable-fpm --with-fpm-user=www-data --with-fpm-group=www-data",
+            "USER": "www-data",
+            "REDIRECT_STATUS": "200",
+            "SERVER_NAME": "~^(dev|staging)\\..+$",
+            "SERVER_PORT": "443",
+            "SERVER_ADDR": "172.18.0.3",
+            "REMOTE_PORT": "36112",
+            "REMOTE_ADDR": "172.18.0.10",
+            "SERVER_SOFTWARE": "nginx\/1.11.9",
+            "GATEWAY_INTERFACE": "CGI\/1.1",
+            "HTTPS": "on",
+            "REQUEST_SCHEME": "https",
+            "SERVER_PROTOCOL": "HTTP\/1.1",
+            "DOCUMENT_ROOT": "\/var\/www\/app\/public",
+            "DOCUMENT_URI": "\/index.php",
+            "REQUEST_URI": "\/fr",
+            "SCRIPT_NAME": "\/index.php",
+            "CONTENT_LENGTH": "",
+            "CONTENT_TYPE": "",
+            "REQUEST_METHOD": "GET",
+            "QUERY_STRING": "",
+            "SCRIPT_FILENAME": "\/var\/www\/app\/public\/index.php",
+            "FCGI_ROLE": "RESPONDER",
+            "PHP_SELF": "\/index.php",
+            "REQUEST_TIME_FLOAT": 1492200708.646589,
+            "REQUEST_TIME": 1492200708,
+            "ARGV": [],
+            "ARGC": 0
+        },
+        "session": {
+            "CSRF_login": "f52d6dcf52847f0d9b58ef1ebe7a08ee",
+            "CSRF_signup": "0d6523ccc48b035425de4c90c79b5b66",
+            "NighTech\\LocalBiz\\Models\\Users\\User": {
+                "id": 1,
+                "logged": true,
+                "signed": true,
+                "appAccess": true,
+                "backofficeAccess": true
+            },
+            "NighTech\\LocalBiz\\Models\\Orders\\Order": {
+                "bag_id": 13
+            },
+            "orgId": 1,
+            "app\/settings\/resource\/absence\/1\/": "\/fr\/app\/1\/settings\/resource\/absence?id=2",
+            "CSRF_billingAddress": "183fce83805e5b8b7d0a540e0e137b07",
+            "CSRF_order": "ab0aa19c233ed5bb8519a1171d5c2df6",
+            "app\/settings\/catalog\/article\/variants\/1\/": "\/fr\/app\/1\/settings\/catalog\/article\/variants?parentId=77",
+            "backoffice\/product\/list\/1\/": "\/fr\/backoffice\/product?search=&grid=1&page=14",
+            "app\/settings\/catalog\/article\/list\/1\/": "\/fr\/app\/1\/settings\/catalog\/article?search=&grid=1",
+            "CSRF_avatar": "963a8cc03c47ffdfba46940004c837a0",
+            "CSRF_info": "4e9aff659df99f162e298a53b08ac084"
+        }
+    },
+    "responseTime": 1492200708.684192,
+    "responseStatus": 200,
+    "responseDuration": 37.602901458740234,
+    "timelineData": {
+        "Total execution time": [
+            {
+                "start": 1492200708.646589,
+                "end": 1492200708.684192,
+                "duration": 37.602901458740234
+            }
+        ]
+    }
+}

@@ -17,3 +17,12 @@ xcuserdata
 .svn
 CVS
 .idea
+
+# npm
+node_modules
+
+# npm
+Clockwork Chrome/vendor
+
+
+

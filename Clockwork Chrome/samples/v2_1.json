@@ -75,7 +75,7 @@
                     "type": "HtmlPage",
                     "template": "\/var\/www\/default\/controller\/MasterPage",
                     "start": 1452178320.1804,
-                    "duration": 0.034
+                    "duration": 0.0340001
                 },
                 {
                     "class": "Controller\\MasterPage",

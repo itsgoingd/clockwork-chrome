@@ -4,14 +4,45 @@ var bglog = function(obj) {
 	}
 };
 
-var Clockwork = angular.module('Clockwork', [])
+var formatData = function(data)
+{
+	if (data === true) {
+		data = '<i>true</i>';
+	} else if (data === false) {
+		data = '<i>false</i>';
+	} else if (data === undefined) {
+		data = '<i>undefined</i>';
+	} else if (data === null) {
+		data = '<i>null</i>';
+	} else if (typeof data === 'number') {
+		if (Math.round(data).toString() !== data) {
+			data = Math.round(data * 1000) / 1000;
+		}
+
+		data = '<span>' + data + '</span>'
+	} else if ($.isNumeric(data)) {
+		data = '<span>' + data + '</span>'
+	} else if (typeof data === "string") {
+		data = '<pre>' + data + '</pre>';
+	} else if (Array.isArray(data) && data.length === 0) {
+		data = '<pre>[]</pre>';
+	} else if (typeof(data) === 'object' && Object.keys(data).length === 0) {
+		data = '<pre>{}</pre>';
+	} else if (typeof data === "object") {
+		data = JSON.stringify(data, null, 2);
+		data = '<pre>' + data + '</pre>'
+	}
+
+	return data;
+};
+
+var Clockwork = angular.module('Clockwork', ['datatables'])
 
 	.directive('showlog', function() {
 		return {
 			restrict: 'A',
 			link: function(scope, element, attrs) {
 				element.on('dblclick', function() {
-					console.log(element);
 					if(element.attr("class").indexOf("show") !== -1) {
 						element.removeClass("show");
 					} else {
@@ -30,69 +61,18 @@ var Clockwork = angular.module('Clockwork', [])
 			scope: { data: '=data' },
 			link: function (scope, element, attrs) {
 				var data = scope.data;
-				var jason;
 
-				if (data && data.length && data.length == 1)
+				if (data && data.length && data.length === 1)
 					data = scope.data[0];
 
-				if (data === true) {
-					data = '<i>true</i>';
-				} else if (data === false) {
-					data = '<i>false</i>';
-				} else if (data === undefined) {
-					data = '<i>undefined</i>';
-				} else if (data === null) {
-					data = '<i>null</i>';
-				} else if (typeof data === "string") {
-					data = '<pre>' + data + '</pre>';
-				} else if (Array.isArray(data) && data.length == 0) {
-					data = '<pre>[]</pre>';
-				} else if (typeof(data) == 'object' && Object.keys(data).length === 0) {
-					data = '<pre>{}</pre>';
-				} else if (typeof data === 'number') {
-					if (data.round(0).toString() != data) {
-						data = Math.round(data * 1000, 3) / 1000;
-					}
-				} else {
-					try {
-						data = angular.copy(data);
-						jason = new PrettyJason(data);
-					} catch(e) {
-						data = $('<div>').text(data).html();
-					}
-				}
-
 				var $el = $('<div></div>');
-
-
-				if (jason) {
-					$el.append($('<div></div>').addClass('raw').text(JSON.stringify(data)).hide());
-					$el.append($('<div></div>').addClass('pretty').append(jason.generateHtml()));
-
-					$el.on('dblclick', function()
-					{
-						$(this).find('.raw').toggle();
-						$(this).find('.pretty').toggle();
-					});
-				} else {
-					$el.html(data);
-				}
+				$el.html(formatData(data));
 
 				element.replaceWith($el);
 			}
 		};
 	})
-	.directive('stupidTable', ['$timeout', function($timeout) {
-		return {
-			restrict: 'A',
-			link: function(scope, elm, attrs) {
-				var jqueryElm = $(elm[0]);
-				$timeout(function() {
-					$(jqueryElm).stupidtable();
-				}, 100); //Calling a scoped method
-			}
-		};
-	}])
+
 	.filter('capitalize', function() {
 		return function(input) {
 			if (!!input) {
@@ -102,12 +82,13 @@ var Clockwork = angular.module('Clockwork', [])
 			}
 		}
 	})
+
 	.filter('formatValue', function() {
 		return function(input, $scope, decimal) {
 			decimal = typeof decimal == "undefined" ? 3 : decimal;
 			if (typeof input == "number") {
 
-				if (input.round(0).toString() != input) {
+				if (Math.round(input).toString() != input) {
 					return $scope.formatNumber(input, decimal);
 				} else {
 					return input;
@@ -117,6 +98,7 @@ var Clockwork = angular.module('Clockwork', [])
 			}
 		}
 	})
+
 	.filter('if', function() {
 		 return function(input, value) {
 			 if (typeof(input) === 'string') {
@@ -125,6 +107,7 @@ var Clockwork = angular.module('Clockwork', [])
 			 return value? input[0] : input[1];
 		 };
 	 })
+
 	.filter('bytes', function() {
 		return function(bytes, precision) {
 			if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
@@ -133,32 +116,6 @@ var Clockwork = angular.module('Clockwork', [])
 				number = Math.floor(Math.log(bytes) / Math.log(1024));
 			return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +	' ' + units[number];
 		}
-	})
-	.directive('resizableColumns', function ($parse) {
-		return {
-			link: function (scope, element, attrs) {
-				var options = { minWidth: 5 };
-
-				if ($(element).data('resizable-columns-sync')) {
-					var $target = $($(element).data('resizable-columns-sync'));
-
-					$(element).on('column:resize', function(event, resizable, $leftColumn, $rightColumn, widthLeft, widthRight)
-					{
-						var leftColumnIndex = resizable.$table.find('.rc-column-resizing').parent().find('td, th').index($leftColumn);
-
-						var $targetFirstRow = $target.find('tr:first');
-
-						$($targetFirstRow.find('td, th').get(leftColumnIndex)).css('width', widthLeft + '%');
-						$($targetFirstRow.find('td, th').get(leftColumnIndex + 1)).css('width', widthRight + '%');
-
-						$target.data('resizableColumns').syncHandleWidths();
-						$target.data('resizableColumns').saveColumnWidths();
-					});
-				}
-
-				$(element).resizableColumns(options);
-			}
-		};
 	})
 	.directive('scrollToNew', function ($parse) {
 		return function(scope, element, attrs) {

@@ -1,4 +1,4 @@
-Clockwork.controller('PanelController', function PanelController($scope, $http, toolbar, $location)
+Clockwork.controller('PanelController', function PanelController($scope, $http, toolbar, $location, $q, $filter, DTOptionsBuilder, DTColumnBuilder)
 {
 	$scope.activeId = null;
 	$scope.activeTab = $location.path().replace("tab-", "").substr(1) ? $location.path().replace("tab-", "").substr(1) : "request";
@@ -9,12 +9,15 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 	$scope.activeRequest = [];
 	$scope.activeTimeline = [];
 	$scope.activeTimelineLegend = [];
-
+	$scope.activeDatatable = {};
 	$scope.showIncomingRequests = true;
 
+	/**
+	 *
+	 */
 	$scope.init = function()
 	{
-		if (typeof chrome.devtools != "undefined") {
+		if (typeof chrome.devtools !== "undefined") {
 			$scope.initChrome();
 		} else {
 			$scope.initStandalone();
@@ -23,6 +26,9 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		this.createToolbar();
 	};
 
+	/**
+	 * Init a devtool version
+	 */
 	$scope.initChrome = function()
 	{
 		key('⌘+k, ctrl+l', function() {
@@ -34,14 +40,14 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		chrome.devtools.network.onRequestFinished.addListener(function(request)
 		{
 			var headers = request.response.headers;
-			var requestId = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-id'; });
-			var requestVersion = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-version'; });
-			var requestPath = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-path'; });
+			var requestId = headers.find(function(x) { return x.name.toLowerCase() === 'x-clockwork-id'; });
+			var requestVersion = headers.find(function(x) { return x.name.toLowerCase() === 'x-clockwork-version'; });
+			var requestPath = headers.find(function(x) { return x.name.toLowerCase() === 'x-clockwork-path'; });
 
 			var requestHeaders = {};
 			$.each(headers, function(i, header) {
 				if (header.name.toLowerCase().indexOf('x-clockwork-header-') === 0) {
-					originalName = header.name.toLowerCase().replace('x-clockwork-header-', '');
+					var originalName = header.name.toLowerCase().replace('x-clockwork-header-', '');
 					requestHeaders[originalName] = header.value;
 				}
 			});
@@ -65,6 +71,9 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		});
 	};
 
+	/**
+	 * Init a standalone version (browser)
+	 */
 	$scope.initStandalone = function()
 	{
 		// generate a hash of get params from query string
@@ -74,7 +83,10 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 			var b = {};
 			for (var i = 0; i < a.length; ++i) {
 				var p = a[i].split('=');
-				if (p.length != 2) continue;
+				if (p.length !== 2) {
+					continue;
+				}
+
 				b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
 			}
 			return b;
@@ -82,14 +94,21 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 
 		var id = getParams['id'];
 		if (id === undefined) {
-			$http.get('/samples/v1.json').success(function(data){
-				$scope.addRequest("2sd1f5s", data);
+			$http.get('/samples/v1.json').then(function(data){
+				$scope.addRequest("2sd1f5s", data.data);
 			});
 
-			$http.get('/samples/v2.json').success(function(data){
-				$scope.addRequest("s5df74s", data);
+			$http.get('/samples/v2_1.json').then(function(data){
+				$scope.addRequest("s5df74s", data.data);
 			});
 
+			$http.get('/samples/v2_2.json').then(function(data){
+				$scope.addRequest("58f07efd97b16", data.data);
+			});
+
+			$http.get('/samples/v2_3.json').then(function(data){
+				$scope.addRequest("58f12d049f636", data.data);
+			});
 		}
 		else {
 			$http.get('/testdata/' + id + ".json").success(function (data) {
@@ -98,6 +117,9 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		}
 	};
 
+	/**
+	 *
+	 */
 	$scope.createToolbar = function()
 	{
 		toolbar.createButton('ban', 'Clear', function()
@@ -110,6 +132,10 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		$('.toolbar').replaceWith(toolbar.render());
 	};
 
+	/**
+	 * @param {string} requestId
+	 * @param {object} data
+	 */
 	$scope.addRequest = function(requestId, data)
 	{
 
@@ -124,8 +150,6 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		data.warningsCount = $scope.getWarningsCount(data);
 		data.logsCount = data.log.length;
 
-
-
 		$scope.requests[requestId] = data;
 
 		if ($scope.showIncomingRequests) {
@@ -133,25 +157,30 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		}
 	};
 
+	/**
+	 *
+	 */
 	$scope.clear = function()
 	{
 		$scope.requests = {};
 		$scope.activeId = null;
-
 		$scope.activeData = [];
 		$scope.activeLog = [];
 		$scope.activeRequestData = [];
 		$scope.activeRequest = [];
 		$scope.activeTimeline = [];
 		$scope.activeTimelineLegend = [];
-
+		$scope.activeDatatable = {};
 		$scope.showIncomingRequests = true;
 	};
 
+	/**
+	 * @param {string} requestId
+	 */
 	$scope.setActive = function(requestId)
 	{
 		$scope.activeId = requestId;
-
+		$scope.activeTab = "request";
 		$scope.activeData = $scope.requests[requestId].data;
 		$scope.activeLog = $scope.requests[requestId].log;
 		$scope.activeRequestData = $scope.requests[requestId].request;
@@ -159,28 +188,73 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		$scope.activeTimeline = $scope.requests[requestId].timeline;
 		$scope.activeTimelineLegend = $scope.generateTimelineLegend();
 
-
 		if (
-				$scope.activeTab == "log" && $scope.activeLog.length == 0 ||
-				$scope.activeTab == "timeline" && $scope.activeTimeline.length == 0 ||
-				($scope.activeTab != "log" && $scope.activeTab != "timeline"	&& typeof($scope.activeData[$scope.activeTab]) == "undefined")
+				$scope.activeTab === "log" && $scope.activeLog.length === 0 ||
+				$scope.activeTab === "timeline" && $scope.activeTimeline.length === 0 ||
+				($scope.activeTab !== "log" && $scope.activeTab !== "timeline"	&& typeof($scope.activeData[$scope.activeTab]) === "undefined")
 		) {
 			$scope.activeTab = 'request';
 		}
 
 		var lastRequestId = Object.keys($scope.requests)[Object.keys($scope.requests).length - 1];
 
-		$scope.showIncomingRequests = requestId == lastRequestId;
+		$scope.showIncomingRequests = requestId === lastRequestId;
+
+		// datatable
+		var capitalize = $filter('capitalize');
+
+		$.each($scope.activeData, function(mainName, mainData) {
+			$.each(mainData, function (sectionName, sectionData) {
+				var columns = [];
+				$.each(Object.keys(sectionData[0]), function (key, value)
+				{
+					var col = DTColumnBuilder
+						.newColumn(value)
+						.renderWith(function (data, type, full, meta)
+						{
+							return formatData(data);
+						})
+						.withTitle(capitalize(value))
+					;
+
+					columns.push(col);
+				});
+
+				$scope.activeDatatable[mainName] = $scope.activeDatatable[mainName] ?
+					$scope.activeDatatable[mainName] :
+					{};
+				$scope.activeDatatable[mainName][sectionName] = $scope.activeDatatable[mainName][sectionName] ?
+					$scope.activeDatatable[mainName][sectionName] :
+					{};
+
+				$scope.activeDatatable[mainName][sectionName]['columns'] = columns;
+				$scope.activeDatatable[mainName][sectionName]['options'] = DTOptionsBuilder.fromFnPromise(function ()
+				{
+					var defer = $q.defer();
+					defer.resolve(sectionData);
+					return defer.promise;
+				}).withPaginationType('full_numbers');
+
+			});
+		});
+
 	};
 
+	/**
+	 * @param {string} tab
+	 */
 	$scope.setActiveTab = function(tab)
 	{
 		$scope.activeTab = tab;
 	};
 
+	/**
+	 * @param {string} requestId
+	 * @return {string}
+	 */
 	$scope.getClass = function(requestId)
 	{
-		if (requestId == $scope.activeId) {
+		if (requestId === $scope.activeId) {
 			return 'selected';
 		} else {
 			return '';
@@ -202,13 +276,13 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 	};
 
 	/**
-	 * @param {float} number
-	 * @param {number} decimals
+	 * @param {number} number
+	 * @param {number=} decimals
 	 * @returns {string}
 	 */
 	$scope.formatNumber = function(number, decimals)
 	{
-		decimals = typeof(decimals) == "undefined" ? 3 : decimals;
+		decimals = typeof(decimals) === "undefined" ? 3 : decimals;
 		number = parseFloat(number);
 		var decPoint = '.';
 		var thousandsSep = ' ';
@@ -230,7 +304,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		return (number < 0 ? '-' : '') + numbersString + formattedNumber + (decimalsString ? (decPoint + decimalsString) : '');
 	};
 	/**
-	 * @param data
+	 * @param {object} data
 	 * @param {number} decimals
 	 * @returns {string}
 	 */
@@ -239,16 +313,17 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		var duration = 0;
 
 		if (!data.data)
-			return;
+			return duration;
 
 		$.each(data.data, function(title, data) {
 
 			$.each(data, function (index, section) {
 
-				if (typeof section == "object") {
+				if (typeof section === "object") {
 					$.each(section, function (index, sectionRow) {
-						 if (sectionRow.duration)
-						 duration += sectionRow.duration;
+						 if (sectionRow.duration) {
+							 duration += sectionRow.duration;
+						 }
 					});
 				}
 			});
@@ -258,7 +333,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 	};
 
 	/**
-	 * @param data
+	 * @param {object} data
 	 * @param {number} decimals
 	 * @returns {string}
 	 */
@@ -268,7 +343,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 
 		$.each(data, function(title, section) {
 
-			if (typeof section == "object") {
+			if (typeof section === "object") {
 				$.each(section, function (index, sectionRow) {
 					 if (sectionRow.duration)
 					 duration += sectionRow.duration;
@@ -280,8 +355,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 	};
 
 	/**
-	 *
-	 * @param section
+	 * @param {object} section
 	 * @returns {string}
 	 */
 	$scope.getSectionDuration = function(section)
@@ -291,7 +365,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		$.each(section, function(index, sectionRow) {
 
 			$.each(sectionRow, function(cols, value) {
-				if (cols == "duration")
+				if (cols === "duration")
 					duration += value;
 			});
 		});
@@ -299,6 +373,9 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		return $scope.formatNumber(duration) + " ms";
 	};
 
+	/**
+	 * @return {Array}
+	 */
 	$scope.generateTimelineLegend = function()
 	{
 		var items = [];
@@ -324,6 +401,10 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		return items;
 	};
 
+	/**
+	 * @param {object} data
+	 * @return {object}
+	 */
 	$scope.processLog = function(data)
 	{
 		if (!(data instanceof Object)) {
@@ -337,6 +418,10 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		return data;
 	};
 
+	/**
+	 * @param {object} data
+	 * @return {Array}
+	 */
 	$scope.processTimeline = function(data)
 	{
 		var i = 0;
@@ -349,9 +434,9 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 
 				$.each(data, function (subtitle, section) {
 
-					if (typeof section == "object") {
+					if (typeof section === "object") {
 						$.each(section, function (index, sectionRow) {
-							if (sectionRow.duration != "undefined" && sectionRow.start != "undefined" ) {
+							if (sectionRow.duration !== "undefined" && sectionRow.start !== "undefined" ) {
 								if (typeof timelinedata[title + " " + subtitle] === "undefined") {
 									timelinedata[title + " " + subtitle] = [];
 								}
@@ -379,7 +464,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 
 				if (value.width > 100) value.width = 100;
 
-				if (typeof timeline[i] == "undefined") {
+				if (typeof timeline[i] === "undefined") {
 					timeline[i] = {"duration" : 0};
 					timeline[i].line = [];
 				}
@@ -397,13 +482,17 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		return timeline;
 	};
 
+	/**
+	 * @param {object} data
+	 * @return {number}
+	 */
 	$scope.getErrorsCount = function(data)
 	{
 		var count = 0;
 
 		$.each(data.log, function(index, record)
 		{
-			if (record.level == 'error') {
+			if (record.level === 'error') {
 				count++;
 			}
 		});
@@ -411,13 +500,17 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		return count;
 	};
 
+	/**
+	 * @param {object} data
+	 * @return {number}
+	 */
 	$scope.getWarningsCount = function(data)
 	{
 		var count = 0;
 
 		$.each(data.log, function(index, record)
 		{
-			if (record.level == 'warning') {
+			if (record.level === 'warning') {
 				count++;
 			}
 		});
@@ -488,7 +581,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 
 		var timelineData = {};
 		$.each(data.timelineData, function(name, currentTimeline) {
-			if (typeof currentTimeline.start != "undefined") {
+			if (typeof currentTimeline.start !== "undefined") {
 				timelineData[currentTimeline.description] = [currentTimeline];
 			}
 		});
@@ -497,8 +590,6 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 			data.timelineData = timelineData;
 		}
 
-
-
 		return data;
 	};
 
@@ -506,5 +597,5 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		$scope.$apply(function(){
 			$scope.activeTimelineLegend = $scope.generateTimelineLegend();
 		});
-		});
+	});
 });

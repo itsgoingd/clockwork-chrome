@@ -1,0 +1,26 @@
+{
+  "name": "clockwork-chrome",
+  "description": "",
+  "main": "",
+  "authors": [
+    "tchiotludo <tchiot.ludo@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/tchiotludo/clockwork-chrome",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "Clockwork Chrome/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-datatables": "0.6.0",
+    "datatables.net-dt": "^3.2.2",
+    "font-awesome": "^4.7.0",
+    "keymaster": "^1.6.3",
+    "urijs": "^1.18.10"
+  }
+}
