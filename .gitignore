@@ -24,5 +24,8 @@ node_modules
 # npm
 Clockwork Chrome/vendor
 
+# sample
+Clockwork Chrome/samples/v2_*.json
+
 
 

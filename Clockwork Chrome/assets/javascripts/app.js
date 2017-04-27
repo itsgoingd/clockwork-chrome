@@ -4,7 +4,7 @@ var bglog = function(obj) {
 	}
 };
 
-var formatData = function(data)
+var formatData = function(data, strip)
 {
 	if (data === true) {
 		data = '<i>true</i>';
@@ -23,6 +23,15 @@ var formatData = function(data)
 	} else if ($.isNumeric(data)) {
 		data = '<span>' + data + '</span>'
 	} else if (typeof data === "string") {
+		try {
+			console.log(data);
+		   var json = JSON.parse(data);
+			data = JSON.stringify(json, null, 2);
+			data = '<pre>' + data + '</pre>'
+		} catch(e) {
+			data = '<pre>' + data + '</pre>';
+		}
+	} else if (typeof data === "string") {
 		data = '<pre>' + data + '</pre>';
 	} else if (Array.isArray(data) && data.length === 0) {
 		data = '<pre>[]</pre>';
@@ -33,11 +42,14 @@ var formatData = function(data)
 		data = '<pre>' + data + '</pre>'
 	}
 
+	if (strip) {
+		data = data.replace(/<\/?[^>]+(>|$)/g, "");
+	}
+
 	return data;
 };
 
 var Clockwork = angular.module('Clockwork', ['datatables'])
-
 	.directive('showlog', function() {
 		return {
 			restrict: 'A',
@@ -85,17 +97,7 @@ var Clockwork = angular.module('Clockwork', ['datatables'])
 
 	.filter('formatValue', function() {
 		return function(input, $scope, decimal) {
-			decimal = typeof decimal == "undefined" ? 3 : decimal;
-			if (typeof input == "number") {
-
-				if (Math.round(input).toString() != input) {
-					return $scope.formatNumber(input, decimal);
-				} else {
-					return input;
-				}
-			} else {
-				return input;
-			}
+			return formatData(input, true);
 		}
 	})
 

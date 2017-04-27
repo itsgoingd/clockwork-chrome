@@ -7,7 +7,7 @@ var browserSync = require('browser-sync');
 gulp.task('serve', ['build:js', 'build:css', 'copy'], function ()
 {
 	browserSync({
-		port: 3001,
+		port: 3002,
 		server: {
 			baseDir: 'Clockwork Chrome',
 			index: 'app.html'
@@ -22,10 +22,14 @@ gulp.task('serve', ['build:js', 'build:css', 'copy'], function ()
 			'**/*.js',
 			'**/*.json'
 		],
-		['build:js', 'build:css', 'copy'],
+		['build:js', 'build:css', 'copy', 'serve:reload'],
 		{cwd: 'Clockwork Chrome'}
 	)
-		.on('change', browserSync.reload);
+});
+
+gulp.task('serve:reload', ['build:js', 'build:css', 'copy'], function (done) {
+    browserSync.reload();
+    done();
 });
 
 gulp.task("build:js", function ()
@@ -46,6 +50,7 @@ gulp.task("build:js", function ()
 		.pipe(sourcemaps.write())
 		.pipe(gulp.dest("Clockwork Chrome/assets/build"));
 });
+
 
 gulp.task("build:css", function ()
 {

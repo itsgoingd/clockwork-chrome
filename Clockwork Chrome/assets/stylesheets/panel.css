@@ -144,7 +144,7 @@ th, td {
 	padding: 0;
 }
 
-.data-grid-requests {
+.data-grid-requests .request td {
 	cursor: pointer;
 }
 
@@ -283,6 +283,10 @@ th, td {
 	padding: 0;
 	position: relative;
 	top: 1px;
+}
+
+.tabbed-pane-header-tabs a {
+	cursor: pointer;
 }
 
 .tabbed-pane-header-tab {

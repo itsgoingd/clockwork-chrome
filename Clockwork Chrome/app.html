@@ -31,7 +31,7 @@
 								<td class='status'></td>
 								<td class='duration'></td>
 							</tr>
-							<tr ng-repeat="request in requests" ng-click="setActive(request.id)" ng-class="getClass(request.id)" scroll-to-new>
+							<tr ng-repeat="request in requests" ng-click="setActive(request.id)" class="request" ng-class="getClass(request.id)" scroll-to-new>
 								<td class='controller'>
 									<span class="notificationsCount">
 										<span class="logsCount" ng-show="request.logsCount">
@@ -163,7 +163,7 @@
 							</table>
 						</div>
 
-						<div ng-repeat="(title, data) in activeData" id="tab-{{title}}" ng-show="activeTab == title">
+						<div ng-repeat="(title, data) in activeData" id="tab-{{title}}" ng-if="activeTab == title">
 
 							<div ng-repeat="(sectionTitle, section) in data">
 
@@ -173,12 +173,21 @@
 									<span>{{getSectionDuration(section)}}</span>
 								</div>
 
-								<table
-									datatable=""
-									dt-options="activeDatatable[title][sectionTitle].options"
-									dt-columns="activeDatatable[title][sectionTitle].columns"
-									width="100%"
-								></table>
+								<table datatable="ng" dt-options="datatableOptions">
+									<thead>
+										<th ng-repeat="(key, value) in section[0]">
+											{{key|capitalize}}
+										</th>
+									</thead>
+									<tbody>
+										<tr ng-repeat="(key, sectionDetail) in section">
+											<td ng-repeat="(sectionKey, sectionValue) in sectionDetail">
+												<pre>{{sectionValue|formatValue:this}}</pre>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+
 							</div>
 						</div>
 

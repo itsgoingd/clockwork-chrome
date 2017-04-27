@@ -1,7 +1,7 @@
 Clockwork.controller('PanelController', function PanelController($scope, $http, toolbar, $location, $q, $filter, DTOptionsBuilder, DTColumnBuilder)
 {
 	$scope.activeId = null;
-	$scope.activeTab = $location.path().replace("tab-", "").substr(1) ? $location.path().replace("tab-", "").substr(1) : "request";
+	$scope.activeTab = "request";
 	$scope.requests = {};
 	$scope.activeData = [];
 	$scope.activeLog = [];
@@ -9,14 +9,37 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 	$scope.activeRequest = [];
 	$scope.activeTimeline = [];
 	$scope.activeTimelineLegend = [];
-	$scope.activeDatatable = {};
 	$scope.showIncomingRequests = true;
+	$scope.datatableOptions = DTOptionsBuilder.newOptions()
+		.withOption('lengthMenu', [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]])
+		.withPaginationType('full_numbers')
+		.withDisplayLength(10)
+	;
 
 	/**
 	 *
 	 */
 	$scope.init = function()
 	{
+		key('down', function() {
+			$scope.$apply(function() {
+				$scope.prevNext(true);
+			});
+		});
+
+		key('up', function() {
+			$scope.$apply(function() {
+				$scope.prevNext(false);
+			});
+		});
+
+		key('⌘+k, ctrl+l', function() {
+			$scope.$apply(function() {
+				$scope.clear();
+			});
+		});
+
+
 		if (typeof chrome.devtools !== "undefined") {
 			$scope.initChrome();
 		} else {
@@ -31,12 +54,6 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 	 */
 	$scope.initChrome = function()
 	{
-		key('⌘+k, ctrl+l', function() {
-			$scope.$apply(function() {
-				$scope.clear();
-			});
-		});
-
 		chrome.devtools.network.onRequestFinished.addListener(function(request)
 		{
 			var headers = request.response.headers;
@@ -98,7 +115,7 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 				$scope.addRequest("2sd1f5s", data.data);
 			});
 
-			$http.get('/samples/v2_1.json').then(function(data){
+			$http.get('/samples/v2.json').then(function(data){
 				$scope.addRequest("s5df74s", data.data);
 			});
 
@@ -106,9 +123,11 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 				$scope.addRequest("58f07efd97b16", data.data);
 			});
 
+			/*
 			$http.get('/samples/v2_3.json').then(function(data){
 				$scope.addRequest("58f12d049f636", data.data);
 			});
+			*/
 		}
 		else {
 			$http.get('/testdata/' + id + ".json").success(function (data) {
@@ -138,7 +157,6 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 	 */
 	$scope.addRequest = function(requestId, data)
 	{
-
 		data = $scope.getCompatibleData(data);
 
 		data.responseSubDuration = $scope.getSubDuration(data);
@@ -158,6 +176,20 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 	};
 
 	/**
+	 * @param {boolean} next
+	 */
+	$scope.prevNext = function(next)
+	{
+		var keys = Object.keys($scope.requests);
+		var current = keys.indexOf($scope.activeId);
+
+		current = current + (next ? 1 : -1);
+		if (current >= 0 && current < keys.length) {
+			$scope.setActive(keys[current]);
+		}
+	};
+
+	/**
 	 *
 	 */
 	$scope.clear = function()
@@ -170,7 +202,6 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		$scope.activeRequest = [];
 		$scope.activeTimeline = [];
 		$scope.activeTimelineLegend = [];
-		$scope.activeDatatable = {};
 		$scope.showIncomingRequests = true;
 	};
 
@@ -180,7 +211,6 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 	$scope.setActive = function(requestId)
 	{
 		$scope.activeId = requestId;
-		$scope.activeTab = "request";
 		$scope.activeData = $scope.requests[requestId].data;
 		$scope.activeLog = $scope.requests[requestId].log;
 		$scope.activeRequestData = $scope.requests[requestId].request;
@@ -189,9 +219,9 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		$scope.activeTimelineLegend = $scope.generateTimelineLegend();
 
 		if (
-				$scope.activeTab === "log" && $scope.activeLog.length === 0 ||
-				$scope.activeTab === "timeline" && $scope.activeTimeline.length === 0 ||
-				($scope.activeTab !== "log" && $scope.activeTab !== "timeline"	&& typeof($scope.activeData[$scope.activeTab]) === "undefined")
+			($scope.activeTab === "log" && $scope.activeLog.length === 0) ||
+			($scope.activeTab === "timeline" && $scope.activeTimeline.length === 0) ||
+			($scope.activeTab !== "log" && $scope.activeTab !== "timeline" && typeof($scope.activeData[$scope.activeTab]) === "undefined")
 		) {
 			$scope.activeTab = 'request';
 		}
@@ -199,45 +229,6 @@ Clockwork.controller('PanelController', function PanelController($scope, $http, 
 		var lastRequestId = Object.keys($scope.requests)[Object.keys($scope.requests).length - 1];
 
 		$scope.showIncomingRequests = requestId === lastRequestId;
-
-		// datatable
-		var capitalize = $filter('capitalize');
-
-		$.each($scope.activeData, function(mainName, mainData) {
-			$.each(mainData, function (sectionName, sectionData) {
-				var columns = [];
-				$.each(Object.keys(sectionData[0]), function (key, value)
-				{
-					var col = DTColumnBuilder
-						.newColumn(value)
-						.renderWith(function (data, type, full, meta)
-						{
-							return formatData(data);
-						})
-						.withTitle(capitalize(value))
-					;
-
-					columns.push(col);
-				});
-
-				$scope.activeDatatable[mainName] = $scope.activeDatatable[mainName] ?
-					$scope.activeDatatable[mainName] :
-					{};
-				$scope.activeDatatable[mainName][sectionName] = $scope.activeDatatable[mainName][sectionName] ?
-					$scope.activeDatatable[mainName][sectionName] :
-					{};
-
-				$scope.activeDatatable[mainName][sectionName]['columns'] = columns;
-				$scope.activeDatatable[mainName][sectionName]['options'] = DTOptionsBuilder.fromFnPromise(function ()
-				{
-					var defer = $q.defer();
-					defer.resolve(sectionData);
-					return defer.promise;
-				}).withPaginationType('full_numbers');
-
-			});
-		});
-
 	};
 
 	/**
