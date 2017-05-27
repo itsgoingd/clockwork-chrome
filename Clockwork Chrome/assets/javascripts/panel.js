@@ -12,7 +12,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 	$scope.activeHeaders = [];
 	$scope.activeLog = [];
 	$scope.activePostData = [];
-	$scope.activeRequest = [];
+	$scope.activeRequest = undefined;
 	$scope.activeRoutes = [];
 	$scope.activeSessionData = [];
 	$scope.activeTimeline = [];
@@ -149,7 +149,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		$scope.activeHeaders = [];
 		$scope.activeLog = [];
 		$scope.activePostData = [];
-		$scope.activeRequest = [];
+		$scope.activeRequest = undefined;
 		$scope.activeRoutes = [];
 		$scope.activeSessionData = [];
 		$scope.activeTimeline = [];
@@ -168,7 +168,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		$scope.activeCacheStats = {
 			reads: request.cacheReads,
 			hits: request.cacheHits,
-			misses: request.cacheReads && request.cacheHits ? request.cacheReads - request.cacheHits : undefined,
+			misses: request.cacheReads && request.cacheHits ? request.cacheReads - request.cacheHits : null,
 			writes: request.cacheWrites,
 			deletes: request.cacheDeletes,
 			time: request.cacheTime
@@ -220,7 +220,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 
 		if (! this.activeRequest) return;
 
-		return cacheProps.some(prop => this.activeRequest[prop] !== undefined) || this.activeCacheQueries.length;
+		return cacheProps.some(prop => this.activeRequest[prop] !== null) || this.activeCacheQueries.length;
 	};
 
 	$scope.showCacheQueriesConnectionColumn = function ()
