@@ -388,7 +388,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 				timeline.push(value);
 			}
 
-			if (++j > 3) j = 1;
+			if (++j > 4) j = 1;
 		});
 
 		return timeline;

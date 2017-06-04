@@ -320,7 +320,7 @@ th, td {
 
 .data-grid-details table {
 	font-size: 12px;
-	margin-bottom: 6px;
+	margin-bottom: 18px;
 	table-layout: auto;
 }
 
@@ -410,24 +410,29 @@ th, td {
 }
 
 .timeline-graph .style1 {
-	background: rgb(111, 155, 255);
-	border: 1px solid rgb(91, 135, 235);
+	background: rgb(120, 177, 222);
+	border: 1px solid rgb(66, 149, 197);
 }
 
 .timeline-graph .style2 {
-	background: rgb(161, 224, 111);
-	border: 1px solid rgb(141, 204, 91);
+	background: rgb(231, 150, 151);
+	border: 1px solid rgb(209, 107, 108);
 }
 
 .timeline-graph .style3 {
-	background: rgb(241, 178, 98);
-	border: 1px solid rgb(221, 158, 78);
+	background: rgb(177, 202, 109);
+	border: 1px solid rgb(152, 186, 81);
+}
+
+.timeline-graph .style4 {
+	background: rgb(186, 148, 230);
+	border: 1px solid rgb(151, 114, 181);
 }
 
 .timeline-bar {
-	background: rgb(111, 155, 255);
-	border: 1px solid rgb(91, 135, 235);
-	border-radius: 4px;
+	background: rgb(120, 177, 222);
+	border: 1px solid rgb(66, 149, 197);
+	border-radius: 3px;
 	display: inline-block;
 	height: 12px;
 	margin-top: 2px;
