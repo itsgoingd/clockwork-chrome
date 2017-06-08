@@ -220,7 +220,8 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 
 		if (! this.activeRequest) return;
 
-		return cacheProps.some(prop => this.activeRequest[prop] !== null) || this.activeCacheQueries.length;
+		return cacheProps.some(prop => this.activeRequest[prop] !== null && this.activeRequest[prop] !== undefined)
+			|| this.activeCacheQueries.length;
 	};
 
 	$scope.showCacheQueriesConnectionColumn = function ()
