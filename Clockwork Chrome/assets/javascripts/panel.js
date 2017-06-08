@@ -252,7 +252,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 	{
 		var items = [];
 
-		var maxWidth = $('.data-grid-details').width() - 230;
+		var maxWidth = $('.timeline-graph').width();
 		var labelCount = Math.floor(maxWidth / 80);
 		var step = $scope.activeRequest.responseDuration / (maxWidth - 20);
 
@@ -367,8 +367,6 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 	$scope.processTimeline = function(data)
 	{
 		var j = 1;
-		var maxWidth = $('.data-grid-details').width() - 230 - 20;
-
 		var timeline = [];
 
 		$.each(data.timelineData, function(i, value){
