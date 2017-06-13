@@ -45,7 +45,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 			var headers = request.response.headers;
 			var requestId = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-id'; });
 			var requestVersion = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-version'; });
-            		var requestPath = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-path'; });
+			var requestPath = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-path'; });
 
 			var requestHeaders = {};
 			$.each(headers, function(i, header) {
@@ -118,7 +118,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		data.databaseQueries = $scope.processDatabaseQueries(data.databaseQueries);
 		data.emails = $scope.processEmails(data.emailsData);
 		data.getData = $scope.createKeypairs(data.getData);
-		data.headers = $scope.processHeaders(data.headers);
+		data.headers = $scope.sortKeypairs($scope.processHeaders(data.headers));
 		data.log = $scope.processLog(data.log);
 		data.postData = $scope.createKeypairs(data.postData);
 		data.sessionData = $scope.createKeypairs(data.sessionData);
@@ -246,8 +246,13 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 			keypairs.push({name: key, value: value});
 		});
 
-		return keypairs;
+		return $scope.sortKeypairs(keypairs)
 	};
+
+	$scope.sortKeypairs = function (keypairs)
+	{
+		return keypairs.sort((a, b) => a.name.localeCompare(b.name))
+	}
 
 	$scope.generateTimelineLegend = function()
 	{
