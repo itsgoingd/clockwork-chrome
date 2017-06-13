@@ -1,0 +1,435 @@
+* {
+	box-sizing: border-box;
+}
+
+html {
+	background: #fff;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	font-size: 11px;
+	height: 100%;
+	overflow: hidden;
+}
+
+body {
+	font-size: 100%;
+	margin: 0;
+}
+
+table {
+	border-collapse: collapse;
+	font-size: 100%;
+	width: 100%;
+
+	th, td {
+		text-align: left;
+	}
+}
+
+// Split view
+
+.split-view {
+	display: flex;
+	flex-direction: column;
+
+	@media screen and (min-width: 900px) {
+		flex-direction: row;
+	}
+}
+
+.split-view-pane {
+	height: 50%;
+	width: 100%;
+
+	@media screen and (min-width: 900px) {
+		height: 100%;
+	}
+}
+
+.split-view-requests {
+	@media screen and (min-width: 900px) {
+		width: 480px;
+	}
+}
+
+.split-view-details {
+	@media screen and (min-width: 900px) {
+		width: calc(100% - 480px);
+	}
+}
+
+// Requests list pane
+
+.split-view-requests {
+	cursor: default;
+
+	table {
+		height: 100%;
+		line-height: 1.4;
+		table-layout: fixed;
+	}
+
+	tr {
+		height: 28px;
+
+		&:first-child td {
+			border-top: 1px solid rgb(209, 209, 209);
+		}
+
+		&:nth-child(even):not(.filler) {
+			background: rgb(243, 243, 243);
+		}
+
+		&:nth-child(even) {
+			td.method, td.status, td.duration {
+				background: rgb(225, 225, 225);
+			}
+
+			.notifications-count {
+				background: rgba(243, 243, 243, 0.8);
+			}
+		}
+
+		&.selected {
+			td {
+				background: rgb(39, 134, 243) !important;
+				color: white;
+			}
+
+			small {
+				color: white;
+			}
+
+			.notifications-count {
+				background: rgb(39, 134, 243);
+
+				.errors-count i, .warnings-count i {
+					color: #fff;
+				}
+			}
+		}
+
+		&.sizing {
+			height: 0;
+
+			td {
+				border-top: 0;
+				padding: 0;
+			}
+		}
+
+
+		&.filler {
+			height: auto;
+		}
+	}
+
+	th {
+		border-bottom: 1px solid rgb(209, 209, 209);
+		border-right: 1px solid rgb(209, 209, 209);
+		font-weight: normal;
+		height: 30px;
+		line-height: 1.1;
+		overflow: hidden;
+		padding: 2px 4px;
+		white-space: nowrap;
+	}
+
+	td {
+		border-right: 1px solid rgb(209, 209, 209);
+		overflow: hidden;
+		padding: 8px 6px;
+		vertical-align: middle;
+		white-space: nowrap;
+
+		&.method, &.status, &.duration {
+			background: rgb(237, 237, 237);
+		}
+	}
+
+	small {
+		color: rgb(128, 128, 128);
+		font-size: 100%;
+	}
+
+	.method, .status {
+		text-align: center;
+		width: 50px;
+	}
+
+	.duration {
+		text-align: right;
+		width: 80px;
+	}
+
+	.notifications-count {
+		background: rgba(255, 255, 255, 0.8);
+		float: right;
+		letter-spacing: -0.5px;
+		line-height: 29px;
+		position: relative;
+
+		.errors-count i {
+			color: rgb(179, 73, 46);
+			margin-left: 2px;
+		}
+
+		.warnings-count i {
+			color: rgb(244, 189, 0);
+			margin-left: 2px;
+		}
+	}
+
+	.requests-container {
+		height: calc(100% - 30px);
+		overflow: auto;
+	}
+}
+
+// Request details pane
+
+.split-view-details {
+	display: flex;
+	flex-direction: column;
+}
+
+.details-header {
+	border-bottom: 1px solid rgb(204, 204, 204);
+	display: flex;
+	height: 31px;
+
+	.details-header-tabs {
+		display: flex;
+		flex: 1;
+
+		.details-header-tab {
+			color: rgb(64, 64, 64);
+			cursor: default;
+			flex: 1;
+			font-size: 12px;
+			line-height: 31px;
+			text-align: center;
+			text-decoration: none;
+
+			&.active {
+				color: rgb(37, 140, 219);
+			}
+		}
+	}
+
+	.toolbar {
+		align-items: center;
+		display: flex;
+		font-size: 15px;
+		padding: 0 5px;
+
+		a {
+			color: rgb(105, 105, 105);
+			cursor: default;
+			padding: 0 5px;
+
+			&:hover {
+				color: rgb(59, 59, 59);
+			}
+		}
+	}
+}
+
+.details-content {
+	flex: 1;
+	overflow: auto;
+	padding: 10px;
+
+	table {
+		font-size: 12px;
+		margin-bottom: 18px;
+
+		tr {
+			&:first-child td {
+				border-top: 1px solid rgb(209, 209, 209);
+			}
+
+			&:nth-child(even) {
+				background: rgb(245, 245, 245);
+			}
+		}
+
+		th {
+			font-size: 13px;
+			font-weight: 600;
+			padding: 4px 10px;
+			white-space: nowrap;
+		}
+
+		td {
+			overflow: hidden;
+			padding: 8px 10px;
+			vertical-align: top;
+
+			&.key {
+				font-size: 12px;
+				white-space: nowrap;
+			}
+
+			&.value {
+				word-break: break-all;
+			}
+		}
+	}
+
+	.counters-row {
+		display: flex;
+		margin: 10px 0 15px;
+
+		.counter {
+			border: 1px solid rgb(209, 209, 209);
+			border-radius: 3px;
+			box-shadow: 0 2px 3px #e5e5e5;
+			margin: 0 5px;
+			flex: 1;
+			padding: 20px;
+			text-align: center;
+
+			&:first-child {
+				margin-left: 0;
+			}
+
+			&:last-child {
+				margin-right: 0;
+			}
+
+			.counter-value {
+				font-size: 200%;
+			}
+
+			.counter-title {
+				font-size: 125%;
+				font-variant: small-caps;
+			}
+		}
+	}
+
+	// Timeline tab
+
+	.timeline {
+		position: relative;
+	}
+
+	.timeline-graph {
+		background-image: linear-gradient(to right, transparent 99.5%, #e5e5e5 99.5%, #e5e5e5 100%);
+		background-size: 80px 1px;
+	}
+
+	.timeline-bar {
+		background: rgb(120, 177, 222);
+		border: 1px solid rgb(66, 149, 197);
+		border-radius: 3px;
+		display: inline-block;
+		height: 12px;
+		margin-top: 2px;
+		padding: 3px;
+
+		&.style1 {
+			background: rgb(120, 177, 222);
+			border: 1px solid rgb(66, 149, 197);
+		}
+
+		&.style2 {
+			background: rgb(231, 150, 151);
+			border: 1px solid rgb(209, 107, 108);
+		}
+
+		&.style3 {
+			background: rgb(177, 202, 109);
+			border: 1px solid rgb(152, 186, 81);
+		}
+
+		&.style4 {
+			background: rgb(186, 148, 230);
+			border: 1px solid rgb(151, 114, 181);
+		}
+	}
+	
+	.timeline-bar-time {
+		font-size: 11px;
+		font-weight: normal;
+		position: absolute;
+	}
+
+	.timeline-description {
+		width: 160px;
+	}
+
+	.timeline-duration {
+		text-align: right;
+		width: 70px;
+	}
+
+	// Log tab
+
+	.log-date, .log-level {
+		width: 70px;
+	}
+
+	.log-message {
+		display: flex;
+		flex-wrap: wrap;
+
+		.log-message-content {
+			flex: 1 0 auto;
+			max-width: 100%;
+		}
+
+		.log-message-path {
+			color: #aaa;
+			flex: 0;
+			font-size: 90%;
+			margin-top: 3px;
+		}
+	}
+
+	// Database tab
+
+	.database-query {
+		display: flex;
+		flex-wrap: wrap;
+
+		.database-query-content {
+			flex: 1 0 auto;
+			max-width: 100%;
+		}
+
+		.database-query-path {
+			color: #aaa;
+			flex: 0;
+			font-size: 90%;
+			margin-top: 3px;
+		}
+	}
+
+	.database-duration {
+		text-align: right;
+	}
+
+	// Cache tab
+
+	.cache-query-type {
+		font-size: 125%;
+		font-variant: small-caps;
+	}
+}
+
+.number-of-queries {
+	font-size: 11px;
+	padding: 7px 0 0 5px;
+	font-weight: bold;
+}
+
+// Directives
+
+[stupid-table] th {
+	cursor: default;
+}
+
+[tab-content] {
+	display: none;
+}
