@@ -12,7 +12,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 	$scope.activeHeaders = [];
 	$scope.activeLog = [];
 	$scope.activePostData = [];
-	$scope.activeRequest = [];
+	$scope.activeRequest = undefined;
 	$scope.activeRoutes = [];
 	$scope.activeSessionData = [];
 	$scope.activeTimeline = [];
@@ -45,7 +45,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 			var headers = request.response.headers;
 			var requestId = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-id'; });
 			var requestVersion = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-version'; });
-            		var requestPath = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-path'; });
+			var requestPath = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-path'; });
 
 			var requestHeaders = {};
 			$.each(headers, function(i, header) {
@@ -118,7 +118,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		data.databaseQueries = $scope.processDatabaseQueries(data.databaseQueries);
 		data.emails = $scope.processEmails(data.emailsData);
 		data.getData = $scope.createKeypairs(data.getData);
-		data.headers = $scope.processHeaders(data.headers);
+		data.headers = $scope.sortKeypairs($scope.processHeaders(data.headers));
 		data.log = $scope.processLog(data.log);
 		data.postData = $scope.createKeypairs(data.postData);
 		data.sessionData = $scope.createKeypairs(data.sessionData);
@@ -149,7 +149,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		$scope.activeHeaders = [];
 		$scope.activeLog = [];
 		$scope.activePostData = [];
-		$scope.activeRequest = [];
+		$scope.activeRequest = undefined;
 		$scope.activeRoutes = [];
 		$scope.activeSessionData = [];
 		$scope.activeTimeline = [];
@@ -168,7 +168,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		$scope.activeCacheStats = {
 			reads: request.cacheReads,
 			hits: request.cacheHits,
-			misses: request.cacheReads && request.cacheHits ? request.cacheReads - request.cacheHits : undefined,
+			misses: request.cacheReads && request.cacheHits ? request.cacheReads - request.cacheHits : null,
 			writes: request.cacheWrites,
 			deletes: request.cacheDeletes,
 			time: request.cacheTime
@@ -220,7 +220,8 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 
 		if (! this.activeRequest) return;
 
-		return cacheProps.some(prop => this.activeRequest[prop] !== undefined) || this.activeCacheQueries.length;
+		return cacheProps.some(prop => this.activeRequest[prop] !== null && this.activeRequest[prop] !== undefined)
+			|| this.activeCacheQueries.length;
 	};
 
 	$scope.showCacheQueriesConnectionColumn = function ()
@@ -245,14 +246,19 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 			keypairs.push({name: key, value: value});
 		});
 
-		return keypairs;
+		return $scope.sortKeypairs(keypairs)
 	};
+
+	$scope.sortKeypairs = function (keypairs)
+	{
+		return keypairs.sort((a, b) => a.name.localeCompare(b.name))
+	}
 
 	$scope.generateTimelineLegend = function()
 	{
 		var items = [];
 
-		var maxWidth = $('.data-grid-details').width() - 230;
+		var maxWidth = $('.timeline-graph').width();
 		var labelCount = Math.floor(maxWidth / 80);
 		var step = $scope.activeRequest.responseDuration / (maxWidth - 20);
 
@@ -367,8 +373,6 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 	$scope.processTimeline = function(data)
 	{
 		var j = 1;
-		var maxWidth = $('.data-grid-details').width() - 230 - 20;
-
 		var timeline = [];
 
 		$.each(data.timelineData, function(i, value){
@@ -388,7 +392,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 				timeline.push(value);
 			}
 
-			if (++j > 3) j = 1;
+			if (++j > 4) j = 1;
 		});
 
 		return timeline;
