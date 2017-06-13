@@ -8,11 +8,17 @@ html {
 	font-size: 11px;
 	height: 100%;
 	overflow: hidden;
+
 }
 
 body {
 	font-size: 100%;
 	margin: 0;
+
+	&.dark {
+		background: rgb(31, 31, 31);
+		color: rgb(178, 178, 178);
+	}
 }
 
 table {
@@ -73,19 +79,33 @@ table {
 
 		&:first-child td {
 			border-top: 1px solid rgb(209, 209, 209);
+
+			body.dark & {
+				border-top: 1px solid rgb(54, 54, 54);
+			}
 		}
 
 		&:nth-child(even):not(.filler) {
 			background: rgb(243, 243, 243);
-		}
 
-		&:nth-child(even) {
+			body.dark & {
+				background: rgb(24, 24, 24);
+			}
+
 			td.method, td.status, td.duration {
 				background: rgb(225, 225, 225);
+
+				body.dark & {
+					background: rgb(17, 17, 17);
+				}
 			}
 
 			.notifications-count {
 				background: rgba(243, 243, 243, 0.8);
+
+				body.dark & {
+					background: rgba(27, 27, 27, 0.8);
+				}
 			}
 		}
 
@@ -93,10 +113,18 @@ table {
 			td {
 				background: rgb(39, 134, 243) !important;
 				color: white;
+
+				body.dark & {
+					background: rgb(253, 148, 39) !important;
+				}
 			}
 
 			small {
 				color: white;
+
+				body.dark & {
+					color: white;
+				}
 			}
 
 			.notifications-count {
@@ -104,6 +132,10 @@ table {
 
 				.errors-count i, .warnings-count i {
 					color: #fff;
+				}
+
+				body.dark & {
+					background: rgb(253, 148, 39) !important;
 				}
 			}
 		}
@@ -114,9 +146,12 @@ table {
 			td {
 				border-top: 0;
 				padding: 0;
+
+				body.dark & {
+					border-top: 0;
+				}
 			}
 		}
-
 
 		&.filler {
 			height: auto;
@@ -132,6 +167,11 @@ table {
 		overflow: hidden;
 		padding: 2px 4px;
 		white-space: nowrap;
+
+		body.dark & {
+			border-bottom: 1px solid rgb(54, 54, 54);
+			border-right: 1px solid rgb(54, 54, 54);
+		}
 	}
 
 	td {
@@ -143,12 +183,24 @@ table {
 
 		&.method, &.status, &.duration {
 			background: rgb(237, 237, 237);
+
+			body.dark & {
+				background: rgb(29, 29, 29);
+			}
+		}
+
+		body.dark & {
+			border-right: 1px solid rgb(54, 54, 54);
 		}
 	}
 
 	small {
 		color: rgb(128, 128, 128);
 		font-size: 100%;
+
+		body.dark & {
+			color: rgb(118, 118, 118);
+		}
 	}
 
 	.method, .status {
@@ -177,6 +229,10 @@ table {
 			color: rgb(244, 189, 0);
 			margin-left: 2px;
 		}
+
+		body.dark & {
+			background: rgba(31, 31, 31, 0.8);
+		}
 	}
 
 	.requests-container {
@@ -197,6 +253,10 @@ table {
 	display: flex;
 	height: 31px;
 
+	body.dark & {
+		border-bottom: 1px solid rgb(54, 54, 54);
+	}
+
 	.details-header-tabs {
 		display: flex;
 		flex: 1;
@@ -212,6 +272,14 @@ table {
 
 			&.active {
 				color: rgb(37, 140, 219);
+
+				body.dark & {
+					color: rgb(253, 148, 39);
+				}
+			}
+
+			body.dark & {
+				color: rgb(158, 158, 158);
 			}
 		}
 	}
@@ -229,6 +297,14 @@ table {
 
 			&:hover {
 				color: rgb(59, 59, 59);
+
+				body.dark & {
+					color: rgb(253, 148, 39);
+				}
+			}
+
+			body.dark & {
+				color: rgb(128, 128, 128);
 			}
 		}
 	}
@@ -246,10 +322,18 @@ table {
 		tr {
 			&:first-child td {
 				border-top: 1px solid rgb(209, 209, 209);
+
+				body.dark & {
+					border-top: 1px solid rgb(54, 54, 54);
+				}
 			}
 
 			&:nth-child(even) {
 				background: rgb(245, 245, 245);
+
+				body.dark & {
+					background: rgb(27, 27, 27);
+				}
 			}
 		}
 
@@ -289,6 +373,10 @@ table {
 			padding: 20px;
 			text-align: center;
 
+			body.dark & {
+				border: 1px solid rgb(54, 54, 54);
+			}
+
 			&:first-child {
 				margin-left: 0;
 			}
@@ -317,6 +405,10 @@ table {
 	.timeline-graph {
 		background-image: linear-gradient(to right, transparent 99.5%, #e5e5e5 99.5%, #e5e5e5 100%);
 		background-size: 80px 1px;
+
+		body.dark & {
+			background-image: linear-gradient(to right, transparent 99.5%, #333 99.5%, #333 100%);
+		}
 	}
 
 	.timeline-bar {
@@ -328,27 +420,52 @@ table {
 		margin-top: 2px;
 		padding: 3px;
 
+		body.dark & {
+			background: rgb(100, 157, 202);
+			border: 1px solid rgb(46, 129, 177);
+		}
+
 		&.style1 {
 			background: rgb(120, 177, 222);
 			border: 1px solid rgb(66, 149, 197);
+
+			body.dark & {
+				background: rgb(100, 157, 202);
+				border: 1px solid rgb(46, 129, 177);
+			}
 		}
 
 		&.style2 {
 			background: rgb(231, 150, 151);
 			border: 1px solid rgb(209, 107, 108);
+
+			body.dark & {
+				background: rgb(211, 130, 131);
+				border: 1px solid rgb(189, 87, 88);
+			}
 		}
 
 		&.style3 {
 			background: rgb(177, 202, 109);
 			border: 1px solid rgb(152, 186, 81);
+
+			body.dark & {
+				background: rgb(157, 182, 89);
+				border: 1px solid rgb(132, 166, 61);
+			}
 		}
 
 		&.style4 {
 			background: rgb(186, 148, 230);
 			border: 1px solid rgb(151, 114, 181);
+
+			body.dark & {
+				background: rgb(166, 128, 210);
+				border: 1px solid rgb(131, 94, 161);
+			}
 		}
 	}
-	
+
 	.timeline-bar-time {
 		font-size: 11px;
 		font-weight: normal;
@@ -384,6 +501,10 @@ table {
 			flex: 0;
 			font-size: 90%;
 			margin-top: 3px;
+
+			body.dark & {
+				color: #777;
+			}
 		}
 	}
 
@@ -403,6 +524,10 @@ table {
 			flex: 0;
 			font-size: 90%;
 			margin-top: 3px;
+
+			body.dark & {
+				color: #777;
+			}
 		}
 	}
 
@@ -432,4 +557,35 @@ table {
 
 [tab-content] {
 	display: none;
+}
+
+body.dark {
+	.pretty-jason {
+		color: rgb(213, 213, 213);
+	}
+
+	.pretty-jason-key {
+		color: rgb(227, 110, 236);
+	}
+
+	.pretty-jason-value-number {
+		color: rgb(153, 127, 255);
+	}
+
+	.pretty-jason-value-string {
+	    color: rgb(227, 62, 58);
+	}
+
+	.pretty-jason-value-null,
+	.pretty-jason-value-undefined {
+		color: rgb(127, 127, 127);
+	}
+
+	.pretty-jason-icon-closed {
+		border-color: transparent transparent transparent rgb(145, 145, 145);
+	}
+
+	.pretty-jason-icon-open {
+		border-color: rgb(145, 145, 145) transparent transparent transparent;
+	}
 }
