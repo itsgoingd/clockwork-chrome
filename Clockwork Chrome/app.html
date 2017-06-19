@@ -13,7 +13,7 @@
 		<script src="vendor/assets/javascripts/angular.min.js"></script>
 		<script src="vendor/assets/javascripts/pretty-jason.js"></script>
 		<script src="vendor/assets/javascripts/jquery.resizableColumns.min.js"></script>
-
+		<script src="assets/javascripts/messagehandler.js"></script>
 		<script src="assets/javascripts/app.js"></script>
 		<script src="assets/javascripts/directives/pretty-print.js"></script>
 		<script src="assets/javascripts/directives/resizable-columns.js"></script>
@@ -89,7 +89,7 @@
 
 			<div class="split-view-pane split-view-details" tabs>
 
-				<div class="details-header">
+        <div class="details-header">
 					<div class="details-header-tabs">
 						<a tab-name="request" class="details-header-tab active" href="#">Request</a>
 						<a tab-name="timeline" ng-show="activeTimeline.length" class="details-header-tab" href="#">Timeline</a>
@@ -100,6 +100,7 @@
 						<a tab-name="views" ng-show="activeViews.length" class="details-header-tab" href="#">Views</a>
 						<a tab-name="emails" ng-show="activeEmails.length" class="details-header-tab" href="#">Emails</a>
 						<a tab-name="routes" ng-show="activeRoutes.length" class="details-header-tab" href="#">Routes</a>
+						<a tab-name="xhprof" ng-show="activeXhprof.length" class="details-header-tab" href="#">XHProf</a>
 					</div>
 
 					<div class="toolbar"></div>
@@ -395,9 +396,17 @@
 						</table>
 					</div>
 
-				</div>
+					<div tab-content="xhprof">
+						<div id="xhprof">
+							<button ng-click="downloadXhprof('json', activeXhprof);">Download as JSON</button>
+							<button ng-click="downloadXhprof('php-serialize', activeXhprof);">Download as serialzed php</button>
+						</div>
+					</div>
+
+        </div>
 
 			</div>
+		</div>
 		</div>
 	</body>
 </html>

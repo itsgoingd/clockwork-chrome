@@ -1,5 +1,19 @@
 Clockwork.controller('PanelController', function($scope, $http, toolbar)
 {
+	var sendMessage;
+
+	function log()
+	{
+		// forward all logging to background page
+		sendMessage({type: 'log', data: arguments});
+	}
+
+	function error()
+	{
+		// forward all errors to background page
+		sendMessage({type: 'error', data: arguments});
+	}
+
 	$scope.activeId = null;
 	$scope.requests = {};
 
@@ -18,8 +32,22 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 	$scope.activeTimeline = [];
 	$scope.activeTimelineLegend = [];
 	$scope.activeViews = [];
+	$scope.knownLogLevels = [];
+	$scope.activeXhprof = [];
 
 	$scope.showIncomingRequests = true;
+
+	$scope.processXhprof = function (requestId, data)
+	{
+		if (data !== null && typeof data !== 'undefined' && typeof data.xhprof !== 'undefined' && data.xhprof !== null) {
+			return [
+				requestId,
+				data.xhprof
+			];
+		}
+
+		return [];
+	};
 
 	$scope.init = function(type)
 	{
@@ -39,6 +67,8 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 				$scope.clear();
 			});
 		});
+
+		sendMessage = chrome.runtime.sendMessage;
 
 		chrome.devtools.network.onRequestFinished.addListener(function(request)
 		{
@@ -67,7 +97,12 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 
 				chrome.extension.sendRequest({action: 'getJSON', url: uri.toString(), headers: requestHeaders}, function(data){
 					$scope.$apply(function(){
-						$scope.addRequest(requestId.value, data);
+						try {
+						$scope.addRequest(requestId.value, data, request.request.url.toString());
+						} catch (e) {
+							error('Failed adding request for ' + requestId + ' (uri: ' + uri + ')', e.message);
+							throw e;
+						}
 					});
 				});
 			}
@@ -76,6 +111,8 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 
 	$scope.initStandalone = function()
 	{
+		sendMessage = onMessage;
+
 		// generate a hash of get params from query string (http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values)
 		var getParams = (function(a) {
 			if (a === '') return {};
@@ -92,7 +129,12 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 			return;
 
 		$http.get('/__clockwork/' + getParams['id']).success(function(data){
+			try {
 			$scope.addRequest(getParams['id'], data);
+			} catch (e) {
+				error('Failed adding request for ' + requestId + ' (uri: ' + uri + ')', e.message);
+				throw e;
+			}
 		});
 	};
 
@@ -108,7 +150,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		$('.toolbar').replaceWith(toolbar.render());
 	};
 
-	$scope.addRequest = function(requestId, data)
+	$scope.addRequest = function(requestId, data, uri)
 	{
 		data.responseDurationRounded = data.responseDuration ? Math.round(data.responseDuration) : 0;
 		data.databaseDurationRounded = data.databaseDuration ? Math.round(data.databaseDuration) : 0;
@@ -125,8 +167,14 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		data.timeline = $scope.processTimeline(data);
 		data.views = $scope.processViews(data.viewsData);
 
-		data.errorsCount = $scope.getErrorsCount(data);
-		data.warningsCount = $scope.getWarningsCount(data);
+		data.xhprof = $scope.processXhprof(requestId, data.userData);
+
+		var logLevels = $scope.getLogLevels(data);
+		var tmpLogLevels = [];
+		for (var k in logLevels) tmpLogLevels.push(logLevels[k]);
+		data.logLevels = tmpLogLevels;
+		data.errorsCount = (typeof logLevels.error === 'object') ? logLevels.error.count : 0;
+		data.warningsCount = (typeof logLevels.warning === 'object') ? logLevels.warning.count : 0;
 
 		$scope.requests[requestId] = data;
 
@@ -155,8 +203,15 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		$scope.activeTimeline = [];
 		$scope.activeTimelineLegend = [];
 		$scope.activeViews = [];
+		$scope.knownLogLevels = [];
+		$scope.activeXhprof = [];
 
 		$scope.showIncomingRequests = true;
+	};
+
+	$scope.downloadXhprof = function (format, data)
+	{
+		sendMessage({type: "download", format: format, data: data});
 	};
 
 	$scope.setActive = function(requestId)
@@ -187,7 +242,14 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		$scope.activeTimeline = request.timeline;
 		$scope.activeTimelineLegend = $scope.generateTimelineLegend();
 		$scope.activeViews = request.views;
+		$scope.knownLogLevels = request.logLevels;
+		$scope.logLevelShow = [];
+		$scope.activeXhprof = request.xhprof;
 
+		for (var i = 0, I = $scope.knownLogLevels.length; i < I; i++) {
+			$scope.logLevelShow[$scope.knownLogLevels[i].name] = true;
+		}
+    
 		var lastRequestId = Object.keys($scope.requests)[Object.keys($scope.requests).length - 1];
 
 		$scope.showIncomingRequests = requestId == lastRequestId;
@@ -419,6 +481,26 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		});
 
 		return views;
+	};
+
+	$scope.getLogLevels = function(data)
+	{
+		var	levels = {},
+			idx = 0;
+
+		$.each(data.log, function(index, record)
+		{
+			if (typeof levels[record.level] === 'undefined') {
+				levels[record.level] = {
+					id: idx++,
+					name: record.level,
+					count: 1
+				};
+			} else {
+				levels[record.level].count++;
+			}
+		});
+		return levels;
 	};
 
 	$scope.getErrorsCount = function(data)

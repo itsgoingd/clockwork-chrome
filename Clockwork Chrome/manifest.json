@@ -6,10 +6,12 @@
 	"devtools_page": "devtools.html",
 	"background": {
 		"scripts": [
+			"assets/javascripts/messagehandler.js",
 			"assets/javascripts/background.js"
 		]
 	},
 	"permissions": [
+		"downloads",
 		"debugger",
 		"http://*/",
 		"https://*/"

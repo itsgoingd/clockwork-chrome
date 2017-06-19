@@ -23,3 +23,4 @@ function onRequest(request, sender, callback) {
 	}
 }
 chrome.extension.onRequest.addListener(onRequest);
+chrome.runtime.onMessage.addListener(onMessage);
