@@ -17,6 +17,8 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 	$scope.activeId = null;
 	$scope.requests = {};
 
+	$scope.activeCacheStats = {};
+	$scope.activeCacheQueries = [];
 	$scope.activeCookies = [];
 	$scope.activeDatabaseQueries = [];
 	$scope.activeEmails = [];
@@ -24,7 +26,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 	$scope.activeHeaders = [];
 	$scope.activeLog = [];
 	$scope.activePostData = [];
-	$scope.activeRequest = [];
+	$scope.activeRequest = undefined;
 	$scope.activeRoutes = [];
 	$scope.activeSessionData = [];
 	$scope.activeTimeline = [];
@@ -73,7 +75,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 			var headers = request.response.headers;
 			var requestId = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-id'; });
 			var requestVersion = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-version'; });
-            		var requestPath = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-path'; });
+			var requestPath = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-path'; });
 
 			var requestHeaders = {};
 			$.each(headers, function(i, header) {
@@ -153,11 +155,12 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		data.responseDurationRounded = data.responseDuration ? Math.round(data.responseDuration) : 0;
 		data.databaseDurationRounded = data.databaseDuration ? Math.round(data.databaseDuration) : 0;
 
+		data.cacheQueries = $scope.processCacheQueries(data.cacheQueries);
 		data.cookies = $scope.createKeypairs(data.cookies);
 		data.databaseQueries = $scope.processDatabaseQueries(data.databaseQueries);
 		data.emails = $scope.processEmails(data.emailsData);
 		data.getData = $scope.createKeypairs(data.getData);
-		data.headers = $scope.processHeaders(data.headers);
+		data.headers = $scope.sortKeypairs($scope.processHeaders(data.headers));
 		data.log = $scope.processLog(data.log);
 		data.postData = $scope.createKeypairs(data.postData);
 		data.sessionData = $scope.createKeypairs(data.sessionData);
@@ -185,6 +188,8 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		$scope.requests = {};
 		$scope.activeId = null;
 
+		$scope.activeCacheStats = {};
+		$scope.activeCacheQueries = [];
 		$scope.activeCookies = [];
 		$scope.activeDatabaseQueries = [];
 		$scope.activeEmails = [];
@@ -192,7 +197,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		$scope.activeHeaders = [];
 		$scope.activeLog = [];
 		$scope.activePostData = [];
-		$scope.activeRequest = [];
+		$scope.activeRequest = undefined;
 		$scope.activeRoutes = [];
 		$scope.activeSessionData = [];
 		$scope.activeTimeline = [];
@@ -213,27 +218,38 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 	{
 		$scope.activeId = requestId;
 
-		$scope.activeCookies = $scope.requests[requestId].cookies;
-		$scope.activeDatabaseQueries = $scope.requests[requestId].databaseQueries;
-		$scope.activeEmails = $scope.requests[requestId].emails;
-		$scope.activeGetData = $scope.requests[requestId].getData;
-		$scope.activeHeaders = $scope.requests[requestId].headers;
-		$scope.activeLog = $scope.requests[requestId].log;
-		$scope.activePostData = $scope.requests[requestId].postData;
-		$scope.activeRequest = $scope.requests[requestId];
-		$scope.activeRoutes = $scope.requests[requestId].routes;
-		$scope.activeSessionData = $scope.requests[requestId].sessionData;
-		$scope.activeTimeline = $scope.requests[requestId].timeline;
+		var request = $scope.requests[requestId];
+
+		$scope.activeCacheStats = {
+			reads: request.cacheReads,
+			hits: request.cacheHits,
+			misses: request.cacheReads && request.cacheHits ? request.cacheReads - request.cacheHits : null,
+			writes: request.cacheWrites,
+			deletes: request.cacheDeletes,
+			time: request.cacheTime
+		};
+		$scope.activeCacheQueries = request.cacheQueries;
+		$scope.activeCookies = request.cookies;
+		$scope.activeDatabaseQueries = request.databaseQueries;
+		$scope.activeEmails = request.emails;
+		$scope.activeGetData = request.getData;
+		$scope.activeHeaders = request.headers;
+		$scope.activeLog = request.log;
+		$scope.activePostData = request.postData;
+		$scope.activeRequest = request;
+		$scope.activeRoutes = request.routes;
+		$scope.activeSessionData = request.sessionData;
+		$scope.activeTimeline = request.timeline;
 		$scope.activeTimelineLegend = $scope.generateTimelineLegend();
-		$scope.activeViews = $scope.requests[requestId].views;
-		$scope.knownLogLevels = $scope.requests[requestId].logLevels;
+		$scope.activeViews = request.views;
+		$scope.knownLogLevels = request.logLevels;
 		$scope.logLevelShow = [];
-		$scope.activeXhprof = $scope.requests[requestId].xhprof;
+		$scope.activeXhprof = request.xhprof;
 
 		for (var i = 0, I = $scope.knownLogLevels.length; i < I; i++) {
 			$scope.logLevelShow[$scope.knownLogLevels[i].name] = true;
 		}
-
+    
 		var lastRequestId = Object.keys($scope.requests)[Object.keys($scope.requests).length - 1];
 
 		$scope.showIncomingRequests = requestId == lastRequestId;
@@ -260,6 +276,26 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		return Object.keys(connections).length > 1;
 	};
 
+	$scope.showCacheTab = function ()
+	{
+		var cacheProps = [ 'cacheReads', 'cacheHits', 'cacheWrites', 'cacheDeletes', 'cacheTime' ];
+
+		if (! this.activeRequest) return;
+
+		return cacheProps.some(prop => this.activeRequest[prop] !== null && this.activeRequest[prop] !== undefined)
+			|| this.activeCacheQueries.length;
+	};
+
+	$scope.showCacheQueriesConnectionColumn = function ()
+	{
+		return this.activeCacheQueries && this.activeCacheQueries.some(query => query.connections)
+	};
+
+	$scope.showCacheQueriesDurationColumn = function ()
+	{
+		return this.activeCacheQueries && this.activeCacheQueries.some(query => query.duration)
+	};
+
 	$scope.createKeypairs = function(data)
 	{
 		var keypairs = [];
@@ -272,14 +308,19 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 			keypairs.push({name: key, value: value});
 		});
 
-		return keypairs;
+		return $scope.sortKeypairs(keypairs)
 	};
+
+	$scope.sortKeypairs = function (keypairs)
+	{
+		return keypairs.sort((a, b) => a.name.localeCompare(b.name))
+	}
 
 	$scope.generateTimelineLegend = function()
 	{
 		var items = [];
 
-		var maxWidth = $('.data-grid-details').width() - 230;
+		var maxWidth = $('.timeline-graph').width();
 		var labelCount = Math.floor(maxWidth / 80);
 		var step = $scope.activeRequest.responseDuration / (maxWidth - 20);
 
@@ -298,6 +339,20 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		}
 
 		return items;
+	};
+
+	$scope.processCacheQueries = function(data)
+	{
+		if (! (data instanceof Array)) return [];
+
+		data.forEach(query => {
+			query.expiration = query.expiration ? this.formatTime(query.expiration) : undefined;
+			query.value = query.type == 'hit' || query.type == 'write' ? query.value : '';
+			query.fullPath = query.file && query.line ? query.file.replace(/^\//, '') + ':' + query.line : undefined;
+			query.shortPath = query.fullPath ? query.fullPath.split(/[\/\\]/).pop() : undefined;
+		});
+
+		return data;
 	};
 
 	$scope.processDatabaseQueries = function(data)
@@ -380,8 +435,6 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 	$scope.processTimeline = function(data)
 	{
 		var j = 1;
-		var maxWidth = $('.data-grid-details').width() - 230 - 20;
-
 		var timeline = [];
 
 		$.each(data.timelineData, function(i, value){
@@ -401,7 +454,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 				timeline.push(value);
 			}
 
-			if (++j > 3) j = 1;
+			if (++j > 4) j = 1;
 		});
 
 		return timeline;
@@ -476,6 +529,23 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		});
 
 		return count;
+	};
+
+	$scope.formatTime = function(seconds)
+	{
+		var minutes = Math.floor(seconds / 60);
+		var hours = Math.floor(minutes / 60);
+
+		seconds = seconds % 60;
+		minutes = minutes % 60;
+
+		var time = [];
+
+		if (hours) time.push(hours + 'h');
+		if (minutes) time.push(minutes + 'min');
+		if (seconds) time.push(seconds + 'sec');
+
+		return time.join(' ');
 	};
 
 	angular.element(window).bind('resize', function() {
