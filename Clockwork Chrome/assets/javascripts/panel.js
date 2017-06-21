@@ -40,6 +40,10 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 			});
 		});
 
+		if (chrome.devtools.panels.themeName === 'dark') {
+			$('body').addClass('dark')
+		}
+
 		chrome.devtools.network.onRequestFinished.addListener(function(request)
 		{
 			var headers = request.response.headers;
