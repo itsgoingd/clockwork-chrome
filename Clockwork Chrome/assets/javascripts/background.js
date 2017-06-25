@@ -1,8 +1,8 @@
-function onRequest(request, sender, callback) {
-	if (request.action == 'getJSON') {
+function onMessage(message, sender, callback) {
+	if (message.action == 'getJSON') {
 		var xhr = new XMLHttpRequest();
 
-		xhr.open('GET', request.url, true);
+		xhr.open('GET', message.url, true);
 
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState == 4) {
@@ -15,11 +15,14 @@ function onRequest(request, sender, callback) {
 			}
 		}
 
-		Object.keys(request.headers).forEach(function(headerName) {
-		    xhr.setRequestHeader(headerName, request.headers[headerName]);
+		Object.keys(message.headers).forEach(function(headerName) {
+		    xhr.setRequestHeader(headerName, message.headers[headerName]);
 		});
 
 		xhr.send();
+
+		return true;
 	}
 }
-chrome.extension.onRequest.addListener(onRequest);
+
+chrome.runtime.onMessage.addListener(onMessage);
