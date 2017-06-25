@@ -69,11 +69,14 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 					uri.query(path[1]);
 				}
 
-				chrome.extension.sendRequest({action: 'getJSON', url: uri.toString(), headers: requestHeaders}, function(data){
-					$scope.$apply(function(){
-						$scope.addRequest(requestId.value, data);
-					});
-				});
+				chrome.runtime.sendMessage(
+					{ action: 'getJSON', url: uri.toString(), headers: requestHeaders },
+					function (data){
+						$scope.$apply(function(){
+							$scope.addRequest(requestId.value, data);
+						});
+					}
+				);
 			}
 		});
 	};
