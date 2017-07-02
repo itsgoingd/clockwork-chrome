@@ -71,14 +71,19 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 
 				chrome.runtime.sendMessage(
 					{ action: 'getJSON', url: uri.toString(), headers: requestHeaders },
-					function (data){
-						$scope.$apply(function(){
-							$scope.addRequest(requestId.value, data);
-						});
-					}
+					function (data) { $scope.$apply(function(){ $scope.addRequest(requestId.value, data); }); }
 				);
 			}
 		});
+
+		chrome.devtools.inspectedWindow.eval('window.location', (location) => {
+			uri = new URI(location.href)
+
+			chrome.runtime.sendMessage(
+				{ action: 'getJSON', url: uri.path('/__clockwork/latest').setQuery('').toString() },
+				(data) => $scope.$apply(() => $scope.addRequest(data.id, data))
+			)
+		})
 	};
 
 	$scope.initStandalone = function()
