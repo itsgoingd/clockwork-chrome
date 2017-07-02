@@ -44,46 +44,14 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 			$('body').addClass('dark')
 		}
 
-		chrome.devtools.network.onRequestFinished.addListener(function(request)
-		{
-			var headers = request.response.headers;
-			var requestId = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-id'; });
-			var requestVersion = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-version'; });
-			var requestPath = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-path'; });
-
-			var requestHeaders = {};
-			$.each(headers, function(i, header) {
-				if (header.name.toLowerCase().indexOf('x-clockwork-header-') === 0) {
-					originalName = header.name.toLowerCase().replace('x-clockwork-header-', '');
-					requestHeaders[originalName] = header.value;
-				}
-			});
-
-			if (requestVersion !== undefined) {
-				var uri = new URI(request.request.url);
-				var path = ((requestPath) ? requestPath.value : '/__clockwork/') + requestId.value;
-
-				path = path.split('?');
-				uri.pathname(path[0]);
-				if (path[1]) {
-					uri.query(path[1]);
-				}
-
-				chrome.runtime.sendMessage(
-					{ action: 'getJSON', url: uri.toString(), headers: requestHeaders },
-					function (data) { $scope.$apply(function(){ $scope.addRequest(requestId.value, data); }); }
-				);
-			}
-		});
-
-		chrome.devtools.inspectedWindow.eval('window.location', (location) => {
-			uri = new URI(location.href)
-
-			chrome.runtime.sendMessage(
-				{ action: 'getJSON', url: uri.path('/__clockwork/latest').setQuery('').toString() },
-				(data) => $scope.$apply(() => $scope.addRequest(data.id, data))
-			)
+		chrome.devtools.network.onRequestFinished.addListener((request) => {
+			this.loadRequestFromHeaders(request.request.url, request.response.headers)
 		})
+
+		chrome.runtime.sendMessage(
+			{ action: 'getLastClockworkRequestInTab', tabId: chrome.devtools.inspectedWindow.tabId },
+			(data) => this.loadRequestFromHeaders(data.url, data.headers)
+		)
 	};
 
 	$scope.initStandalone = function()
@@ -107,6 +75,41 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 			$scope.addRequest(getParams['id'], data);
 		});
 	};
+
+	$scope.loadRequestFromHeaders = function (url, requestHeaders)
+	{
+		let id   = (found = requestHeaders.find((x) => x.name.toLowerCase() == 'x-clockwork-id'))
+			? found.value : undefined
+		let path = (found = requestHeaders.find((x) => x.name.toLowerCase() == 'x-clockwork-path'))
+			? found.value : undefined
+
+		if (! id) return;
+
+		let headers = {}
+		requestHeaders.forEach((header) => {
+			if (header.name.toLowerCase().indexOf('x-clockwork-header-') === 0) {
+				let name = header.name.toLowerCase().replace('x-clockwork-header-', '')
+				headers[originalName] = header.value
+			}
+		})
+
+		this.loadRequest(url, id, path, headers)
+	}
+
+	$scope.loadRequest = function (url, id, path, headers)
+	{
+		url = new URI(url)
+		path = (path ? path : '/__clockwork/') + id
+
+		let [ pathname, query ] = path.split('?')
+		url.pathname(pathname)
+		url.query(query)
+
+		chrome.runtime.sendMessage(
+			{ action: 'getJSON', url: url.toString(), headers: headers },
+			(data) => $scope.$apply(() => $scope.addRequest(data.id, data))
+		)
+	}
 
 	$scope.createToolbar = function()
 	{

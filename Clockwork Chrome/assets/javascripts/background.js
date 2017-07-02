@@ -25,9 +25,26 @@ function onMessage(message, sender, callback) {
 		});
 
 		xhr.send();
-
-		return true;
+	} else if (message.action == 'getLastClockworkRequestInTab') {
+		callback(lastClockworkRequestPerTab[message.tabId])
 	}
+
+	return true
 }
 
 chrome.runtime.onMessage.addListener(onMessage);
+
+// track last clockwork-enabled request per tab
+let lastClockworkRequestPerTab = {}
+
+chrome.webRequest.onCompleted.addListener(
+	(request) => {
+		if (request.responseHeaders.find((x) => x.name.toLowerCase() == 'x-clockwork-id')) {
+			lastClockworkRequestPerTab[request.tabId] = { url: request.url, headers: request.responseHeaders }
+		}
+	},
+	{ urls: [ '<all_urls>' ] },
+	[ 'responseHeaders' ]
+)
+
+chrome.tabs.onRemoved.addListener((tabId) => delete lastClockworkRequestPerTab[tabId])
