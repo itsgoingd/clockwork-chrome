@@ -7,7 +7,12 @@ function onMessage(message, sender, callback) {
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState == 4) {
 				if (xhr.status == 200) {
-					callback(JSON.parse(xhr.responseText));
+					try {
+						callback(JSON.parse(xhr.responseText));
+					} catch (e) {
+						console.log('Invalid Clockwork metadata:');
+						console.log(xhr.responseText);
+					}
 				} else {
 					console.log('Error getting Clockwork metadata:');
 					console.log(xhr.responseText);
@@ -15,7 +20,7 @@ function onMessage(message, sender, callback) {
 			}
 		}
 
-		Object.keys(message.headers).forEach(function(headerName) {
+		Object.keys(message.headers || {}).forEach(function(headerName) {
 		    xhr.setRequestHeader(headerName, message.headers[headerName]);
 		});
 
