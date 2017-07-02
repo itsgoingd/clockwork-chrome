@@ -43,7 +43,7 @@ chrome.webRequest.onCompleted.addListener(
 			lastClockworkRequestPerTab[request.tabId] = { url: request.url, headers: request.responseHeaders }
 		}
 	},
-	{ urls: [ '<all_urls>' ] },
+	{ urls: [ '<all_urls>' ], types: [ 'main_frame' ] },
 	[ 'responseHeaders' ]
 )
 

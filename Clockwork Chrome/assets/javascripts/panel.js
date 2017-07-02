@@ -45,12 +45,17 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		}
 
 		chrome.devtools.network.onRequestFinished.addListener((request) => {
-			this.loadRequestFromHeaders(request.request.url, request.response.headers)
+			this.loadRequestsFromHeaders(request.request.url, request.response.headers)
 		})
 
 		chrome.runtime.sendMessage(
 			{ action: 'getLastClockworkRequestInTab', tabId: chrome.devtools.inspectedWindow.tabId },
-			(data) => this.loadRequestFromHeaders(data.url, data.headers)
+			(data) => {
+				if (! data) return
+
+				this.loadRequestsFromHeaders(data.url, data.headers)
+					.then(() => this.loadRequestsFromHeaders(data.url, data.headers, { next: true }))
+			}
 		)
 	};
 
@@ -76,7 +81,7 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 		});
 	};
 
-	$scope.loadRequestFromHeaders = function (url, requestHeaders)
+	$scope.loadRequestsFromHeaders = function (url, requestHeaders, multiple)
 	{
 		let id   = (found = requestHeaders.find((x) => x.name.toLowerCase() == 'x-clockwork-id'))
 			? found.value : undefined
@@ -93,22 +98,35 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 			}
 		})
 
-		this.loadRequest(url, id, path, headers)
+		return this.loadRequests(url, id, path, headers, multiple)
 	}
 
-	$scope.loadRequest = function (url, id, path, headers)
+	$scope.loadRequests = function (url, id, path, headers, multiple)
 	{
 		url = new URI(url)
 		path = (path ? path : '/__clockwork/') + id
+		multiple = multiple || {}
+
+		if (multiple.next) {
+			path += multiple.next === true ? '/next' : '/next/' + multiple.next
+		} else if (multiple.previous) {
+			path += multiple.previous === true ? '/previous' : '/previous/' + multiple.previous
+		}
 
 		let [ pathname, query ] = path.split('?')
 		url.pathname(pathname)
 		url.query(query)
 
-		chrome.runtime.sendMessage(
-			{ action: 'getJSON', url: url.toString(), headers: headers },
-			(data) => $scope.$apply(() => $scope.addRequest(data.id, data))
-		)
+		return new Promise((accept, reject) => {
+			chrome.runtime.sendMessage(
+				{ action: 'getJSON', url: url.toString(), headers: headers },
+				(data) => {
+					data = data instanceof Array ? data : [ data ]
+					$scope.$apply(() => data.forEach((item) => $scope.addRequest(item.id, item)))
+					accept()
+				}
+			)
+		})
 	}
 
 	$scope.createToolbar = function()
