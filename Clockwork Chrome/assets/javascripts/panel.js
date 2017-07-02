@@ -44,41 +44,19 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 			$('body').addClass('dark')
 		}
 
-		chrome.devtools.network.onRequestFinished.addListener(function(request)
-		{
-			var headers = request.response.headers;
-			var requestId = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-id'; });
-			var requestVersion = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-version'; });
-			var requestPath = headers.find(function(x) { return x.name.toLowerCase() == 'x-clockwork-path'; });
+		chrome.devtools.network.onRequestFinished.addListener((request) => {
+			this.loadRequestsFromHeaders(request.request.url, request.response.headers)
+		})
 
-			var requestHeaders = {};
-			$.each(headers, function(i, header) {
-				if (header.name.toLowerCase().indexOf('x-clockwork-header-') === 0) {
-					originalName = header.name.toLowerCase().replace('x-clockwork-header-', '');
-					requestHeaders[originalName] = header.value;
-				}
-			});
+		chrome.runtime.sendMessage(
+			{ action: 'getLastClockworkRequestInTab', tabId: chrome.devtools.inspectedWindow.tabId },
+			(data) => {
+				if (! data) return
 
-			if (requestVersion !== undefined) {
-				var uri = new URI(request.request.url);
-				var path = ((requestPath) ? requestPath.value : '/__clockwork/') + requestId.value;
-
-				path = path.split('?');
-				uri.pathname(path[0]);
-				if (path[1]) {
-					uri.query(path[1]);
-				}
-
-				chrome.runtime.sendMessage(
-					{ action: 'getJSON', url: uri.toString(), headers: requestHeaders },
-					function (data){
-						$scope.$apply(function(){
-							$scope.addRequest(requestId.value, data);
-						});
-					}
-				);
+				this.loadRequestsFromHeaders(data.url, data.headers)
+					.then(() => this.loadRequestsFromHeaders(data.url, data.headers, { next: true }))
 			}
-		});
+		)
 	};
 
 	$scope.initStandalone = function()
@@ -102,6 +80,54 @@ Clockwork.controller('PanelController', function($scope, $http, toolbar)
 			$scope.addRequest(getParams['id'], data);
 		});
 	};
+
+	$scope.loadRequestsFromHeaders = function (url, requestHeaders, multiple)
+	{
+		let id   = (found = requestHeaders.find((x) => x.name.toLowerCase() == 'x-clockwork-id'))
+			? found.value : undefined
+		let path = (found = requestHeaders.find((x) => x.name.toLowerCase() == 'x-clockwork-path'))
+			? found.value : undefined
+
+		if (! id) return;
+
+		let headers = {}
+		requestHeaders.forEach((header) => {
+			if (header.name.toLowerCase().indexOf('x-clockwork-header-') === 0) {
+				let name = header.name.toLowerCase().replace('x-clockwork-header-', '')
+				headers[originalName] = header.value
+			}
+		})
+
+		return this.loadRequests(url, id, path, headers, multiple)
+	}
+
+	$scope.loadRequests = function (url, id, path, headers, multiple)
+	{
+		url = new URI(url)
+		path = (path ? path : '/__clockwork/') + id
+		multiple = multiple || {}
+
+		if (multiple.next) {
+			path += multiple.next === true ? '/next' : '/next/' + multiple.next
+		} else if (multiple.previous) {
+			path += multiple.previous === true ? '/previous' : '/previous/' + multiple.previous
+		}
+
+		let [ pathname, query ] = path.split('?')
+		url.pathname(pathname)
+		url.query(query)
+
+		return new Promise((accept, reject) => {
+			chrome.runtime.sendMessage(
+				{ action: 'getJSON', url: url.toString(), headers: headers },
+				(data) => {
+					data = data instanceof Array ? data : [ data ]
+					$scope.$apply(() => data.forEach((item) => $scope.addRequest(item.id, item)))
+					accept()
+				}
+			)
+		})
+	}
 
 	$scope.createToolbar = function()
 	{
