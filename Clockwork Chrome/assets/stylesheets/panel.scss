@@ -239,6 +239,37 @@ table {
 		height: calc(100% - 30px);
 		overflow: auto;
 	}
+
+	.load-more {
+	    align-items: center;
+		border-bottom: 1px solid rgb(209, 209, 209);
+		border-right: 1px solid rgb(209, 209, 209);
+	    display: flex;
+	    height: 36px;
+	    justify-content: center;
+
+		body.dark & {
+			border-bottom: 1px solid rgb(54, 54, 54);
+			border-right: 1px solid rgb(54, 54, 54);
+		}
+
+		a {
+			color: rgb(64, 64, 64);
+			text-decoration: none;
+
+			&:hover {
+				color: rgb(37, 140, 219);
+
+				body.dark & {
+					color: rgb(253, 148, 39);
+				}
+			}
+
+			body.dark & {
+				color: rgb(178, 178, 178);
+			}
+		}
+	}
 }
 
 // Request details pane

@@ -15,6 +15,7 @@
 		<script src="vendor/assets/javascripts/jquery.resizableColumns.min.js"></script>
 
 		<script src="assets/javascripts/app.js"></script>
+		<script src="assets/javascripts/directives/load-more-requests.js"></script>
 		<script src="assets/javascripts/directives/pretty-print.js"></script>
 		<script src="assets/javascripts/directives/resizable-columns.js"></script>
 		<script src="assets/javascripts/directives/scroll-to-new.js"></script>
@@ -22,6 +23,8 @@
 		<script src="assets/javascripts/directives/stupid-table.js"></script>
 		<script src="assets/javascripts/directives/tabs.js"></script>
 		<script src="assets/javascripts/panel.js"></script>
+		<script src="assets/javascripts/request.js"></script>
+		<script src="assets/javascripts/requests.js"></script>
 		<script src="assets/javascripts/toolbar.js"></script>
 	</head>
 	<body>
@@ -45,7 +48,15 @@
 						</tr>
 					</thead>
 				</table>
-				<div class="requests-container">
+				<div class="requests-container" load-more-requests>
+					<div class="load-more">
+						<p class="load" ng-show="! loadingMoreRequests">
+							<a href="#" ng-click="loadMoreRequests()">load more</a>
+						</p>
+						<p class="loading" ng-show="loadingMoreRequests">
+							loading...
+						</p>
+					</div>
 					<table id="requests" resizable-columns data-resizable-columns-sync="#requests-header">
 						<tr class="sizing">
 							<td class="controller"></td>
@@ -53,7 +64,7 @@
 							<td class="status"></td>
 							<td class="duration"></td>
 						</tr>
-						<tr ng-repeat="request in requests" ng-click="setActive(request.id)" ng-class="getClass(request.id)" scroll-to-new>
+						<tr ng-repeat="request in requests" ng-click="showRequest(request.id)" ng-class="getRequestClass(request.id)" scroll-to-new>
 							<td class="controller" title="{{request.uri}} ({{ request.controller}}">
 								<span class="notifications-count">
 									<span class="errors-count" ng-show="request.errorsCount">
@@ -92,14 +103,14 @@
 				<div class="details-header">
 					<div class="details-header-tabs">
 						<a tab-name="request" class="details-header-tab active" href="#">Request</a>
-						<a tab-name="timeline" ng-show="activeTimeline.length" class="details-header-tab" href="#">Timeline</a>
-						<a tab-name="log" ng-show="activeLog.length" class="details-header-tab" href="#">Log</a>
-						<a tab-name="db" ng-show="activeDatabaseQueries.length" class="details-header-tab" href="#">Database</a>
+						<a tab-name="timeline" ng-show="request.timeline.length" class="details-header-tab" href="#">Timeline</a>
+						<a tab-name="log" ng-show="request.log.length" class="details-header-tab" href="#">Log</a>
+						<a tab-name="db" ng-show="request.databaseQueries.length" class="details-header-tab" href="#">Database</a>
 						<a tab-name="cache" ng-show="showCacheTab()" class="details-header-tab" href="#">Cache</a>
-						<a tab-name="session" ng-show="activeSessionData.length" class="details-header-tab" href="#">Session</a>
-						<a tab-name="views" ng-show="activeViews.length" class="details-header-tab" href="#">Views</a>
-						<a tab-name="emails" ng-show="activeEmails.length" class="details-header-tab" href="#">Emails</a>
-						<a tab-name="routes" ng-show="activeRoutes.length" class="details-header-tab" href="#">Routes</a>
+						<a tab-name="session" ng-show="request.sessionData.length" class="details-header-tab" href="#">Session</a>
+						<a tab-name="views" ng-show="request.views.length" class="details-header-tab" href="#">Views</a>
+						<a tab-name="emails" ng-show="request.emails.length" class="details-header-tab" href="#">Emails</a>
+						<a tab-name="routes" ng-show="request.routes.length" class="details-header-tab" href="#">Routes</a>
 					</div>
 
 					<div class="toolbar"></div>
@@ -108,56 +119,56 @@
 				<div class="details-content">
 
 					<div tab-content="request">
-						<table ng-show="activeHeaders.length">
+						<table ng-show="request.headers.length">
 							<thead>
 								<tr>
 									<th colspan="2">Request Headers</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="param in activeHeaders">
+								<tr ng-repeat="param in request.headers">
 									<td class="key">{{param.name}}</td>
 									<td class="value"><pretty-print data="param.value"></pretty-print></td>
 								</tr>
 							</tbody>
 						</table>
 
-						<table ng-show="activeGetData.length">
+						<table ng-show="request.getData.length">
 							<thead>
 								<tr>
 									<th colspan="2">GET parameters</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="param in activeGetData">
+								<tr ng-repeat="param in request.getData">
 									<td class="key">{{param.name}}</td>
 									<td class="value"><pretty-print data="param.value"></pretty-print></td>
 								</tr>
 							</tbody>
 						</table>
 
-						<table ng-show="activePostData.length">
+						<table ng-show="request.postData.length">
 							<thead>
 								<tr>
 									<th colspan="2">POST parameters</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="param in activePostData">
+								<tr ng-repeat="param in request.postData">
 									<td class="key">{{param.name}}</td>
 									<td class="value"><pretty-print data="param.value"></pretty-print></td>
 								</tr>
 							</tbody>
 						</table>
 
-						<table ng-show="activeCookies.length">
+						<table ng-show="request.cookies.length">
 							<thead>
 								<tr>
 									<th colspan="2">Cookies</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="param in activeCookies">
+								<tr ng-repeat="param in request.cookies">
 									<td class="key">{{param.name}}</td>
 									<td class="value"><pretty-print data="param.value"></pretty-print></td>
 								</tr>
@@ -176,7 +187,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="query in activeDatabaseQueries">
+								<tr ng-repeat="query in request.databaseQueries">
 									<td>
 										<div shortened-text="{{query.model}}">{{query.shortModel}}</div>
 									</td>
@@ -193,38 +204,38 @@
 								</tr>
 							</tbody>
 						</table>
-						<div class="number-of-queries">Number of queries: {{activeDatabaseQueries.length}}</div>
+						<div class="number-of-queries">Number of queries: {{request.databaseQueries.length}}</div>
 					</div>
 
 					<div tab-content="cache">
 						<div class="counters-row">
-							<div class="counter" ng-show="activeCacheStats.reads !== null">
-								<div class="counter-value">{{activeCacheStats.reads}}</div>
+							<div class="counter" ng-show="request.cacheReads !== null">
+								<div class="counter-value">{{request.cacheReads}}</div>
 								<div class="counter-title">reads</div>
 							</div>
-							<div class="counter" ng-show="activeCacheStats.hits !== null">
-								<div class="counter-value">{{activeCacheStats.hits}}</div>
+							<div class="counter" ng-show="request.cacheHits !== null">
+								<div class="counter-value">{{request.cacheHits}}</div>
 								<div class="counter-title">hits</div>
 							</div>
-							<div class="counter" ng-show="activeCacheStats.misses !== null">
-								<div class="counter-value">{{activeCacheStats.misses}}</div>
+							<div class="counter" ng-show="request.cacheMisses !== null">
+								<div class="counter-value">{{request.cacheMisses}}</div>
 								<div class="counter-title">misses</div>
 							</div>
-							<div class="counter" ng-show="activeCacheStats.writes !== null">
-								<div class="counter-value">{{activeCacheStats.writes}}</div>
+							<div class="counter" ng-show="request.cacheWrites !== null">
+								<div class="counter-value">{{request.cacheWrites}}</div>
 								<div class="counter-title">writes</div>
 							</div>
-							<div class="counter" ng-show="activeCacheStats.deletes !== null">
-								<div class="counter-value">{{activeCacheStats.deletes}}</div>
+							<div class="counter" ng-show="request.cacheDeletes !== null">
+								<div class="counter-value">{{request.cacheDeletes}}</div>
 								<div class="counter-title">deletes</div>
 							</div>
-							<div class="counter" ng-show="activeCacheStats.time !== null">
-								<div class="counter-value">{{activeCacheStats.time}}</div>
+							<div class="counter" ng-show="request.cacheTime !== null">
+								<div class="counter-value">{{request.cacheTime}}</div>
 								<div class="counter-title">time</div>
 							</div>
 						</div>
 
-						<table stupid-table ng-show="activeCacheQueries.length">
+						<table stupid-table ng-show="request.cacheQueries.length">
 							<thead>
 								<tr>
 									<th data-sort="string" ng-show="showCacheQueriesConnectionColumn()">Connection</th>
@@ -236,7 +247,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="query in activeCacheQueries">
+								<tr ng-repeat="query in request.cacheQueries">
 									<td ng-show="showCacheQueriesConnectionColumn()">{{query.connection}}</td>
 									<td class="cache-query-type">{{query.type}}</td>
 									<td>{{query.key}}</td>
@@ -255,7 +266,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<div class="number-of-queries">Number of queries: {{activeCacheQueries.length}}</div>
+						<div class="number-of-queries">Number of queries: {{request.cacheQueries.length}}</div>
 					</div>
 
 					<div tab-content="log">
@@ -268,7 +279,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="message in activeLog">
+								<tr ng-repeat="message in request.log">
 									<td class="log-date">{{message.time | date:'HH:mm:ss'}}</td>
 									<td class="log-level">{{message.level}}</td>
 									<td>
@@ -295,14 +306,14 @@
 								<tr>
 									<th class="timeline-graph">
 										Timeline
-										<span ng-repeat="item in activeTimelineLegend" class="timeline-bar-time" style="left:{{item.left}}px">{{item.time}} ms</span>
+										<span ng-repeat="item in timelineLegend" class="timeline-bar-time" style="left:{{item.left}}px">{{item.time}} ms</span>
 									</th>
 									<th class="timeline-duration">Duration</th>
 									<th class="timeline-description">Description</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="item in activeTimeline">
+								<tr ng-repeat="item in request.timeline">
 									<td class="timeline-graph">
 										<div class="timeline-bar {{item.style}}" style="width:{{item.width}}%;margin-left:{{item.left}}%;"></div>
 									</td>
@@ -321,7 +332,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="param in activeSessionData">
+								<tr ng-repeat="param in request.sessionData">
 									<td class="key">{{param.name}}</td>
 									<td class="value"><pretty-print data="param.value"></pretty-print></td>
 								</tr>
@@ -338,7 +349,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="view in activeViews">
+								<tr ng-repeat="view in request.views">
 									<td>{{view.name}}</td>
 									<td><pretty-print data="view.data"></pretty-print></td>
 								</tr>
@@ -357,7 +368,7 @@
 									<th colspan="2">Headers</th>
 								</tr>
 							</thead>
-							<tbody ng-repeat="email in activeEmails">
+							<tbody ng-repeat="email in request.emails">
 								<tr>
 									<td>{{email.to}}</td>
 									<td>{{email.subject}}</td>
@@ -367,7 +378,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<div class="number-of-queries">Number of emails: {{activeEmails.length}}</div>
+						<div class="number-of-queries">Number of emails: {{request.emails.length}}</div>
 					</div>
 
 					<div tab-content="routes">
@@ -383,7 +394,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="param in activeRoutes">
+								<tr ng-repeat="param in request.routes">
 									<td>{{param.method}}</td>
 									<td>{{param.uri}}</td>
 									<td>{{param.action}}</td>
