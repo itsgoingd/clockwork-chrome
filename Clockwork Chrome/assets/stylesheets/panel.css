@@ -144,6 +144,25 @@ table {
   .split-view-requests .requests-container {
     height: calc(100% - 30px);
     overflow: auto; }
+  .split-view-requests .load-more {
+    align-items: center;
+    border-bottom: 1px solid #d1d1d1;
+    border-right: 1px solid #d1d1d1;
+    display: flex;
+    height: 36px;
+    justify-content: center; }
+    body.dark .split-view-requests .load-more {
+      border-bottom: 1px solid #363636;
+      border-right: 1px solid #363636; }
+    .split-view-requests .load-more a {
+      color: #404040;
+      text-decoration: none; }
+      .split-view-requests .load-more a:hover {
+        color: #258cdb; }
+        body.dark .split-view-requests .load-more a:hover {
+          color: #fd9427; }
+      body.dark .split-view-requests .load-more a {
+        color: #b2b2b2; }
 
 .split-view-details {
   display: flex;

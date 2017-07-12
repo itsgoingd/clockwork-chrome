@@ -10,10 +10,12 @@ function onMessage(message, sender, callback) {
 					try {
 						callback(JSON.parse(xhr.responseText));
 					} catch (e) {
+						callback([])
 						console.log('Invalid Clockwork metadata:');
 						console.log(xhr.responseText);
 					}
 				} else {
+					callback([])
 					console.log('Error getting Clockwork metadata:');
 					console.log(xhr.responseText);
 				}
