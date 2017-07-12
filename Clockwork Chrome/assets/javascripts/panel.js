@@ -90,7 +90,7 @@ Clockwork.controller('PanelController', function ($scope, $http, requests, toolb
 		requests.clear()
 
 		$scope.requests = []
-		$scope.request = nul
+		$scope.request = null
 
 		$scope.timelineLegend = []
 
