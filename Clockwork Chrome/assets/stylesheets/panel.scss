@@ -36,30 +36,29 @@ table {
 .split-view {
 	display: flex;
 	flex-direction: column;
+	height: 100%;
+	width: 100%;
 
 	@media screen and (min-width: 900px) {
 		flex-direction: row;
 	}
 }
 
-.split-view-pane {
+.split-view-requests {
 	height: 50%;
 	width: 100%;
 
 	@media screen and (min-width: 900px) {
 		height: 100%;
-	}
-}
-
-.split-view-requests {
-	@media screen and (min-width: 900px) {
 		width: 480px;
 	}
 }
 
 .split-view-details {
+	flex: 1;
+
 	@media screen and (min-width: 900px) {
-		width: calc(100% - 480px);
+		height: 100%;
 	}
 }
 
@@ -315,7 +314,7 @@ table {
 		}
 	}
 
-	.toolbar {
+	.toolbar, .icons {
 		align-items: center;
 		display: flex;
 		font-size: 15px;

@@ -29,7 +29,7 @@
 	</head>
 	<body>
 		<div class="split-view" ng-controller="PanelController" ng-init="init('chrome-extension')">
-			<div class="split-view-pane split-view-requests">
+			<div class="split-view-pane split-view-requests" ng-show="! requestsListCollapsed">
 				<table id="requests-header" resizable-columns data-resizable-columns-sync="#requests">
 					<thead>
 						<tr>
@@ -101,6 +101,15 @@
 			<div class="split-view-pane split-view-details" tabs>
 
 				<div class="details-header">
+					<div class="icons">
+						<a href="#" ng-show="! requestsListCollapsed" ng-click="toggleRequestsList()">
+							<span class="fa fa-outdent"></span>
+						</a>
+						<a href="#" ng-show="requestsListCollapsed" ng-click="toggleRequestsList()">
+							<span class="fa fa-indent"></span>
+						</a>
+					</div>
+
 					<div class="details-header-tabs">
 						<a tab-name="request" class="details-header-tab active" href="#">Request</a>
 						<a tab-name="timeline" ng-show="request.timeline.length" class="details-header-tab" href="#">Timeline</a>

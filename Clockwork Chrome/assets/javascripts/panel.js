@@ -6,6 +6,7 @@ Clockwork.controller('PanelController', function ($scope, $http, requests, toolb
 	$scope.timelineLegend = []
 
 	$scope.loadingMoreRequests = false
+	$scope.requestsListCollapsed = false
 	$scope.showIncomingRequests = true
 
 	$scope.init = function() {
@@ -165,6 +166,10 @@ Clockwork.controller('PanelController', function ($scope, $http, requests, toolb
 				$scope.loadingMoreRequests = false
 			})
 		})
+	}
+
+	$scope.toggleRequestsList = function () {
+		$scope.requestsListCollapsed = ! $scope.requestsListCollapsed
 	}
 
 	angular.element(window).bind('resize', () => {
