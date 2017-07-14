@@ -1,32 +1,33 @@
 function onMessage(message, sender, callback) {
 	if (message.action == 'getJSON') {
-		var xhr = new XMLHttpRequest();
+		let xhr = new XMLHttpRequest()
 
-		xhr.open('GET', message.url, true);
+		xhr.open('GET', message.url, true)
 
 		xhr.onreadystatechange = function() {
-			if (xhr.readyState == 4) {
-				if (xhr.status == 200) {
-					try {
-						callback(JSON.parse(xhr.responseText));
-					} catch (e) {
-						callback([])
-						console.log('Invalid Clockwork metadata:');
-						console.log(xhr.responseText);
-					}
-				} else {
-					callback([])
-					console.log('Error getting Clockwork metadata:');
-					console.log(xhr.responseText);
-				}
+			if (xhr.readyState != 4) return
+
+			if (xhr.status != 200) {
+				callback([])
+				console.log('Error getting Clockwork metadata:')
+				console.log(xhr.responseText)
+				return
+			}
+
+			try {
+				callback(JSON.parse(xhr.responseText))
+			} catch (e) {
+				callback([])
+				console.log('Invalid Clockwork metadata:')
+				console.log(xhr.responseText)
 			}
 		}
 
-		Object.keys(message.headers || {}).forEach(function(headerName) {
-		    xhr.setRequestHeader(headerName, message.headers[headerName]);
-		});
+		Object.keys(message.headers || {}).forEach(headerName => {
+		    xhr.setRequestHeader(headerName, message.headers[headerName])
+		})
 
-		xhr.send();
+		xhr.send()
 	} else if (message.action == 'getLastClockworkRequestInTab') {
 		callback(lastClockworkRequestPerTab[message.tabId])
 	}
@@ -34,7 +35,7 @@ function onMessage(message, sender, callback) {
 	return true
 }
 
-chrome.runtime.onMessage.addListener(onMessage);
+chrome.runtime.onMessage.addListener(onMessage)
 
 // track last clockwork-enabled request per tab
 let lastClockworkRequestPerTab = {}

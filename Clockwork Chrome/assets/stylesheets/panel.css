@@ -10,6 +10,7 @@ html {
 
 body {
   font-size: 100%;
+  height: 100%;
   margin: 0; }
   body.dark {
     background: #1f1f1f;
@@ -40,7 +41,8 @@ table {
       width: 480px; } }
 
 .split-view-details {
-  flex: 1; }
+  flex: 1;
+  min-width: 0; }
   @media screen and (min-width: 900px) {
     .split-view-details {
       height: 100%; } }
@@ -192,20 +194,20 @@ table {
           color: #fd9427; }
       body.dark .details-header .details-header-tabs .details-header-tab {
         color: #9e9e9e; }
-  .details-header .toolbar, .details-header .icons {
+  .details-header .icons {
     align-items: center;
     display: flex;
     font-size: 15px;
     padding: 0 5px; }
-    .details-header .toolbar a, .details-header .icons a {
+    .details-header .icons a {
       color: dimgray;
       cursor: default;
       padding: 0 5px; }
-      .details-header .toolbar a:hover, .details-header .icons a:hover {
+      .details-header .icons a:hover {
         color: #3b3b3b; }
-        body.dark .details-header .toolbar a:hover, body.dark .details-header .icons a:hover {
+        body.dark .details-header .icons a:hover {
           color: #fd9427; }
-      body.dark .details-header .toolbar a, body.dark .details-header .icons a {
+      body.dark .details-header .icons a {
         color: gray; }
 
 .details-content {

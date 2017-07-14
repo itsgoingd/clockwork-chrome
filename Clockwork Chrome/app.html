@@ -1,3 +1,4 @@
+<!doctype html>
 <html ng-app="Clockwork" ng-csp="">
 	<head>
 		<link rel="stylesheet" type="text/css" href="vendor/assets/stylesheets/angular-csp.css">
@@ -25,10 +26,9 @@
 		<script src="assets/javascripts/panel.js"></script>
 		<script src="assets/javascripts/request.js"></script>
 		<script src="assets/javascripts/requests.js"></script>
-		<script src="assets/javascripts/toolbar.js"></script>
 	</head>
 	<body>
-		<div class="split-view" ng-controller="PanelController" ng-init="init('chrome-extension')">
+		<div class="split-view" ng-controller="PanelController" ng-init="init()">
 			<div class="split-view-pane split-view-requests" ng-show="! requestsListCollapsed">
 				<table id="requests-header" resizable-columns data-resizable-columns-sync="#requests">
 					<thead>
@@ -102,10 +102,10 @@
 
 				<div class="details-header">
 					<div class="icons">
-						<a href="#" ng-show="! requestsListCollapsed" ng-click="toggleRequestsList()">
+						<a href="#" title="Toggle requests" ng-show="! requestsListCollapsed" ng-click="toggleRequestsList()">
 							<span class="fa fa-outdent"></span>
 						</a>
-						<a href="#" ng-show="requestsListCollapsed" ng-click="toggleRequestsList()">
+						<a href="#" title="Toggle requests" ng-show="requestsListCollapsed" ng-click="toggleRequestsList()">
 							<span class="fa fa-indent"></span>
 						</a>
 					</div>
@@ -122,7 +122,11 @@
 						<a tab-name="routes" ng-show="request.routes.length" class="details-header-tab" href="#">Routes</a>
 					</div>
 
-					<div class="toolbar"></div>
+					<div class="icons">
+						<a href="#" title="Clear" ng-click="clear()">
+							<span class="fa fa-ban"></span>
+						</a>
+					</div>
 				</div>
 
 				<div class="details-content">

@@ -1,4 +1,4 @@
-Clockwork.controller('PanelController', function ($scope, $http, requests, toolbar)
+Clockwork.controller('PanelController', function ($scope, $http, requests)
 {
 	$scope.requests = []
 	$scope.request = null
@@ -9,7 +9,7 @@ Clockwork.controller('PanelController', function ($scope, $http, requests, toolb
 	$scope.requestsListCollapsed = false
 	$scope.showIncomingRequests = true
 
-	$scope.init = function() {
+	$scope.init = function () {
 		key('⌘+k, ctrl+l', () => $scope.$apply(() => $scope.clear()))
 
 		if (chrome.devtools.panels.themeName === 'dark') {
@@ -55,18 +55,15 @@ Clockwork.controller('PanelController', function ($scope, $http, requests, toolb
 				})
 			}
 		)
-
-		this.createToolbar()
 	}
 
-	$scope.parseHeaders = function (requestHeaders)
-	{
+	$scope.parseHeaders = function (requestHeaders) {
 		let id   = (found = requestHeaders.find((x) => x.name.toLowerCase() == 'x-clockwork-id'))
 			? found.value : undefined
 		let path = (found = requestHeaders.find((x) => x.name.toLowerCase() == 'x-clockwork-path'))
 			? found.value : undefined
 
-		if (! id) return;
+		if (! id) return
 
 		let headers = {}
 		requestHeaders.forEach((header) => {
@@ -77,14 +74,6 @@ Clockwork.controller('PanelController', function ($scope, $http, requests, toolb
 		})
 
 		return { id, path, headers }
-	}
-
-	$scope.createToolbar = function () {
-		toolbar.createButton('ban', 'Clear', () => {
-			$scope.$apply(() => $scope.clear())
-		})
-
-		$('.toolbar').replaceWith(toolbar.render())
 	}
 
 	$scope.clear = function () {
