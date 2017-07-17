@@ -9,6 +9,8 @@ Clockwork.controller('PanelController', function ($scope, $http, requests)
 	$scope.requestsListCollapsed = false
 	$scope.showIncomingRequests = true
 
+	$scope.expandedEvents = []
+
 	$scope.init = function () {
 		key('⌘+k, ctrl+l', () => $scope.$apply(() => $scope.clear()))
 
@@ -85,6 +87,8 @@ Clockwork.controller('PanelController', function ($scope, $http, requests)
 		$scope.timelineLegend = []
 
 		$scope.showIncomingRequests = true
+
+		$scope.expandedEvents = []
 	}
 
 	$scope.showRequest = function (id) {
@@ -159,6 +163,18 @@ Clockwork.controller('PanelController', function ($scope, $http, requests)
 
 	$scope.toggleRequestsList = function () {
 		$scope.requestsListCollapsed = ! $scope.requestsListCollapsed
+	}
+
+	$scope.isEventExpanded = function (event) {
+		return $scope.expandedEvents.indexOf(event) !== -1
+	}
+
+	$scope.toggleEvent = function (event) {
+		if ($scope.isEventExpanded(event)) {
+			$scope.expandedEvents = $scope.expandedEvents.filter(item => item != event)
+		} else {
+			$scope.expandedEvents.push(event)
+		}
 	}
 
 	angular.element(window).bind('resize', () => {

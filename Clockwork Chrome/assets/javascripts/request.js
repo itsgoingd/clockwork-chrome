@@ -13,6 +13,7 @@ class Request
 		this.cookies = this.createKeypairs(this.cookies)
 		this.databaseQueries = this.processDatabaseQueries(this.databaseQueries)
 		this.emails = this.processEmails(this.emailsData)
+		this.events = this.processEvents(this.events)
 		this.getData = this.createKeypairs(this.getData)
 		this.headers = this.processHeaders(this.headers)
 		this.log = this.processLog(this.log)
@@ -72,6 +73,32 @@ class Request
 		if (! (data instanceof Object)) return []
 
 		return Object.values(data).filter(email => email.data instanceof Object).map(email => email.data)
+	}
+
+	processEvents (data) {
+		if (! (data instanceof Array)) return []
+
+		return data.map(event => {
+			event.objectEvent = (event.event == event.data.__class__)
+			event.time = new Date(event.time * 1000)
+			event.fullPath = event.file && event.line ? event.file.replace(/^\//, '') + ':' + event.line : undefined
+			event.shortPath = event.fullPath ? event.fullPath.split(/[\/\\]/).pop() : undefined
+
+			event.listeners = event.listeners instanceof Array ? event.listeners : []
+			event.listeners = event.listeners.map(listener => {
+				let shortName, matches
+
+				if (matches = listener.match(/Closure \(.*[\/\\](.+?:\d+)-\d+\)/)) {
+					shortName = 'Closure (' + matches[1] + ')'
+				} else {
+					shortName = listener.split(/[\/\\]/).pop()
+				}
+
+				return { name: listener, shortName }
+			})
+
+			return event
+		})
 	}
 
 	processHeaders (data) {

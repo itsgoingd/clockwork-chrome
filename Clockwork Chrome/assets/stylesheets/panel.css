@@ -23,6 +23,16 @@ table {
   table th, table td {
     text-align: left; }
 
+a {
+  color: dimgray;
+  cursor: default; }
+  a:hover {
+    color: #3b3b3b; }
+    body.dark a:hover {
+      color: #fd9427; }
+  body.dark a {
+    color: gray; }
+
 .split-view {
   display: flex;
   flex-direction: column;
@@ -200,15 +210,7 @@ table {
     font-size: 15px;
     padding: 0 5px; }
     .details-header .icons a {
-      color: dimgray;
-      cursor: default;
       padding: 0 5px; }
-      .details-header .icons a:hover {
-        color: #3b3b3b; }
-        body.dark .details-header .icons a:hover {
-          color: #fd9427; }
-      body.dark .details-header .icons a {
-        color: gray; }
 
 .details-content {
   flex: 1;
@@ -327,6 +329,24 @@ table {
       margin-top: 3px; }
       body.dark .details-content .log-message .log-message-path {
         color: #777; }
+  .details-content .fired-event {
+    display: flex;
+    flex-wrap: wrap; }
+    .details-content .fired-event .fired-event-content {
+      flex: 1 0 auto;
+      max-width: 100%; }
+    .details-content .fired-event .fired-event-path {
+      color: #aaa;
+      flex: 0;
+      font-size: 90%;
+      margin-top: 3px; }
+      body.dark .details-content .fired-event .fired-event-path {
+        color: #777; }
+  .details-content .fired-event-details h4 {
+    margin: 6px 0 3px; }
+  .details-content .fired-event-actions {
+    padding-left: 5px;
+    width: 10px; }
   .details-content .database-query {
     display: flex;
     flex-wrap: wrap; }

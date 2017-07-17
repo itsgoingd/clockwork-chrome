@@ -32,6 +32,23 @@ table {
 	}
 }
 
+a {
+	color: rgb(105, 105, 105);
+	cursor: default;
+
+	&:hover {
+		color: rgb(59, 59, 59);
+
+		body.dark & {
+			color: rgb(253, 148, 39);
+		}
+	}
+
+	body.dark & {
+		color: rgb(128, 128, 128);
+	}
+}
+
 // Split view
 
 .split-view {
@@ -323,21 +340,7 @@ table {
 		padding: 0 5px;
 
 		a {
-			color: rgb(105, 105, 105);
-			cursor: default;
 			padding: 0 5px;
-
-			&:hover {
-				color: rgb(59, 59, 59);
-
-				body.dark & {
-					color: rgb(253, 148, 39);
-				}
-			}
-
-			body.dark & {
-				color: rgb(128, 128, 128);
-			}
 		}
 	}
 }
@@ -538,6 +541,40 @@ table {
 				color: #777;
 			}
 		}
+	}
+
+	// Events tab
+
+	.fired-event {
+		display: flex;
+		flex-wrap: wrap;
+
+		.fired-event-content {
+			flex: 1 0 auto;
+			max-width: 100%;
+		}
+
+		.fired-event-path {
+			color: #aaa;
+			flex: 0;
+			font-size: 90%;
+			margin-top: 3px;
+
+			body.dark & {
+				color: #777;
+			}
+		}
+	}
+
+	.fired-event-details {
+		h4 {
+			margin: 6px 0 3px;
+		}
+	}
+
+	.fired-event-actions {
+		padding-left: 5px;
+		width: 10px;
 	}
 
 	// Database tab

@@ -114,6 +114,7 @@
 						<a tab-name="request" class="details-header-tab active" href="#">Request</a>
 						<a tab-name="timeline" ng-show="request.timeline.length" class="details-header-tab" href="#">Timeline</a>
 						<a tab-name="log" ng-show="request.log.length" class="details-header-tab" href="#">Log</a>
+						<a tab-name="events" ng-show="request.events.length" class="details-header-tab" href="#">Events</a>
 						<a tab-name="db" ng-show="request.databaseQueries.length" class="details-header-tab" href="#">Database</a>
 						<a tab-name="cache" ng-show="showCacheTab()" class="details-header-tab" href="#">Cache</a>
 						<a tab-name="session" ng-show="request.sessionData.length" class="details-header-tab" href="#">Session</a>
@@ -184,6 +185,58 @@
 								<tr ng-repeat="param in request.cookies">
 									<td class="key">{{param.name}}</td>
 									<td class="value"><pretty-print data="param.value"></pretty-print></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div tab-content="events">
+						<table stupid-table>
+							<thead>
+								<tr>
+									<th data-sort="string">Time</th>
+									<th data-sort="string">Event</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="event in request.events">
+									<td>{{event.time | date:'HH:mm:ss'}}</td>
+									<td>
+										<div class="fired-event">
+											<div class="fired-event-content">
+												<div ng-if="event.objectEvent">
+													<pretty-print data="event.data"></pretty-print>
+												</div>
+												<div ng-if="! event.objectEvent">
+													{{event.event}}
+												</div>
+											</div>
+											<div class="fired-event-path">
+												<div shortened-text="{{event.fullPath}}">{{event.shortPath}}</div>
+											</div>
+										</div>
+										<div class="fired-event-details" ng-show="isEventExpanded(event)">
+											<div class="fired-event-parameters" ng-if="! event.objectEvent">
+												<h4>Parameters</h4>
+												<pretty-print data="event.data"></pretty-print>
+											</div>
+											<div class="fired-event-listeners">
+												<h4>Listeners</h4>
+												<div ng-repeat="listener in event.listeners" shortened-text="{{listener.name}}">
+													{{listener.shortName}}
+												</div>
+											</div>
+										</div>
+									</td>
+									<td class="fired-event-actions">
+										<a href="#" ng-show="! isEventExpanded(event)" ng-click="toggleEvent(event)">
+											<span class="fa fa-chevron-down"></span>
+										</a>
+										<a href="#" ng-show="isEventExpanded(event)" ng-click="toggleEvent(event)">
+											<span class="fa fa-chevron-up"></span>
+										</a>
+									</td>
 								</tr>
 							</tbody>
 						</table>
