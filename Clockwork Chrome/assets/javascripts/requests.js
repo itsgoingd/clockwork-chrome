@@ -21,25 +21,35 @@ class Requests
 		let placeholder = new Request({ id: id, loading: true })
 		this.items.push(placeholder)
 
-		return this.callRemote(this.remoteUrl + id).then((data) => {
+		return this.callRemote(this.remoteUrl + id).then(data => {
 			this.items[this.items.indexOf(placeholder)] = data[0]
 		})
 	}
 
-	// loads requests after the last request, if the count isn't specified loads all requests
-	loadNext (count) {
-		let lastId = this.items.length ? this.last().id : 'latest'
+	loadLatest () {
+		return this.callRemote(this.remoteUrl + 'latest').then(data => {
+			this.items.push(...data)
+		})
+	}
 
-		return this.callRemote(this.remoteUrl + lastId + '/next' + (count ? '/' + count : '')).then((data) => {
+	// loads requests after the last request, if the count isn't specified loads all requests
+	loadNext (count, id) {
+		if (! id && ! this.items.length) return
+
+		id = id || this.last().id
+
+		return this.callRemote(this.remoteUrl + id + '/next' + (count ? '/' + count : '')).then(data => {
 			this.items.push(...data)
 		})
 	}
 
 	// loads requests before the first request, if the count isn't specified loads all requests
-	loadPrevious (count) {
-		let firstId = this.items.length ? this.first().id : 'latest'
+	loadPrevious (count, id) {
+		if (! id && ! this.items.length) return
 
-		return this.callRemote(this.remoteUrl + firstId + '/previous' + (count ? '/' + count : '')).then((data) => {
+		id = id || this.first().id
+
+		return this.callRemote(this.remoteUrl + id + '/previous' + (count ? '/' + count : '')).then(data => {
 			this.items.unshift(...data)
 		})
 	}
@@ -54,6 +64,10 @@ class Requests
 
 	last () {
 		return this.items[this.items.length - 1]
+	}
+
+	setClient (client) {
+		this.client = client
 	}
 
 	setRemote (url, options) {
@@ -72,12 +86,9 @@ class Requests
 
 	callRemote (url) {
 		return new Promise((accept, reject) => {
-			chrome.runtime.sendMessage(
-				{ action: 'getJSON', url, headers: this.remoteHeaders },
-				(data) => {
-					accept((data instanceof Array ? data : [ data ]).map(data => new Request(data)))
-				}
-			)
+			this.client(url, this.remoteHeaders, data => {
+				accept((data instanceof Array ? data : [ data ]).map(data => new Request(data)))
+			})
 		})
 	}
 }
