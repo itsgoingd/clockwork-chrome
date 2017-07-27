@@ -1,4 +1,4 @@
-Clockwork.controller('PanelController', function ($scope, $http, extension, requests, standalone)
+Clockwork.controller('PanelController', function ($scope, $http, requests)
 {
 	$scope.requests = []
 	$scope.request = null
@@ -14,11 +14,13 @@ Clockwork.controller('PanelController', function ($scope, $http, extension, requ
 	$scope.init = function () {
 		key('⌘+k, ctrl+l', () => $scope.$apply(() => $scope.clear()))
 
-		if (extension.runningAsExtension()) {
-			return extension.init($scope, requests)
+		if (Extension.runningAsExtension()) {
+			$scope.$integration = new Extension($scope, requests)
 		} else {
-			return standalone.init($scope, $http, requests)
+			$scope.$integration = new Standalone($scope, $http, requests)
 		}
+
+		$scope.$integration.init()
 	}
 
 	$scope.clear = function () {

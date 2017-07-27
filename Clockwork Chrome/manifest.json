@@ -6,7 +6,7 @@
 	"devtools_page": "devtools.html",
 	"background": {
 		"scripts": [
-			"assets/javascripts/background.js"
+			"assets/javascripts/chrome/background.js"
 		]
 	},
 	"permissions": [

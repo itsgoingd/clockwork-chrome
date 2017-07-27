@@ -1,19 +1,25 @@
 class Extension
 {
-	get api () { return chrome || browser }
-
-	runningAsExtension () {
-		return this.api && this.api.devtools
+	constructor ($scope, requests) {
+		this.$scope = $scope
+		this.requests = requests
 	}
 
-	init ($scope, requests) {
+	get api () { return chrome || browser }
+
+	static runningAsExtension () {
+		let api = chrome || browser
+		return api && api.devtools
+	}
+
+	init () {
 		this.useProperTheme()
-		this.setMetadataUrl(requests)
-		this.setMetadataClient(requests)
+		this.setMetadataUrl()
+		this.setMetadataClient()
 
-		this.listenToRequests($scope, requests)
+		this.listenToRequests()
 
-		this.loadLastRequest($scope, requests)
+		this.loadLastRequest()
 	}
 
 	useProperTheme () {
@@ -22,32 +28,32 @@ class Extension
 		}
 	}
 
-	setMetadataUrl (requests) {
-		this.api.devtools.inspectedWindow.eval('window.location.href', url => requests.setRemote(url))
+	setMetadataUrl () {
+		this.api.devtools.inspectedWindow.eval('window.location.href', url => this.requests.setRemote(url))
 	}
 
-	setMetadataClient (requests) {
-		requests.setClient((url, headers, callback) => {
+	setMetadataClient () {
+		this.requests.setClient((url, headers, callback) => {
 			this.api.runtime.sendMessage(
 				{ action: 'getJSON', url, headers }, (data) => callback(data)
 			)
 		})
 	}
 
-	listenToRequests ($scope, requests) {
+	listenToRequests () {
 		this.api.devtools.network.onRequestFinished.addListener(request => {
 			let options = this.parseHeaders(request.response.headers)
 
 			if (! options) return
 
-			requests.setRemote(request.request.url, options)
-			requests.loadId(options.id).then(() => {
-				$scope.$apply(() => $scope.refreshRequests())
+			this.requests.setRemote(request.request.url, options)
+			this.requests.loadId(options.id).then(() => {
+				this.$scope.$apply(() => this.$scope.refreshRequests())
 			})
 		})
 	}
 
-	loadLastRequest ($scope, requests) {
+	loadLastRequest () {
 		this.api.runtime.sendMessage(
 			{ action: 'getLastClockworkRequestInTab', tabId: this.api.devtools.inspectedWindow.tabId },
 			(data) => {
@@ -55,10 +61,10 @@ class Extension
 
 				let options = this.parseHeaders(data.headers)
 
-				requests.setRemote(data.url, options)
-				requests.loadId(options.id).then(() => {
-					requests.loadNext().then(() => {
-						$scope.$apply(() => $scope.refreshRequests())
+				this.requests.setRemote(data.url, options)
+				this.requests.loadId(options.id).then(() => {
+					this.requests.loadNext().then(() => {
+						this.$scope.$apply(() => this.$scope.refreshRequests())
 					})
 				})
 			}

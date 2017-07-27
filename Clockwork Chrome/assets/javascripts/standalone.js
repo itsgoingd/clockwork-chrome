@@ -1,37 +1,43 @@
 class Standalone
 {
-	init ($scope, $http, requests) {
-		this.setMetadataUrl(requests)
-		this.setMetadataClient($http, requests)
-
-		this.startPollingRequests($scope, requests)
+	constructor ($scope, $http, requests) {
+		this.$scope = $scope
+		this.$http = $http
+		this.requests = requests
 	}
 
-	setMetadataUrl (requests) {
-		requests.setRemote('/__clockwork')
+	init () {
+		this.setMetadataUrl()
+		this.setMetadataClient()
+
+		this.startPollingRequests()
 	}
 
-	setMetadataClient ($http, requests) {
-		requests.setClient((url, headers, callback) => {
-			$http.get(url).then(data => callback(data.data))
+	setMetadataUrl () {
+		this.requests.setRemote('/__clockwork')
+	}
+
+	setMetadataClient () {
+		this.requests.setClient((url, headers, callback) => {
+			this.$http.get(url).then(data => callback(data.data))
 		})
 	}
 
-	startPollingRequests ($scope, requests) {
-		requests.loadLatest().then(() => {
-			this.lastRequestId = requests.last().id
+	startPollingRequests () {
+		this.requests.loadLatest().then(() => {
+			this.lastRequestId = this.requests.last().id
 
-			this.pollRequests($scope, requests)
+			this.pollRequests()
 		})
 	}
 
-	pollRequests ($scope, requests) {
-		requests.loadNext(null, this.lastRequestId).then(() => {
-			if (requests.last()) this.lastRequestId = requests.last().id
+	pollRequests () {
+		this.requests.loadNext(null, this.lastRequestId).then(() => {
+			if (this.requests.last()) this.lastRequestId = this.requests.last().id
 
-			$scope.refreshRequests()
+			this.$scope.refreshRequests()
 
-			setTimeout(() => this.pollRequests($scope, requests), 1000)
+			setTimeout(() => this.pollRequests(), 1000)
 		})
 	}
 }
