@@ -14,68 +14,13 @@ Clockwork.controller('PanelController', function ($scope, $http, requests)
 	$scope.init = function () {
 		key('⌘+k, ctrl+l', () => $scope.$apply(() => $scope.clear()))
 
-		if (chrome.devtools.panels.themeName === 'dark') {
-			$('body').addClass('dark')
+		if (Extension.runningAsExtension()) {
+			$scope.$integration = new Extension($scope, requests)
+		} else {
+			$scope.$integration = new Standalone($scope, $http, requests)
 		}
 
-		chrome.devtools.inspectedWindow.eval('window.location.href', url => requests.setRemote(url))
-
-		chrome.devtools.network.onRequestFinished.addListener(request => {
-			let options = this.parseHeaders(request.response.headers)
-
-			if (! options) return
-
-			requests.setRemote(request.request.url, options)
-			requests.loadId(options.id).then(() => {
-				$scope.$apply(() => {
-					$scope.requests = requests.all()
-
-					if ($scope.showIncomingRequests) {
-						$scope.showRequest(options.id)
-					}
-				})
-			})
-		})
-
-		chrome.runtime.sendMessage(
-			{ action: 'getLastClockworkRequestInTab', tabId: chrome.devtools.inspectedWindow.tabId },
-			(data) => {
-				if (! data) return
-
-				let options = this.parseHeaders(data.headers)
-
-				requests.setRemote(data.url, options)
-				requests.loadId(options.id).then(() => {
-					requests.loadNext().then(() => {
-						$scope.$apply(() => {
-							$scope.requests = requests.all()
-
-							$scope.showRequest(requests.first().id)
-							$scope.showIncomingRequests = true
-						})
-					})
-				})
-			}
-		)
-	}
-
-	$scope.parseHeaders = function (requestHeaders) {
-		let id   = (found = requestHeaders.find((x) => x.name.toLowerCase() == 'x-clockwork-id'))
-			? found.value : undefined
-		let path = (found = requestHeaders.find((x) => x.name.toLowerCase() == 'x-clockwork-path'))
-			? found.value : undefined
-
-		if (! id) return
-
-		let headers = {}
-		requestHeaders.forEach((header) => {
-			if (header.name.toLowerCase().indexOf('x-clockwork-header-') === 0) {
-				let name = header.name.toLowerCase().replace('x-clockwork-header-', '')
-				headers[originalName] = header.value
-			}
-		})
-
-		return { id, path, headers }
+		$scope.$integration.init()
 	}
 
 	$scope.clear = function () {
@@ -91,6 +36,14 @@ Clockwork.controller('PanelController', function ($scope, $http, requests)
 		$scope.expandedEvents = []
 	}
 
+	$scope.refreshRequests = function () {
+		$scope.requests = requests.all()
+
+		if ($scope.showIncomingRequests && $scope.requests.length) {
+			$scope.showRequest($scope.requests[$scope.requests.length - 1].id)
+		}
+	}
+
 	$scope.showRequest = function (id) {
 		$scope.request = requests.findId(id)
 
@@ -100,7 +53,7 @@ Clockwork.controller('PanelController', function ($scope, $http, requests)
 	}
 
 	$scope.getRequestClass = function (id) {
-		return $scope.request.id == id ? 'selected' : ''
+		return $scope.request && $scope.request.id == id ? 'selected' : ''
 	}
 
 	$scope.showDatabaseConnectionColumn = function () {
