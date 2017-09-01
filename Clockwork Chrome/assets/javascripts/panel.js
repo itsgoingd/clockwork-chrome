@@ -76,19 +76,18 @@ Clockwork.controller('PanelController', function ($scope, $http, requests)
 		return $scope.request && $scope.request.cacheQueries.some(query => query.duration)
 	}
 
-	$scope.generateTimelineLegend = function() {
+	$scope.generateTimelineLegend = function () {
 		if (! $scope.request) return []
 
 		let items = []
-
-		let maxWidth = $('.timeline-graph').width()
+		let maxWidth = $scope.getTimelineWidth()
 		let labelCount = Math.floor(maxWidth / 80)
 		let step = $scope.request.responseDuration / (maxWidth - 20)
 		let j
 
 		for (j = 2; j < labelCount + 1; j++) {
 			items.push({
-				left: (j * 80 - 35).toString(),
+				left: (j * 80 - 40).toString(),
 				time: Math.round(j * 80 * step).toString()
 			})
 		}
@@ -101,6 +100,18 @@ Clockwork.controller('PanelController', function ($scope, $http, requests)
 		}
 
 		return items
+	}
+
+	$scope.getTimelineWidth = function () {
+		let timelineShown = $('[tab-content="timeline"]').css('display') !== 'none'
+
+		if (! timelineShown) $('[tab-content="timeline"]').show()
+
+		let width = $('.timeline-graph').width()
+
+		if (! timelineShown) $('[tab-content="timeline"]').hide()
+
+		return width
 	}
 
 	$scope.loadMoreRequests = function () {
