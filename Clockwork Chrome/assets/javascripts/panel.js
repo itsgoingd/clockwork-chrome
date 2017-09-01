@@ -57,7 +57,11 @@ Clockwork.controller('PanelController', function ($scope, $http, requests)
 	}
 
 	$scope.showDatabaseConnectionColumn = function () {
-		return $scope.request && $scope.request.databaseQueries.some(query => query.connection)
+		let connnections = $scope.request.databaseQueries
+			.map(query => query.connection)
+			.filter((connection, i, connections) => connections.indexOf(connection) == i)
+
+		return $scope.request && connnections.length > 1
 	}
 
 	$scope.showCacheTab = function () {
