@@ -1,3 +1,5 @@
+let api = chrome || browser
+
 function onMessage(message, sender, callback) {
 	if (message.action == 'getJSON') {
 		let xhr = new XMLHttpRequest()
@@ -35,13 +37,13 @@ function onMessage(message, sender, callback) {
 	return true
 }
 
-chrome.runtime.onMessage.addListener(onMessage)
+api.runtime.onMessage.addListener(onMessage)
 
 // track last clockwork-enabled request per tab
 let lastClockworkRequestPerTab = {}
 
-chrome.webRequest.onCompleted.addListener(
-	(request) => {
+api.webRequest.onCompleted.addListener(
+	request => {
 		if (request.responseHeaders.find((x) => x.name.toLowerCase() == 'x-clockwork-id')) {
 			lastClockworkRequestPerTab[request.tabId] = { url: request.url, headers: request.responseHeaders }
 		}
@@ -50,4 +52,13 @@ chrome.webRequest.onCompleted.addListener(
 	[ 'responseHeaders' ]
 )
 
-chrome.tabs.onRemoved.addListener((tabId) => delete lastClockworkRequestPerTab[tabId])
+api.tabs.onRemoved.addListener((tabId) => delete lastClockworkRequestPerTab[tabId])
+
+// chrome.devtools.network.onRequestFinished replacement for Firefox
+api.webRequest.onCompleted.addListener(
+	request => {
+		api.runtime.sendMessage({ action: 'requestCompleted', request: request })
+	},
+	{ urls: [ '<all_urls>' ] },
+	[ 'responseHeaders' ]
+)

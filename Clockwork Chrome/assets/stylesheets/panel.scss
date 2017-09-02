@@ -8,7 +8,6 @@ html {
 	font-size: 11px;
 	height: 100%;
 	overflow: hidden;
-
 }
 
 body {
@@ -87,7 +86,6 @@ a {
 	cursor: default;
 
 	table {
-		height: 100%;
 		line-height: 1.4;
 		table-layout: fixed;
 	}
@@ -146,7 +144,7 @@ a {
 			}
 
 			.notifications-count {
-				background: rgb(39, 134, 243);
+				background: rgb(39, 134, 243) !important;
 
 				.errors-count i, .warnings-count i {
 					color: #fff;
@@ -253,9 +251,17 @@ a {
 		}
 	}
 
+	.requests-header {
+		height: 31px;
+	}
+
 	.requests-container {
 		height: calc(100% - 30px);
 		overflow: auto;
+
+		table {
+			height: 100%;
+		}
 	}
 
 	.load-more {

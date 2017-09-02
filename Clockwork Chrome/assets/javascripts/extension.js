@@ -41,12 +41,29 @@ class Extension
 	}
 
 	listenToRequests () {
+		if (! this.api.devtools.network.onRequestFinished) {
+			return this.listenToRequestsFirefox()
+		}
+
 		this.api.devtools.network.onRequestFinished.addListener(request => {
 			let options = this.parseHeaders(request.response.headers)
 
 			if (! options) return
 
 			this.requests.setRemote(request.request.url, options)
+			this.requests.loadId(options.id).then(() => {
+				this.$scope.$apply(() => this.$scope.refreshRequests())
+			})
+		})
+	}
+
+	listenToRequestsFirefox () {
+		this.api.runtime.onMessage.addListener(message => {
+			let options = this.parseHeaders(message.request.responseHeaders)
+
+			if (! options) return
+
+			this.requests.setRemote(message.request.url, options)
 			this.requests.loadId(options.id).then(() => {
 				this.$scope.$apply(() => this.$scope.refreshRequests())
 			})
