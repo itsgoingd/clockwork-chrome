@@ -403,7 +403,7 @@ a {
 
 	.counters-row {
 		display: flex;
-		margin: 10px 0 15px;
+		margin: 0 0 10px;
 
 		.counter {
 			border: 1px solid rgb(209, 209, 209);
@@ -411,11 +411,12 @@ a {
 			box-shadow: 0 2px 3px #e5e5e5;
 			margin: 0 5px;
 			flex: 1;
-			padding: 20px;
+			padding: 8px 20px 10px;
 			text-align: center;
 
 			body.dark & {
-				border: 1px solid rgb(54, 54, 54);
+				border: 1px solid rgb(64, 64, 64);
+				box-shadow: 0 2px 3px #292929;
 			}
 
 			&:first-child {
@@ -427,11 +428,11 @@ a {
 			}
 
 			.counter-value {
-				font-size: 200%;
+				font-size: 175%;
 			}
 
 			.counter-title {
-				font-size: 125%;
+				font-size: 120%;
 				font-variant: small-caps;
 			}
 		}
