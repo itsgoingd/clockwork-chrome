@@ -51,8 +51,8 @@ class Extension
 			if (! options) return
 
 			this.requests.setRemote(request.request.url, options)
-			this.requests.loadId(options.id).then(() => {
-				this.$scope.$apply(() => this.$scope.refreshRequests())
+			this.requests.loadId(options.id).then(activeRequest => {
+				this.$scope.$apply(() => this.$scope.refreshRequests(activeRequest))
 			})
 		})
 	}
@@ -64,8 +64,8 @@ class Extension
 			if (! options) return
 
 			this.requests.setRemote(message.request.url, options)
-			this.requests.loadId(options.id).then(() => {
-				this.$scope.$apply(() => this.$scope.refreshRequests())
+			this.requests.loadId(options.id).then(activeRequest => {
+				this.$scope.$apply(() => this.$scope.refreshRequests(activeRequest))
 			})
 		})
 	}
@@ -80,8 +80,8 @@ class Extension
 
 				this.requests.setRemote(data.url, options)
 				this.requests.loadId(options.id).then(() => {
-					this.requests.loadNext().then(() => {
-						this.$scope.$apply(() => this.$scope.refreshRequests())
+					this.requests.loadNext().then(activeRequest => {
+						this.$scope.$apply(() => this.$scope.refreshRequests(activeRequest))
 					})
 				})
 			}

@@ -36,11 +36,12 @@ Clockwork.controller('PanelController', function ($scope, $http, requests)
 		$scope.expandedEvents = []
 	}
 
-	$scope.refreshRequests = function () {
+	$scope.refreshRequests = function (activeRequest) {
 		$scope.requests = requests.all()
 
 		if ($scope.showIncomingRequests && $scope.requests.length) {
-			$scope.showRequest($scope.requests[$scope.requests.length - 1].id)
+			$scope.showRequest(activeRequest ? activeRequest.id : $scope.requests[$scope.requests.length - 1].id)
+			$scope.showIncomingRequests = true
 		}
 	}
 
@@ -57,11 +58,13 @@ Clockwork.controller('PanelController', function ($scope, $http, requests)
 	}
 
 	$scope.showDatabaseConnectionColumn = function () {
+		if (! $scope.request) return
+
 		let connnections = $scope.request.databaseQueries
 			.map(query => query.connection)
 			.filter((connection, i, connections) => connections.indexOf(connection) == i)
 
-		return $scope.request && connnections.length > 1
+		return connnections.length > 1
 	}
 
 	$scope.showCacheTab = function () {
