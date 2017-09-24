@@ -26,7 +26,11 @@ class Requests
 		this.items.push(placeholder)
 
 		return this.callRemote(this.remoteUrl + id).then(data => {
-			this.items[this.items.indexOf(placeholder)] = data[0]
+			if (data[0]) {
+				this.items[this.items.indexOf(placeholder)] = data[0]
+			} else {
+				this.items.splice(this.items.indexOf(placeholder), -1)
+			}
 
 			return Promise.resolve(data[0])
 		})
