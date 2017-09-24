@@ -26,7 +26,7 @@ function onMessage(message, sender, callback) {
 		}
 
 		Object.keys(message.headers || {}).forEach(headerName => {
-		    xhr.setRequestHeader(headerName, message.headers[headerName])
+			xhr.setRequestHeader(headerName, message.headers[headerName])
 		})
 
 		xhr.send()
@@ -57,6 +57,9 @@ api.tabs.onRemoved.addListener((tabId) => delete lastClockworkRequestPerTab[tabI
 // chrome.devtools.network.onRequestFinished replacement for Firefox
 api.webRequest.onCompleted.addListener(
 	request => {
+		// ignore requests executed from extension itself
+		if (request.documentUrl && request.documentUrl.match(new RegExp('^moz-extension://'))) return
+
 		api.runtime.sendMessage({ action: 'requestCompleted', request: request })
 	},
 	{ urls: [ '<all_urls>' ] },
