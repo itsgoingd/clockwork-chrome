@@ -87,8 +87,8 @@ class Requests
 		url = new URI(url)
 
 		let [ pathname, query ] = options.path.split('?')
-		url.pathname(pathname)
-		url.query(query)
+		url.pathname(pathname || '')
+		url.query(query || '')
 
 		this.remoteUrl = url.toString()
 		this.remoteHeaders = options.headers || {}

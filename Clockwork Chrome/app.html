@@ -67,7 +67,7 @@
 							<td class="duration"></td>
 						</tr>
 						<tr ng-repeat="request in requests" ng-click="showRequest(request.id)" ng-class="getRequestClass(request.id)" scroll-to-new>
-							<td class="controller" title="{{request.uri}} ({{ request.controller}}">
+							<td class="controller" title="{{request.uri}} ({{ request.controller}})">
 								<span class="notifications-count">
 									<span class="errors-count" ng-show="request.errorsCount">
 										<i class="fa fa-exclamation-circle"></i> {{request.errorsCount}}
