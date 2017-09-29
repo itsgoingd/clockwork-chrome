@@ -1,8 +1,9 @@
 class Extension
 {
-	constructor ($scope, requests) {
+	constructor ($scope, requests, updateNotification) {
 		this.$scope = $scope
 		this.requests = requests
+		this.updateNotification = updateNotification
 	}
 
 	get api () { return chrome || browser }
@@ -50,6 +51,8 @@ class Extension
 
 			if (! options) return
 
+			this.updateNotification.serverVersion = options.version
+
 			this.requests.setRemote(request.request.url, options)
 			this.requests.loadId(options.id).then(activeRequest => {
 				this.$scope.$apply(() => this.$scope.refreshRequests(activeRequest))
@@ -62,6 +65,8 @@ class Extension
 			let options = this.parseHeaders(message.request.responseHeaders)
 
 			if (! options) return
+
+			this.updateNotification.serverVersion = options.version
 
 			this.requests.setRemote(message.request.url, options)
 			this.requests.loadId(options.id).then(activeRequest => {
@@ -77,6 +82,8 @@ class Extension
 				if (! data) return
 
 				let options = this.parseHeaders(data.headers)
+
+				this.updateNotification.serverVersion = options.version
 
 				this.requests.setRemote(data.url, options)
 				this.requests.loadId(options.id).then(() => {
@@ -94,6 +101,8 @@ class Extension
 			? found.value : undefined
 		let path = (found = requestHeaders.find((x) => x.name.toLowerCase() == 'x-clockwork-path'))
 			? found.value : undefined
+		let version = (found = requestHeaders.find((x) => x.name.toLowerCase() == 'x-clockwork-version'))
+			? found.value : undefined
 
 		if (! id) return
 
@@ -105,6 +114,6 @@ class Extension
 			}
 		})
 
-		return { id, path, headers }
+		return { id, path, version, headers }
 	}
 }

@@ -1,4 +1,4 @@
-Clockwork.controller('PanelController', function ($scope, $http, requests)
+Clockwork.controller('PanelController', function ($scope, $http, requests, updateNotification)
 {
 	$scope.requests = []
 	$scope.request = null
@@ -15,7 +15,7 @@ Clockwork.controller('PanelController', function ($scope, $http, requests)
 		key('⌘+k, ctrl+l', () => $scope.$apply(() => $scope.clear()))
 
 		if (Extension.runningAsExtension()) {
-			$scope.$integration = new Extension($scope, requests)
+			$scope.$integration = new Extension($scope, requests, updateNotification)
 		} else {
 			$scope.$integration = new Standalone($scope, $http, requests)
 		}
@@ -48,6 +48,7 @@ Clockwork.controller('PanelController', function ($scope, $http, requests)
 	$scope.showRequest = function (id) {
 		$scope.request = requests.findId(id)
 
+		$scope.updateNotification = updateNotification.show(requests.remoteUrl)
 		$scope.timelineLegend = $scope.generateTimelineLegend()
 
 		$scope.showIncomingRequests = (id == $scope.requests[$scope.requests.length - 1].id)
@@ -148,6 +149,12 @@ Clockwork.controller('PanelController', function ($scope, $http, requests)
 		}
 	}
 
+	$scope.closeUpdateNotification = function () {
+		$scope.updateNotification = null
+
+		updateNotification.ignoreUpdate(requests.remoteUrl)
+	}
+	
 	angular.element(window).bind('resize', () => {
 		$scope.$apply(() => $scope.timelineLegend = $scope.generateTimelineLegend())
     })

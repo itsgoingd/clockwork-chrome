@@ -375,6 +375,18 @@ a {
   padding: 7px 0 0 5px;
   font-weight: bold; }
 
+.update-notification {
+  background: #e9f3fb;
+  border-radius: 3px;
+  display: flex;
+  margin-bottom: 10px;
+  padding: 6px 10px; }
+  .update-notification a {
+    color: #258cdb;
+    text-decoration: none; }
+  .update-notification .updateNotification-close {
+    margin-left: auto; }
+
 [stupid-table] th {
   cursor: default; }
 

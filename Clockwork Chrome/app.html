@@ -28,6 +28,7 @@
 		<script src="assets/javascripts/request.js"></script>
 		<script src="assets/javascripts/requests.js"></script>
 		<script src="assets/javascripts/standalone.js"></script>
+		<script src="assets/javascripts/update-notification.js"></script>
 	</head>
 	<body>
 		<div class="split-view" ng-controller="PanelController" ng-init="init()">
@@ -135,6 +136,16 @@
 				<div class="details-content">
 
 					<div tab-content="request">
+						<div class="update-notification" ng-show="updateNotification">
+							<span>
+								A new Clockwork server-side version is available, {{updateNotification.version}}, you are using {{updateNotification.currentVersion}}.
+								<a ng-show="updateNotification.url" href="{{updateNotification.url}}" target="_blank">Read more</a>
+							</span>
+							<span class="updateNotification-close">
+								<a ng-click="closeUpdateNotification()" href="#">Close</a>
+							</span>
+						</div>
+
 						<table ng-show="request.headers.length">
 							<thead>
 								<tr>
