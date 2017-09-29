@@ -1,3 +1,24 @@
+2.0
+- added cache tab, including stats like reads, hits, misses, writes, deletes, time and full cache query log with pretty-printed values and caller file support
+- added events tab for apps using event dispatching
+- added dark theme
+- added showing of last request when Clockwork is opened
+- added ability to load older requests
+- added ability to collapse the requests list
+- added support for showing classes of pretty-printed objects
+- added support for running as a standalone app
+- added Firefox compatibility
+- added Clockwork server-side update notifications
+- changed UI tweaks, new tab bar, tweaked colors and whitespace
+- changed headers, get and post data, cookies and session data are now sorted alphabetically by name
+- changed refactored whole metadata handling code and a lot of the UI code
+- changed styles are now in SCSS using node-sass for compilation
+- changed handling of invalid metadata to be more robust
+- changed X-Clockwork-Version header is now optional
+- changed deprecated Chrome api usage
+- updated angular, jquery and other 3rd party libraries, switched to the "slim" jquery version
+- cleaned up styles and markup
+
 1.6
 - added support for model and caller file name and line number in database tab (thanks OmarMakled and fitztrev for the idea)
 - added support for caller file name and line number in log tab (thanks crissi for the idea)
