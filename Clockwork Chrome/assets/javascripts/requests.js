@@ -29,7 +29,7 @@ class Requests
 			if (data[0]) {
 				this.items[this.items.indexOf(placeholder)] = data[0]
 			} else {
-				this.items.splice(this.items.indexOf(placeholder), -1)
+				this.items.splice(this.items.indexOf(placeholder), 1)
 			}
 
 			return Promise.resolve(data[0])
