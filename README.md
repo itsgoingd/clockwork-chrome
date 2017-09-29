@@ -1,25 +1,20 @@
-Clockwork
-=========
+<p align="center">
+	<img width="412px" src="https://underground.works/clockwork/images/github/title.png">
+	<img src="https://underground.works/clockwork/images/github/clockwork-intro.png">
+</p>
 
-Clockwork is a Chrome extension for PHP development, extending Developer Tools with a new panel providing all kinds of information useful for debugging and profiling your PHP scripts, including information on request, headers, GET and POST data, cookies, session data, database queries, routes, visualisation of application runtime and more.
-Clockwork includes out of the box support for Laravel and Slim 2 based applications, you can add support for any other or a custom framework via an extensible API.
 
-**Not a Chrome user?** Check out [Firefox version](http://github.com/itsgoingd/clockwork-firefox) or [embeddable web app version of Clockwork](http://github.com/itsgoingd/clockwork-web), supporting many modern browsers along chrome.
-There are also a third-party [Firebug extension](https://github.com/sidorovich/clockwork-firebug) and a [CLI client app](https://github.com/ptrofimov/clockwork-cli) available.
+### What is Clockwork?
 
-![](https://dl.dropboxusercontent.com/u/9846387/Screenshots/Clockwork%20Chrome%201.2.png)
+Clockwork is a browser extension, providing tools for debugging and profiling your PHP applications, including request data, application log, database queries, routes, visualisation of application runtime and more.
 
-This extension is based on [RailsPanel](https://github.com/dejan/rails_panel), a Chrome extension for Ruby development by [Dejan Simic](http://rors.org/).
+Clockwork uses a server-side component, that gathers all the data and easily integrates with any PHP project, including out-of-the-box support for major frameworks.
 
-## Installation
+Read more and try it out on the [Clockwork website](https://underground.works/clockwork).
 
-To use this extension you need to install a [server-side component](http://github.com/itsgoingd/clockwork).
+*This repository contains the Clockwork Chrome extension.*
 
-Install the latest version of Clockwork from the [Chrome Web Store](https://chrome.google.com/webstore/detail/clockwork/dmggabnehkmmfmdffgajcflpdjlnoemp).
-
-If you don't want to use Chrome Web Store, want to try the latest revision or hack on the source, you can install Clockwork as unpacked extension. To do this, download copy of this repository, open Chrome Extensions manager, enable "Developer Mode", select "Load Unpacked Extension..." and select directory with contents of this repository.
-
-## Licence
+### Licence
 
 Copyright (c) 2013 Miroslav Rigler
 
