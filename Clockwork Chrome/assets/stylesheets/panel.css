@@ -156,7 +156,7 @@ a {
   .split-view-requests .requests-header {
     height: 31px; }
   .split-view-requests .requests-container {
-    height: calc(100% - 30px);
+    height: calc(100% - 31px);
     overflow: auto; }
     .split-view-requests .requests-container table {
       height: 100%; }
