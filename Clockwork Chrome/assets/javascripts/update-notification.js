@@ -20,7 +20,7 @@ class UpdateNotification
 			return
 		}
 
-		if (this.versionCompare(this.latest().version, this.serverVersion)) {
+		if (this.versionCompare(this.latest().version, this.serverVersion) == 1) {
 			return { version: this.latest().version, url: this.latest().url, currentVersion: this.serverVersion }
 		}
 	}
