@@ -1,3 +1,7 @@
+2.0.1
+- fixed not being able to scroll using the mouse wheel (thanks KKSzymanowski)
+- fixed update notifications showing if the server-side has higher version (thanks KKSzymanowski)
+
 2.0
 - added cache tab, including stats like reads, hits, misses, writes, deletes, time and full cache query log with pretty-printed values and caller file support
 - added events tab for apps using event dispatching
