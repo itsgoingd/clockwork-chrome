@@ -1,3 +1,8 @@
+2.0.2
+- added workaround for a bug in Firefox 57 (thanks miclf)
+- fixed crash when using custom metadata request headers, preserve header letter case (thanks SerafimArts)
+- fixed log tab not showing context of the messages
+
 2.0.1
 - fixed not being able to scroll using the mouse wheel (thanks KKSzymanowski)
 - fixed update notifications showing if the server-side has higher version (thanks KKSzymanowski)
