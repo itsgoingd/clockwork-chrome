@@ -62,7 +62,10 @@ class Extension
 
 	listenToRequestsFirefox () {
 		this.api.runtime.onMessage.addListener(message => {
-			if (message.request.tabId != this.api.devtools.inspectedWindow.tabId) return
+			// skip this check in firefox 57.0 to work around a bug where request.tabId is always -1
+			if (navigator.userAgent.toLowerCase().indexOf('firefox/57.0') === -1) {
+				if (message.request.tabId != this.api.devtools.inspectedWindow.tabId) return
+			}
 
 			let options = this.parseHeaders(message.request.responseHeaders)
 
