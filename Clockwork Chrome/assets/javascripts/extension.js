@@ -111,8 +111,8 @@ class Extension
 		let headers = {}
 		requestHeaders.forEach((header) => {
 			if (header.name.toLowerCase().indexOf('x-clockwork-header-') === 0) {
-				let name = header.name.toLowerCase().replace('x-clockwork-header-', '')
-				headers[originalName] = header.value
+				let name = header.name.replace(/^x-clockwork-header-/i, '')
+				headers[name] = header.value
 			}
 		})
 
