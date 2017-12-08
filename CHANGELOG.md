@@ -1,3 +1,6 @@
+2.0.3
+- fixed some layout issues (fixes firefox scrolling issue) (thanks spaceemotion)
+
 2.0.2
 - added workaround for a bug in Firefox 57 (thanks miclf)
 - fixed crash when using custom metadata request headers, preserve header letter case (thanks SerafimArts)
