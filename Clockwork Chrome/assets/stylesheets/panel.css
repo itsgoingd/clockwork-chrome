@@ -51,10 +51,11 @@ a {
       width: 480px; } }
 
 .split-view-details {
-  flex: 1;
+  height: 50%;
   min-width: 0; }
   @media screen and (min-width: 900px) {
     .split-view-details {
+      flex: 1;
       height: 100%; } }
 
 .split-view-requests {
@@ -187,6 +188,7 @@ a {
 .details-header {
   border-bottom: 1px solid #cccccc;
   display: flex;
+  flex-shrink: 0;
   height: 31px; }
   body.dark .details-header {
     border-bottom: 1px solid #363636; }

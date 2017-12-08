@@ -72,10 +72,11 @@ a {
 }
 
 .split-view-details {
-	flex: 1;
+	height: 50%;
 	min-width: 0;
 
 	@media screen and (min-width: 900px) {
+		flex: 1;
 		height: 100%;
 	}
 }
@@ -306,6 +307,7 @@ a {
 .details-header {
 	border-bottom: 1px solid rgb(204, 204, 204);
 	display: flex;
+	flex-shrink: 0;
 	height: 31px;
 
 	body.dark & {
