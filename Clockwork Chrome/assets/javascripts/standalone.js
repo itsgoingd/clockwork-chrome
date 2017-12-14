@@ -37,6 +37,10 @@ class Standalone
 		this.requests.loadNext(null, this.lastRequestId).then(() => {
 			if (this.requests.last()) this.lastRequestId = this.requests.last().id
 
+			if (! this.$scope.preserveLog) {
+				this.requests.setItems(this.requests.all().slice(-1))
+			}
+
 			this.$scope.refreshRequests()
 
 			setTimeout(() => this.pollRequests(), 1000)

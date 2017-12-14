@@ -42,6 +42,12 @@ class Extension
 	}
 
 	listenToRequests () {
+		this.api.devtools.network.onNavigated.addListener(url => {
+			if (! this.$scope.preserveLog) {
+				this.requests.clear()
+			}
+		})
+
 		if (! this.api.devtools.network.onRequestFinished) {
 			return this.listenToRequestsFirefox()
 		}

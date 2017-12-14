@@ -80,6 +80,10 @@ class Requests
 		this.client = client
 	}
 
+	setItems (items) {
+		this.items = items
+	}
+
 	setRemote (url, options) {
 		options = options || {}
 		options.path = options.path || '/__clockwork/'
