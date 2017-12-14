@@ -127,6 +127,12 @@
 					</div>
 
 					<div class="icons">
+						<a href="#" title="Preserve log" ng-show="! preserveLog" ng-click="togglePreserveLog()">
+							<span class="fa fa-circle-o"></span>
+						</a>
+						<a href="#" title="Preserve log" ng-show="preserveLog" ng-click="togglePreserveLog()">
+							<span class="fa fa-circle"></span>
+						</a>
 						<a href="#" title="Clear" ng-click="clear()">
 							<span class="fa fa-ban"></span>
 						</a>
