@@ -54,7 +54,7 @@ api.webRequest.onCompleted.addListener(
 
 api.tabs.onRemoved.addListener((tabId) => delete lastClockworkRequestPerTab[tabId])
 
-// chrome.devtools.network.onRequestFinished replacement for Firefox
+// listen to http requests and send them to the app
 api.webRequest.onCompleted.addListener(
 	request => {
 		// ignore requests executed from extension itself

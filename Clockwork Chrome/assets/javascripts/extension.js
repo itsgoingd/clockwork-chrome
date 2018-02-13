@@ -48,26 +48,9 @@ class Extension
 			}
 		})
 
-		if (! this.api.devtools.network.onRequestFinished) {
-			return this.listenToRequestsFirefox()
-		}
-
-		this.api.devtools.network.onRequestFinished.addListener(request => {
-			let options = this.parseHeaders(request.response.headers)
-
-			if (! options) return
-
-			this.updateNotification.serverVersion = options.version
-
-			this.requests.setRemote(request.request.url, options)
-			this.requests.loadId(options.id).then(activeRequest => {
-				this.$scope.$apply(() => this.$scope.refreshRequests(activeRequest))
-			})
-		})
-	}
-
-	listenToRequestsFirefox () {
 		this.api.runtime.onMessage.addListener(message => {
+			if (message.action !== 'requestCompleted') return;
+
 			// skip this check in firefox 57.0 to work around a bug where request.tabId is always -1
 			if (navigator.userAgent.toLowerCase().indexOf('firefox/57.0') === -1) {
 				if (message.request.tabId != this.api.devtools.inspectedWindow.tabId) return
