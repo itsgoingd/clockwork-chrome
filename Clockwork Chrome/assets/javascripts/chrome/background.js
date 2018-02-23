@@ -55,7 +55,7 @@ api.webRequest.onCompleted.addListener(
 api.tabs.onRemoved.addListener((tabId) => delete lastClockworkRequestPerTab[tabId])
 
 // listen to http requests and send them to the app
-api.webRequest.onCompleted.addListener(
+api.webRequest.onHeadersReceived.addListener(
 	request => {
 		// ignore requests executed from extension itself
 		if (request.documentUrl && request.documentUrl.match(new RegExp('^moz-extension://'))) return
