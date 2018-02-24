@@ -63,28 +63,30 @@ class Extension
 			this.updateNotification.serverVersion = options.version
 
 			this.requests.setRemote(message.request.url, options)
-			this.requests.loadId(options.id).then(activeRequest => {
-				this.$scope.$apply(() => this.$scope.refreshRequests(activeRequest))
+			this.requests.loadId(options.id, Request.placeholder(message.request)).then(() => {
+				this.$scope.$apply(() => this.$scope.refreshRequests())
 			})
+
+			this.$scope.$apply(() => this.$scope.refreshRequests())
 		})
 	}
 
 	loadLastRequest () {
 		this.api.runtime.sendMessage(
 			{ action: 'getLastClockworkRequestInTab', tabId: this.api.devtools.inspectedWindow.tabId },
-			(data) => {
-				if (! data) return
+			(request) => {
+				if (! request) return
 
-				let options = this.parseHeaders(data.headers)
+				let options = this.parseHeaders(request.responseHeaders)
 
 				this.updateNotification.serverVersion = options.version
 
-				this.requests.setRemote(data.url, options)
-				this.requests.loadId(options.id).then(() => {
-					this.requests.loadNext().then(activeRequest => {
-						this.$scope.$apply(() => this.$scope.refreshRequests(activeRequest))
-					})
+				this.requests.setRemote(request.url, options)
+				this.requests.loadId(options.id, Request.placeholder(request)).then(() => {
+					this.$scope.$apply(() => this.$scope.refreshRequests())
 				})
+
+				this.$scope.$apply(() => this.$scope.refreshRequests())
 			}
 		)
 	}

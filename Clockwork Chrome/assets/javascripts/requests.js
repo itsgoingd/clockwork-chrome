@@ -6,9 +6,7 @@ class Requests
 
 	// returns all requests up to the first placeholder, or everything if there are no placeholders
 	all () {
-		let placeholder = this.items.find(item => item.loading)
-
-		return placeholder ? this.items.slice(0, this.items.indexOf(placeholder)) : this.items
+		return this.items
 	}
 
 	// return request by id
@@ -17,21 +15,18 @@ class Requests
 	}
 
 	// loads request by id, inserts a placeholder to the items array which is replaced once the metadata is retrieved
-	loadId (id) {
+	loadId (id, placeholder) {
 		let request = this.findId(id)
 
 		if (request) return Promise.resolve(request)
 
-		let placeholder = new Request({ id: id, loading: true })
+		placeholder = placeholder || Request.placeholder()
+
 		this.items.push(placeholder)
 
 		return this.callRemote(this.remoteUrl + id).then(data => {
 			if (data[0]) {
-				if (this.items.indexOf(placeholder) != -1) {
-					this.items[this.items.indexOf(placeholder)] = data[0]
-				} else {
-					this.items.push(data[0])
-				}
+				placeholder.resolve(data[0])
 			} else {
 				this.items.splice(this.items.indexOf(placeholder), 1)
 			}

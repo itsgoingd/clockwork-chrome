@@ -302,6 +302,7 @@ a {
 .split-view-details {
 	display: flex;
 	flex-direction: column;
+	position: relative;
 }
 
 .details-header {
@@ -619,6 +620,19 @@ a {
 		font-size: 125%;
 		font-variant: small-caps;
 	}
+}
+
+.details-loading-overlay {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	font-size: 16px;
+	height: 100%;
+	justify-content: center;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
 }
 
 .number-of-queries {

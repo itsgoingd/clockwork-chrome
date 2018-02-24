@@ -45,7 +45,7 @@ let lastClockworkRequestPerTab = {}
 api.webRequest.onCompleted.addListener(
 	request => {
 		if (request.responseHeaders.find((x) => x.name.toLowerCase() == 'x-clockwork-id')) {
-			lastClockworkRequestPerTab[request.tabId] = { url: request.url, headers: request.responseHeaders }
+			lastClockworkRequestPerTab[request.tabId] = request
 		}
 	},
 	{ urls: [ '<all_urls>' ], types: [ 'main_frame' ] },

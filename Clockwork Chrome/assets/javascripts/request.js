@@ -3,7 +3,7 @@ class Request
 	constructor (data) {
 		Object.assign(this, data)
 
-		if (this.loading) return
+		if (data.loading) return
 
 		this.responseDurationRounded = this.responseDuration ? Math.round(this.responseDuration) : 0
 		this.databaseDurationRounded = this.databaseDuration ? Math.round(this.databaseDuration) : 0
@@ -24,6 +24,22 @@ class Request
 
 		this.errorsCount = this.getErrorsCount()
 		this.warningsCount = this.getWarningsCount()
+	}
+
+	static placeholder (request) {
+		return new Request({
+			loading: true,
+			uri: (new URI(request.url)).pathname(),
+			controller: 'Waiting...',
+			method: request.method,
+			responseStatus: '?',
+			responseDurationRounded: '?',
+			databaseDurationRounded: '?'
+		})
+	}
+
+	resolve (request) {
+		Object.assign(this, request, { loading: false })
 	}
 
 	createKeypairs (data) {
