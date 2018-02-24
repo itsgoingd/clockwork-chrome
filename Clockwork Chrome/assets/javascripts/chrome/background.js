@@ -1,4 +1,5 @@
 let api = chrome || browser
+let lastClockworkRequestPerTab = {}
 
 function onMessage(message, sender, callback) {
 	if (message.action == 'getJSON') {
@@ -39,29 +40,21 @@ function onMessage(message, sender, callback) {
 
 api.runtime.onMessage.addListener(onMessage)
 
-// track last clockwork-enabled request per tab
-let lastClockworkRequestPerTab = {}
-
-api.webRequest.onCompleted.addListener(
-	request => {
-		if (request.responseHeaders.find((x) => x.name.toLowerCase() == 'x-clockwork-id')) {
-			lastClockworkRequestPerTab[request.tabId] = request
-		}
-	},
-	{ urls: [ '<all_urls>' ], types: [ 'main_frame' ] },
-	[ 'responseHeaders' ]
-)
-
-api.tabs.onRemoved.addListener((tabId) => delete lastClockworkRequestPerTab[tabId])
-
 // listen to http requests and send them to the app
 api.webRequest.onHeadersReceived.addListener(
 	request => {
-		// ignore requests executed from extension itself
+		// ignore requests executed from the extension itself
 		if (request.documentUrl && request.documentUrl.match(new RegExp('^moz-extension://'))) return
+
+		// track last clockwork-enabled request per tab
+		if (request.responseHeaders.find(x => x.name.toLowerCase() == 'x-clockwork-id')) {
+			lastClockworkRequestPerTab[request.tabId] = request
+		}
 
 		api.runtime.sendMessage({ action: 'requestCompleted', request: request })
 	},
 	{ urls: [ '<all_urls>' ] },
 	[ 'responseHeaders' ]
 )
+
+api.tabs.onRemoved.addListener((tabId) => delete lastClockworkRequestPerTab[tabId])
