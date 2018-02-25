@@ -1,3 +1,10 @@
+2.1
+- added "preserve log" feature (works similar as in the Dev Tools network tab)
+- improved requests list behavior, requests are now shown in loading state while we are loading metadata, error message is shown if metadata fails to load
+- changed to use webRequest api for observing HTTP request in both Chrome and Firefox (fixes latest Chrome Beta/Canary)
+- fixed requests with redirect responses not being shown in Firefox
+- fixed no requests being shown in Firefox if multiple instances of Clockwork are open
+
 2.0.3
 - fixed some layout issues (fixes firefox scrolling issue) (thanks spaceemotion)
 
