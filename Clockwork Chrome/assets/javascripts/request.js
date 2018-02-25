@@ -25,13 +25,14 @@ class Request
 	}
 
 	static placeholder (id, request) {
-		return new Request({
+		return Object.assign(new Request({
 			loading: true,
 			id: id,
 			uri: (new URI(request.url)).pathname(),
 			controller: 'Waiting...',
 			method: request.method,
-			responseStatus: '?',
+			responseStatus: '?'
+		}), {
 			responseDurationRounded: '?',
 			databaseDurationRounded: '?'
 		})
