@@ -46,12 +46,6 @@ class Extension
 	}
 
 	listenToRequests () {
-		this.api.devtools.network.onNavigated.addListener(url => {
-			if (! this.$scope.preserveLog) {
-				this.requests.clear()
-			}
-		})
-
 		this.api.runtime.onMessage.addListener(message => {
 			if (message.action !== 'requestCompleted') return;
 
@@ -72,6 +66,17 @@ class Extension
 			})
 
 			this.$scope.$apply(() => this.$scope.refreshRequests())
+		})
+
+		// handle clearing of requests list if we are not preserving log
+		this.api.runtime.onMessage.addListener(message => {
+			// preserve log is enabled
+			if (this.$scope.preserveLog) return
+
+			// navigation event from a different tab
+			if (message.details.tabId != this.api.devtools.inspectedWindow.tabId) return
+
+			this.requests.clear()
 		})
 	}
 

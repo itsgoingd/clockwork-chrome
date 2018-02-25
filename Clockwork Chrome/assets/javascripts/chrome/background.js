@@ -52,10 +52,16 @@ api.webRequest.onHeadersReceived.addListener(
 			lastClockworkRequestPerTab[request.tabId] = request
 		}
 
-		api.runtime.sendMessage({ action: 'requestCompleted', request: request })
+		api.runtime.sendMessage({ action: 'requestCompleted', request })
 	},
 	{ urls: [ '<all_urls>' ] },
 	[ 'responseHeaders' ]
 )
 
-api.tabs.onRemoved.addListener((tabId) => delete lastClockworkRequestPerTab[tabId])
+// listen to before navigate events and send tem to the app (used for preserve log feature)
+api.webNavigation.onBeforeNavigate.addListener(details => {
+	api.runtime.sendMessage({ action: 'navigationStarted', details })
+})
+
+// clean up last request when tab is closed
+api.tabs.onRemoved.addListener(tabId => delete lastClockworkRequestPerTab[tabId])
