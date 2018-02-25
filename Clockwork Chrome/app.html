@@ -511,6 +511,12 @@
 					</div>
 				</div>
 
+				<div class="details-error-overlay" ng-show="request.error">
+					<span class="fa fa-exclamation-circle"></span>
+					<p class="title">Error loading request metadata.</p>
+					<p class="message">{{ request.error }}</p>
+				</div>
+
 			</div>
 		</div>
 	</body>

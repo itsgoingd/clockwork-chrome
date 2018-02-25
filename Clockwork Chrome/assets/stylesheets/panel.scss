@@ -622,7 +622,7 @@ a {
 	}
 }
 
-.details-loading-overlay {
+.details-loading-overlay, .details-error-overlay {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
@@ -633,6 +633,20 @@ a {
 	position: absolute;
 	top: 0;
 	width: 100%;
+
+	.fa {
+		font-size: 46px;
+	}
+
+	.title {
+		margin: 10px 0 0 0;
+	}
+
+	.message {
+		color: #aaa;
+		font-size: 75%;
+		margin: 5px 0 0 0;
+	}
 }
 
 .number-of-queries {

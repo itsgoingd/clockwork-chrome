@@ -34,10 +34,14 @@ class Extension
 	}
 
 	setMetadataClient () {
-		this.requests.setClient((url, headers, callback) => {
-			this.api.runtime.sendMessage(
-				{ action: 'getJSON', url, headers }, (data) => callback(data)
-			)
+		this.requests.setClient((url, headers) => {
+			return new Promise((accept, reject) => {
+				this.api.runtime.sendMessage(
+					{ action: 'getJSON', url, headers }, (message) => {
+						message.error ? reject(message.error) : accept(message.data)
+					}
+				)
+			})
 		})
 	}
 
@@ -63,7 +67,7 @@ class Extension
 			this.updateNotification.serverVersion = options.version
 
 			this.requests.setRemote(message.request.url, options)
-			this.requests.loadId(options.id, Request.placeholder(message.request)).then(() => {
+			this.requests.loadId(options.id, Request.placeholder(options.id, message.request)).then(() => {
 				this.$scope.$apply(() => this.$scope.refreshRequests())
 			})
 
@@ -82,7 +86,7 @@ class Extension
 				this.updateNotification.serverVersion = options.version
 
 				this.requests.setRemote(request.url, options)
-				this.requests.loadId(options.id, Request.placeholder(request)).then(() => {
+				this.requests.loadId(options.id, Request.placeholder(options.id, request)).then(() => {
 					this.$scope.$apply(() => this.$scope.refreshRequests())
 				})
 

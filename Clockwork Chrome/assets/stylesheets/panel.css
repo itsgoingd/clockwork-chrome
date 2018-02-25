@@ -373,7 +373,7 @@ a {
     font-size: 125%;
     font-variant: small-caps; }
 
-.details-loading-overlay {
+.details-loading-overlay, .details-error-overlay {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -384,6 +384,14 @@ a {
   position: absolute;
   top: 0;
   width: 100%; }
+  .details-loading-overlay .fa, .details-error-overlay .fa {
+    font-size: 46px; }
+  .details-loading-overlay .title, .details-error-overlay .title {
+    margin: 10px 0 0 0; }
+  .details-loading-overlay .message, .details-error-overlay .message {
+    color: #aaa;
+    font-size: 75%;
+    margin: 5px 0 0 0; }
 
 .number-of-queries {
   font-size: 11px;

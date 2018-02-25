@@ -20,25 +20,21 @@ class Requests
 
 		if (request) return Promise.resolve(request)
 
-		placeholder = placeholder || Request.placeholder()
+		placeholder = placeholder || Request.placeholder(id)
 
 		this.items.push(placeholder)
 
 		return this.callRemote(this.remoteUrl + id).then(data => {
-			if (data[0]) {
-				placeholder.resolve(data[0])
-			} else {
-				this.items.splice(this.items.indexOf(placeholder), 1)
-			}
-
-			return Promise.resolve(data[0])
+			return placeholder.resolve(data[0])
+		}).catch(error => {
+			placeholder.resolveWithError(error)
 		})
 	}
 
 	loadLatest () {
 		return this.callRemote(this.remoteUrl + 'latest').then(data => {
 			this.items.push(...data)
-		})
+		}).catch(error => {})
 	}
 
 	// loads requests after the last request, if the count isn't specified loads all requests
@@ -49,7 +45,7 @@ class Requests
 
 		return this.callRemote(this.remoteUrl + id + '/next' + (count ? '/' + count : '')).then(data => {
 			this.items.push(...data)
-		})
+		}).catch(error => {})
 	}
 
 	// loads requests before the first request, if the count isn't specified loads all requests
@@ -60,7 +56,7 @@ class Requests
 
 		return this.callRemote(this.remoteUrl + id + '/previous' + (count ? '/' + count : '')).then(data => {
 			this.items.unshift(...data)
-		})
+		}).catch(error => {})
 	}
 
 	clear () {
@@ -98,10 +94,8 @@ class Requests
 	}
 
 	callRemote (url) {
-		return new Promise((accept, reject) => {
-			this.client(url, this.remoteHeaders, data => {
-				accept((data instanceof Array ? data : [ data ]).map(data => new Request(data)))
-			})
+		return this.client(url, this.remoteHeaders).then(data => {
+			return ((data instanceof Array) ? data : [ data ]).map(data => new Request(data))
 		})
 	}
 }

@@ -1,7 +1,7 @@
 let api = chrome || browser
 let lastClockworkRequestPerTab = {}
 
-function onMessage(message, sender, callback) {
+api.runtime.onMessage.addListener((message, sender, callback) => {
 	if (message.action == 'getJSON') {
 		let xhr = new XMLHttpRequest()
 
@@ -10,20 +10,23 @@ function onMessage(message, sender, callback) {
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState != 4) return
 
+			let data
+
 			if (xhr.status != 200) {
-				callback([])
-				console.log('Error getting Clockwork metadata:')
-				console.log(xhr.responseText)
-				return
+				return callback({ error: 'Server returned an error response.' })
 			}
 
 			try {
-				callback(JSON.parse(xhr.responseText))
+				data = JSON.parse(xhr.responseText)
 			} catch (e) {
-				callback([])
-				console.log('Invalid Clockwork metadata:')
-				console.log(xhr.responseText)
+				return callback({ error: 'Server returned an invalid JSON.' })
 			}
+
+			if (! Object.keys(data).length) {
+				return callback({ error: 'Server returned an empty metadata.' })
+			}
+
+			callback({ data })
 		}
 
 		Object.keys(message.headers || {}).forEach(headerName => {
@@ -36,9 +39,7 @@ function onMessage(message, sender, callback) {
 	}
 
 	return true
-}
-
-api.runtime.onMessage.addListener(onMessage)
+})
 
 // listen to http requests and send them to the app
 api.webRequest.onHeadersReceived.addListener(
