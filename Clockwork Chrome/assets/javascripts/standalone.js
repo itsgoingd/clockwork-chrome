@@ -20,8 +20,8 @@ class Standalone
 	}
 
 	setMetadataClient () {
-		this.requests.setClient((url, headers, callback) => {
-			this.$http.get(url).then(data => callback(data.data))
+		this.requests.setClient((url, headers) => {
+			return this.$http.get(url).then(data => data.data)
 		})
 	}
 
@@ -30,6 +30,8 @@ class Standalone
 			this.lastRequestId = this.requests.last().id
 
 			this.pollRequests()
+		}).catch(() => {
+			setTimeout(() => this.startPollingRequests(), 1000)
 		})
 	}
 
@@ -43,6 +45,8 @@ class Standalone
 
 			this.$scope.refreshRequests()
 
+			setTimeout(() => this.pollRequests(), 1000)
+		}).catch(() => {
 			setTimeout(() => this.pollRequests(), 1000)
 		})
 	}
