@@ -1,3 +1,9 @@
+2.2
+- learn more about privacy when using Clockwork extensions - https://underground.works/clockwork/docs/extension-privacy
+- added support for displaying route middleware (thanks Vercoutere)
+- fixed not being able to load metadata if the url contains hash
+- updated to latest Angular 1.x
+
 2.1
 - added "preserve log" feature (works similar as in the Dev Tools network tab)
 - improved requests list behavior, requests are now shown in loading state while we are loading metadata, error message is shown if metadata fails to load
