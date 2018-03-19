@@ -153,6 +153,15 @@
 							</span>
 						</div>
 
+						<div class="parent-request" ng-show="request.parent">
+							<span>
+								Subrequest of <code>{{ request.parent.method }} {{ request.parent.uri }}</code>.
+							</span>
+							<span class="parentRequest-close">
+								<a ng-click="showRequest(request.parent.id)" href="#">Show</a>
+							</span>
+						</div>
+
 						<table ng-show="request.headers.length">
 							<thead>
 								<tr>
