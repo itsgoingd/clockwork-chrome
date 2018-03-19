@@ -473,20 +473,20 @@ a {
   padding: 7px 0 0 5px;
   font-weight: bold; }
 
-.update-notification {
+.update-notification, .parent-request {
   background: #e9f3fb;
   border-radius: 3px;
   display: flex;
   margin-bottom: 10px;
   padding: 6px 10px; }
-  body.dark .update-notification {
+  body.dark .update-notification, body.dark .parent-request {
     background: #643302; }
-  .update-notification a {
+  .update-notification a, .parent-request a {
     color: #258cdb;
     text-decoration: none; }
-    body.dark .update-notification a {
+    body.dark .update-notification a, body.dark .parent-request a {
       color: #f27e02; }
-  .update-notification .updateNotification-close {
+  .update-notification .updateNotification-close, .update-notification .parentRequest-close, .parent-request .updateNotification-close, .parent-request .parentRequest-close {
     margin-left: auto; }
 
 [stupid-table] th {
