@@ -24,14 +24,15 @@ class Request
 		this.warningsCount = this.getWarningsCount()
 	}
 
-	static placeholder (id, request) {
+	static placeholder (id, request, parent) {
 		return Object.assign(new Request({
 			loading: true,
 			id: id,
 			uri: (new URI(request.url)).pathname(),
 			controller: 'Waiting...',
 			method: request.method,
-			responseStatus: '?'
+			responseStatus: '?',
+			parent
 		}), {
 			responseDurationRounded: '?',
 			databaseDurationRounded: '?'
