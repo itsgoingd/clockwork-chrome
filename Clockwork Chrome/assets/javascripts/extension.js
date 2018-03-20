@@ -68,7 +68,7 @@ class Extension
 			})
 
 			options.subrequests.forEach(subrequest => {
-				this.requests.setRemote(subrequest.url)
+				this.requests.setRemote(subrequest.url, { path: subrequest.path })
 				this.requests.loadId(subrequest.id, Request.placeholder(subrequest.id, subrequest, request)).then(() => {
 					this.$scope.$apply(() => this.$scope.refreshRequests())
 				})
@@ -134,7 +134,7 @@ class Extension
 
 		let subrequests = requestHeaders.filter(header => header.name.toLowerCase() == 'x-clockwork-subrequest')
 			.map(header => {
-				return { id: header.value.split(';')[0], url: header.value.split(';')[1] }
+				return { id: header.value.split(';')[0], url: header.value.split(';')[1], path: header.value.split(';')[2] }
 			})
 
 		return { id, path, version, headers, subrequests }
