@@ -1,4 +1,4 @@
-Clockwork.controller('PanelController', function ($scope, $http, requests, updateNotification)
+Clockwork.controller('PanelController', function ($scope, $http, filter, requests, updateNotification)
 {
 	$scope.requests = []
 	$scope.request = null
@@ -22,6 +22,82 @@ Clockwork.controller('PanelController', function ($scope, $http, requests, updat
 		}
 
 		$scope.$integration.init()
+
+		this.initFilters()
+	}
+
+	$scope.initFilters = function () {
+		$scope.headersFilter = filter.create([
+			{ tag: 'name' }
+		])
+
+		$scope.getDataFilter = filter.create([
+			{ tag: 'name' }
+		])
+
+		$scope.postDataFilter = filter.create([
+			{ tag: 'name' }
+		])
+
+		$scope.cookiesFilter = filter.create([
+			{ tag: 'name' }
+		])
+
+		$scope.eventsFilter = filter.create([
+			{ tag: 'time', type: 'date' },
+			{ tag: 'file', map: item => item.shortPath }
+		])
+
+		$scope.databaseQueriesFilter = filter.create([
+			{ tag: 'model' },
+			{ tag: 'type', apply: (item, tagValue) => {
+				let types = [ 'select', 'update', 'insert', 'delete' ]
+				if (types.includes(tagValue.toLowerCase())) {
+					return item.query.match(new RegExp(`^${tagValue.toLowerCase()}`, 'i'))
+				}
+			} },
+			{ tag: 'file', map: item => item.shortPath },
+			{ tag: 'duration', type: 'number' }
+		])
+
+		$scope.cacheQueriesFilter = filter.create([
+			{ tag: 'action', apply: (item, tagValue) => {
+				let actions = [ 'read', 'write', 'delete', 'miss' ]
+				if (actions.includes(tagValue.toLowerCase())) {
+					return item.type.toLowerCase() == tagValue.toLowerCase()
+				}
+			} },
+			{ tag: 'key' },
+			{ tag: 'file', map: item => item.shortPath }
+		])
+
+		$scope.logFilter = filter.create([
+			{ tag: 'time', type: 'date' },
+			{ tag: 'level' },
+			{ tag: 'file', map: item => item.shortPath }
+		], item => item.message)
+
+		$scope.sessionFilter = filter.create([
+			{ tag: 'name' }
+		])
+
+		$scope.viewsFilter = filter.create([
+			{ tag: 'name' }
+		])
+
+		$scope.emailsFilter = filter.create([
+			{ tag: 'to' }
+		])
+
+		$scope.routesFilter = filter.create([
+			{ tag: 'method', apply: (item, tagValue) => {
+				let methods = [ 'get', 'post', 'put', 'delete', 'head', 'patch' ]
+				if (methods.includes(tagValue.toLowerCase())) {
+					return item.method.toLowerCase() == tagValue.toLowerCase()
+				}
+			} },
+			{ tag: 'uri' }
+		])
 	}
 
 	$scope.clear = function () {

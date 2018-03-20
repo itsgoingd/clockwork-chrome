@@ -225,6 +225,15 @@ a {
   .details-content table {
     font-size: 12px;
     margin-bottom: 18px; }
+    .details-content table thead th:last-child {
+      padding-right: 20px;
+      position: relative; }
+    .details-content table thead .toggle-filter {
+      position: absolute;
+      right: 0;
+      visibility: hidden; }
+    .details-content table thead:hover .toggle-filter {
+      visibility: visible; }
     .details-content table tr:first-child td {
       border-top: 1px solid #d1d1d1; }
       body.dark .details-content table tr:first-child td {
@@ -247,6 +256,31 @@ a {
         white-space: nowrap; }
       .details-content table td.value {
         word-break: break-all; }
+    .details-content table .filter {
+      background: none !important; }
+      .details-content table .filter td {
+        border-top: 1px solid #d1d1d1;
+        padding: 2px 10px; }
+      .details-content table .filter label {
+        align-items: center;
+        display: flex;
+        position: relative; }
+      .details-content table .filter .fa {
+        color: #696969;
+        padding: 0 4px; }
+      .details-content table .filter input {
+        border: none;
+        width: 100%; }
+        .details-content table .filter input:focus {
+          outline: none; }
+        .details-content table .filter input::placeholder {
+          color: #a9a9a9; }
+      .details-content table .filter .example {
+        color: #a9a9a9;
+        font-size: 11px;
+        pointer-events: none;
+        position: absolute;
+        right: 0; }
   .details-content .counters-row {
     display: flex;
     margin: 0 0 10px; }

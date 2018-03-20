@@ -15,6 +15,7 @@
 		<script src="assets/vendor/javascripts/angular.min.js"></script>
 		<script src="assets/vendor/javascripts/pretty-jason.js"></script>
 		<script src="assets/vendor/javascripts/jquery.resizableColumns.min.js"></script>
+		<script src="assets/vendor/javascripts/moment.min.js"></script>
 
 		<script src="assets/javascripts/app.js"></script>
 		<script src="assets/javascripts/directives/load-more-requests.js"></script>
@@ -25,6 +26,7 @@
 		<script src="assets/javascripts/directives/stupid-table.js"></script>
 		<script src="assets/javascripts/directives/tabs.js"></script>
 		<script src="assets/javascripts/extension.js"></script>
+		<script src="assets/javascripts/filter.js"></script>
 		<script src="assets/javascripts/panel.js"></script>
 		<script src="assets/javascripts/request.js"></script>
 		<script src="assets/javascripts/requests.js"></script>
@@ -156,11 +158,25 @@
 						<table ng-show="request.headers.length">
 							<thead>
 								<tr>
-									<th colspan="2">Request Headers</th>
+									<th colspan="2">
+										Request headers
+										<a href="#" class="toggle-filter" ng-click="headersFilter.toggle($event)">
+											<span class="fa fa-search"></span>
+										</a>
+									</th>
+								</tr>
+								<tr class="filter" ng-show="headersFilter.shown">
+									<td colspan="2">
+										<label>
+											<span class="fa fa-search"></span>
+											<input type="search" placeholder="Filter..." ng-model="headersFilter.input">
+											<span class="example" ng-hide="headersFilter.input">eg. text/html name:Accept</span>
+										</div>
+									</td>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="param in request.headers">
+								<tr ng-repeat="param in request.headers | filter:headersFilter.filter()">
 									<td class="key">{{param.name}}</td>
 									<td class="value"><pretty-print data="param.value"></pretty-print></td>
 								</tr>
@@ -170,11 +186,25 @@
 						<table ng-show="request.getData.length">
 							<thead>
 								<tr>
-									<th colspan="2">GET parameters</th>
+									<th colspan="2">
+										GET parameters
+										<a href="#" class="toggle-filter" ng-click="getDataFilter.toggle($event)">
+											<span class="fa fa-search"></span>
+										</a>
+									</th>
+								</tr>
+								<tr class="filter" ng-show="getDataFilter.shown">
+									<td colspan="2">
+										<label>
+											<span class="fa fa-search"></span>
+											<input type="search" placeholder="Filter..." ng-model="getDataFilter.input">
+											<span class="example" ng-hide="getDataFilter.input">eg. created_at name:orderBy</span>
+										</div>
+									</td>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="param in request.getData">
+								<tr ng-repeat="param in request.getData | filter:getDataFilter.filter()">
 									<td class="key">{{param.name}}</td>
 									<td class="value"><pretty-print data="param.value"></pretty-print></td>
 								</tr>
@@ -184,11 +214,25 @@
 						<table ng-show="request.postData.length">
 							<thead>
 								<tr>
-									<th colspan="2">POST parameters</th>
+									<th colspan="2">
+										POST parameters
+										<a href="#" class="toggle-filter" ng-click="postDataFilter.toggle($event)">
+											<span class="fa fa-search"></span>
+										</a>
+									</th>
+								</tr>
+								<tr class="filter" ng-show="postDataFilter.shown">
+									<td colspan="2">
+										<label>
+											<span class="fa fa-search"></span>
+											<input type="search" placeholder="Filter..." ng-model="postDataFilter.input">
+											<span class="example" ng-hide="postDataFilter.input">eg. "Mike Jones" name:name</span>
+										</div>
+									</td>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="param in request.postData">
+								<tr ng-repeat="param in request.postData | filter:postDataFilter.filter()">
 									<td class="key">{{param.name}}</td>
 									<td class="value"><pretty-print data="param.value"></pretty-print></td>
 								</tr>
@@ -198,11 +242,25 @@
 						<table ng-show="request.cookies.length">
 							<thead>
 								<tr>
-									<th colspan="2">Cookies</th>
+									<th colspan="2">
+										Cookies
+										<a href="#" class="toggle-filter" ng-click="cookiesFilter.toggle($event)">
+											<span class="fa fa-search"></span>
+										</a>
+									</th>
+								</tr>
+								<tr class="filter" ng-show="cookiesFilter.shown">
+									<td colspan="2">
+										<label>
+											<span class="fa fa-search"></span>
+											<input type="search" placeholder="Filter..." ng-model="cookiesFilter.input">
+											<span class="example" ng-hide="cookiesFilter.input">eg. 24knr234 name:cart_token</span>
+										</div>
+									</td>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="param in request.cookies">
+								<tr ng-repeat="param in request.cookies | filter:cookiesFilter.filter()">
 									<td class="key">{{param.name}}</td>
 									<td class="value"><pretty-print data="param.value"></pretty-print></td>
 								</tr>
@@ -216,11 +274,24 @@
 								<tr>
 									<th data-sort="string">Time</th>
 									<th data-sort="string">Event</th>
-									<th></th>
+									<th>
+										<a href="#" class="toggle-filter" ng-click="eventsFilter.toggle($event)">
+											<span class="fa fa-search"></span>
+										</a>
+									</th>
+								</tr>
+								<tr class="filter" ng-show="eventsFilter.shown">
+									<td colspan="3">
+										<label>
+											<span class="fa fa-search"></span>
+											<input type="search" placeholder="Filter..." ng-model="eventsFilter.input">
+											<span class="example" ng-hide="eventsFilter.input">eg. "user registered" file:Controller.php time:&lt;13:08:30</span>
+										</div>
+									</td>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="event in request.events">
+								<tr ng-repeat="event in request.events | filter:eventsFilter.filter()">
 									<td>{{event.time | date:'HH:mm:ss'}}</td>
 									<td>
 										<div class="fired-event">
@@ -269,11 +340,25 @@
 									<th data-sort="string">Model</th>
 									<th data-sort="string" ng-show="showDatabaseConnectionColumn()">Connection</th>
 									<th data-sort="string">SQL</th>
-									<th data-sort="float" class="duration">Duration</th>
+									<th data-sort="float" class="duration">
+										Duration
+										<a href="#" class="toggle-filter" ng-click="databaseQueriesFilter.toggle($event)">
+											<span class="fa fa-search"></span>
+										</a>
+									</th>
+								</tr>
+								<tr class="filter" ng-show="databaseQueriesFilter.shown">
+									<td colspan="4">
+										<label>
+											<span class="fa fa-search"></span>
+											<input type="search" placeholder="Search..." ng-model="databaseQueriesFilter.input">
+											<span class="example" ng-hide="databaseQueriesFilter.input">eg. where request_id model:request type:select file:Controller.php duration:>100</span>
+										</div>
+									</td>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="query in request.databaseQueries">
+								<tr ng-repeat="query in request.databaseQueries | filter:databaseQueriesFilter.filter()">
 									<td>
 										<div shortened-text="{{query.model}}">{{query.shortModel}}</div>
 									</td>
@@ -328,12 +413,31 @@
 									<th data-sort="string">Action</th>
 									<th data-sort="string">Key</th>
 									<th data-sort="string">Value</th>
-									<th data-sort="float">Expires</th>
-									<th data-sort="float" class="duration" ng-show="showCacheQueriesDurationColumn()">Duration</th>
+									<th data-sort="float">
+										Expires
+										<a href="#" class="toggle-filter" ng-click="cacheQueriesFilter.toggle($event)" ng-if="! showCacheQueriesDurationColumn()">
+											<span class="fa fa-search"></span>
+										</a>
+									</th>
+									<th data-sort="float" class="duration" ng-if="showCacheQueriesDurationColumn()">
+										Duration
+										<a href="#" class="toggle-filter" ng-click="cacheQueriesFilter.toggle($event)">
+											<span class="fa fa-search"></span>
+										</a>
+									</th>
+								</tr>
+								<tr class="filter" ng-show="cacheQueriesFilter.shown">
+									<td colspan="6">
+										<label>
+											<span class="fa fa-search"></span>
+											<input type="search" placeholder="Filter..." ng-model="cacheQueriesFilter.input">
+											<span class="example" ng-hide="cacheQueriesFilter.input">eg. info@underground.works action:miss key:lastRequest file:Controller.php</span>
+										</div>
+									</td>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="query in request.cacheQueries">
+								<tr ng-repeat="query in request.cacheQueries | filter:cacheQueriesFilter.filter()">
 									<td ng-show="showCacheQueriesConnectionColumn()">{{query.connection}}</td>
 									<td class="cache-query-type">{{query.type}}</td>
 									<td>{{query.key}}</td>
@@ -361,11 +465,25 @@
 								<tr>
 									<th data-sort="string">Time</th>
 									<th data-sort="string">Level</th>
-									<th data-sort="string">Message</th>
+									<th data-sort="string">
+										Message
+										<a href="#" class="toggle-filter" ng-click="logFilter.toggle($event)">
+											<span class="fa fa-search"></span>
+										</a>
+									</th>
+								</tr>
+								<tr class="filter" ng-show="logFilter.shown">
+									<td colspan="3">
+										<label>
+											<span class="fa fa-search"></span>
+											<input type="search" placeholder="Filter..." ng-model="logFilter.input">
+											<span class="example" ng-hide="logFilter.input">eg. query failed level:error file:Controller.php time:>13:08:29</span>
+										</div>
+									</td>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="message in request.log" ng-class="{ 'log-row': true, 'error': ['emergency', 'alert', 'critical', 'error'].includes(message.level), warning: message.level == 'warning' }">
+								<tr ng-repeat="message in request.log | filter:logFilter.filter()" ng-class="{ 'log-row': true, 'error': ['emergency', 'alert', 'critical', 'error'].includes(message.level), warning: message.level == 'warning' }">
 									<td class="log-date">{{message.time | date:'HH:mm:ss'}}</td>
 									<td class="log-level">{{message.level}}</td>
 									<td>
@@ -414,11 +532,25 @@
 						<table>
 							<thead>
 								<tr>
-									<th colspan="2">Session</th>
+									<th colspan="2">
+										Session
+										<a href="#" class="toggle-filter" ng-click="sessionFilter.toggle($event)">
+											<span class="fa fa-search"></span>
+										</a>
+									</th>
+								</tr>
+								<tr class="filter" ng-show="sessionFilter.shown">
+									<td colspan="2">
+										<label>
+											<span class="fa fa-search"></span>
+											<input type="search" placeholder="Filter..." ng-model="sessionFilter.input">
+											<span class="example" ng-hide="sessionFilter.input">eg. registration successful name:_token</span>
+										</div>
+									</td>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="param in request.sessionData">
+								<tr ng-repeat="param in request.sessionData | filter:sessionFilter.filter()">
 									<td class="key">{{param.name}}</td>
 									<td class="value"><pretty-print data="param.value"></pretty-print></td>
 								</tr>
@@ -431,11 +563,25 @@
 							<thead>
 								<tr>
 									<th data-sort="string">Name</th>
-									<th>Data</th>
+									<th>
+										Data
+										<a href="#" class="toggle-filter" ng-click="viewsFilter.toggle($event)">
+											<span class="fa fa-search"></span>
+										</a>
+									</th>
+								</tr>
+								<tr class="filter" ng-show="viewsFilter.shown">
+									<td colspan="2">
+										<label>
+											<span class="fa fa-search"></span>
+											<input type="search" placeholder="Filter..." ng-model="viewsFilter.input">
+											<span class="example" ng-hide="viewsFilter.input">eg. "Mike Jones" name:welcome</span>
+										</div>
+									</td>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="view in request.views">
+								<tr ng-repeat="view in request.views | filter:viewsFilter.filter()">
 									<td>{{view.name}}</td>
 									<td><pretty-print data="view.data"></pretty-print></td>
 								</tr>
@@ -448,13 +594,27 @@
 							<thead>
 								<tr>
 									<th data-sort="string">To</th>
-									<th data-sort="string">Subject</th>
+									<th data-sort="string">
+										Subject
+										<a href="#" class="toggle-filter" ng-click="emailsFilter.toggle($event)">
+											<span class="fa fa-search"></span>
+										</a>
+									</th>
 								</tr>
 								<tr>
 									<th colspan="2">Headers</th>
 								</tr>
+								<tr class="filter" ng-show="emailsFilter.shown">
+									<td colspan="2">
+										<label>
+											<span class="fa fa-search"></span>
+											<input type="search" placeholder="Filter..." ng-model="emailsFilter.input">
+											<span class="example" ng-hide="emailsFilter.input">eg. "User Registration" to:its@underground.works</span>
+										</div>
+									</td>
+								</tr>
 							</thead>
-							<tbody ng-repeat="email in request.emails">
+							<tbody ng-repeat="email in request.emails | filter:emailsFilter.filter()">
 								<tr>
 									<td>{{email.to}}</td>
 									<td>{{email.subject}}</td>
@@ -477,11 +637,25 @@
 									<th data-sort="string">Name</th>
 									<th data-sort="string">Middleware</th>
 									<th data-sort="string">Before</th>
-									<th data-sort="string">After</th>
+									<th data-sort="string">
+										After
+										<a href="#" class="toggle-filter" ng-click="routesFilter.toggle($event)">
+											<span class="fa fa-search"></span>
+										</a>
+									</th>
+								</tr>
+								<tr class="filter" ng-show="routesFilter.shown">
+									<td colspan="7">
+										<label>
+											<span class="fa fa-search"></span>
+											<input type="search" placeholder="Filter..." ng-model="routesFilter.input">
+											<span class="example" ng-hide="routesFilter.input">eg. OrderController method:post uri:order</span>
+										</div>
+									</td>
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="param in request.routes">
+								<tr ng-repeat="param in request.routes | filter:routesFilter.filter()">
 									<td>{{param.method}}</td>
 									<td>{{param.uri}}</td>
 									<td>{{param.action}}</td>

@@ -363,6 +363,25 @@ a {
 		font-size: 12px;
 		margin-bottom: 18px;
 
+		thead {
+			th:last-child {
+				padding-right: 20px;
+				position: relative;
+			}
+
+			.toggle-filter {
+				position: absolute;
+				right: 0;
+				visibility: hidden;
+			}
+
+			&:hover {
+				.toggle-filter {
+					visibility: visible;
+				}
+			}
+		}
+
 		tr {
 			&:first-child td {
 				border-top: 1px solid rgb(209, 209, 209);
@@ -400,6 +419,47 @@ a {
 
 			&.value {
 				word-break: break-all;
+			}
+		}
+
+		.filter {
+			background: none !important;
+
+			td {
+				border-top: 1px solid #d1d1d1;
+				padding: 2px 10px;
+			}
+
+			label {
+				align-items: center;
+				display: flex;
+				position: relative;
+			}
+
+			.fa {
+				color: #696969;
+				padding: 0 4px;
+			}
+
+			input {
+				border: none;
+				width: 100%;
+
+				&:focus {
+					outline: none;
+				}
+
+				&::placeholder {
+					color: #a9a9a9;
+				}
+			}
+
+			.example {
+				color: #a9a9a9;
+				font-size: 11px;
+				pointer-events: none;
+				position: absolute;
+				right: 0;
 			}
 		}
 	}
