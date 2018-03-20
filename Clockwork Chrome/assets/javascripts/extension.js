@@ -68,7 +68,7 @@ class Extension
 			})
 
 			options.subrequests.forEach(subrequest => {
-				this.requests.setRemote(subrequest.url)
+                this.requests.setRemote(message.request.url, options)
 				this.requests.loadId(subrequest.id, Request.placeholder(subrequest.id, subrequest, request)).then(() => {
 					this.$scope.$apply(() => this.$scope.refreshRequests())
 				})
@@ -125,17 +125,22 @@ class Extension
 		if (! id) return
 
 		let headers = {}
-		requestHeaders.forEach((header) => {
-			if (header.name.toLowerCase().indexOf('x-clockwork-header-') === 0) {
-				let name = header.name.replace(/^x-clockwork-header-/i, '')
-				headers[name] = header.value
-			}
-		})
-
-		let subrequests = requestHeaders.filter(header => header.name.toLowerCase() == 'x-clockwork-subrequest')
-			.map(header => {
-				return { id: header.value.split(';')[0], url: header.value.split(';')[1] }
-			})
+        let subrequests = {}
+        requestHeaders.forEach((header) => {
+            if (header.name.toLowerCase().indexOf('x-clockwork-header-') === 0) {
+                let name = header.name.replace(/^x-clockwork-header-/i, '')
+                headers[name] = header.value
+            }
+            if (header.name.toLowerCase().indexOf('x-clockwork-subrequest') === 0) {
+                subrequests = header.value.split(',').map(subrequestHeader => {
+                    subrequestHeader = subrequestHeader.trim();
+                    return {
+                        id: subrequestHeader.split(';')[0],
+                        url: subrequestHeader.split(';')[1]
+                    }
+                })
+            }
+        })
 
 		return { id, path, version, headers, subrequests }
 	}
