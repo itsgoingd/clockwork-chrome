@@ -133,9 +133,13 @@ class Extension
 		})
 
 		let subrequests = requestHeaders.filter(header => header.name.toLowerCase() == 'x-clockwork-subrequest')
-			.map(header => {
-				return { id: header.value.split(';')[0], url: header.value.split(';')[1], path: header.value.split(';')[2] }
-			})
+			.reduce((subrequests, header) => {
+				return subrequests.concat(
+					header.value.split(',').map(value => {
+						return { id: value.split(';')[0], url: value.split(';')[1], path: value.split(';')[2] }
+					})
+				)
+			}, [])
 
 		return { id, path, version, headers, subrequests }
 	}
