@@ -228,9 +228,13 @@ a {
     .details-content table thead th:last-child {
       padding-right: 20px;
       position: relative; }
+    .details-content table thead .fa-angle-down, .details-content table thead .fa-angle-up {
+      font-weight: bold;
+      margin-left: 4px; }
     .details-content table thead .toggle-filter {
       position: absolute;
       right: 0;
+      top: 4px;
       visibility: hidden; }
     .details-content table thead:hover .toggle-filter {
       visibility: visible; }

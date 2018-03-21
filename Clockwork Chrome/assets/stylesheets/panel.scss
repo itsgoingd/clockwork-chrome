@@ -369,9 +369,15 @@ a {
 				position: relative;
 			}
 
+			.fa-angle-down, .fa-angle-up {
+				font-weight: bold;
+				margin-left: 4px;
+			}
+
 			.toggle-filter {
 				position: absolute;
 				right: 0;
+				top: 4px;
 				visibility: hidden;
 			}
 

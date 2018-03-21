@@ -5,6 +5,8 @@ class Filter
 		this.map = map
 
 		this.shown = false
+		this.sortedBy = undefined
+		this.sortedDesc = false
 		this.input = ''
 
 		this.$timeout = $timeout
@@ -17,6 +19,15 @@ class Filter
 
 		if (this.shown) {
 			this.$timeout(() => $(ev.target).closest('table').find('.filter input').focus())
+		}
+	}
+
+	sortBy (column) {
+		if (this.sortedBy == column) {
+			this.sortedDesc = ! this.sortedDesc
+		} else {
+			this.sortedBy = column
+			this.sortedDesc = true
 		}
 	}
 
