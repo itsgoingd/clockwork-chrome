@@ -136,7 +136,8 @@ class Extension
 			.reduce((subrequests, header) => {
 				return subrequests.concat(
 					header.value.split(',').map(value => {
-						return { id: value.split(';')[0], url: value.split(';')[1], path: value.split(';')[2] }
+						let data = value.trim().split(';')
+						return { id: data[0], url: data[1], path: data[2] }
 					})
 				)
 			}, [])
