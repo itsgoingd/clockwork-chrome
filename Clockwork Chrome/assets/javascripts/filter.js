@@ -11,6 +11,8 @@ class Filter
 	}
 
 	toggle (ev) {
+		ev.stopPropagation()
+
 		this.shown = ! this.shown
 
 		if (this.shown) {
