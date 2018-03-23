@@ -265,6 +265,8 @@ a {
       .details-content table .filter td {
         border-top: 1px solid #d1d1d1;
         padding: 2px 10px; }
+        body.dark .details-content table .filter td {
+          border-top: 1px solid #363636; }
       .details-content table .filter label {
         align-items: center;
         display: flex;
@@ -273,18 +275,25 @@ a {
         color: #696969;
         padding: 0 4px; }
       .details-content table .filter input {
+        background: transparent;
         border: none;
         width: 100%; }
         .details-content table .filter input:focus {
           outline: none; }
         .details-content table .filter input::placeholder {
           color: #a9a9a9; }
+          body.dark .details-content table .filter input::placeholder {
+            color: #777; }
+        body.dark .details-content table .filter input {
+          color: #b2b2b2; }
       .details-content table .filter .example {
         color: #a9a9a9;
         font-size: 11px;
         pointer-events: none;
         position: absolute;
         right: 0; }
+        body.dark .details-content table .filter .example {
+          color: #777; }
   .details-content .counters-row {
     display: flex;
     margin: 0 0 10px; }

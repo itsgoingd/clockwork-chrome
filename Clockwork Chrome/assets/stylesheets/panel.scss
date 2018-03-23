@@ -434,6 +434,10 @@ a {
 			td {
 				border-top: 1px solid #d1d1d1;
 				padding: 2px 10px;
+
+				body.dark & {
+					border-top: 1px solid rgb(54, 54, 54);
+				}
 			}
 
 			label {
@@ -448,6 +452,7 @@ a {
 			}
 
 			input {
+				background: transparent;
 				border: none;
 				width: 100%;
 
@@ -457,6 +462,14 @@ a {
 
 				&::placeholder {
 					color: #a9a9a9;
+
+					body.dark & {
+						color: #777;
+					}
+				}
+
+				body.dark & {
+					color: #b2b2b2;
 				}
 			}
 
@@ -466,6 +479,10 @@ a {
 				pointer-events: none;
 				position: absolute;
 				right: 0;
+
+				body.dark & {
+					color: #777;
+				}
 			}
 		}
 	}

@@ -272,11 +272,11 @@
 								<tr>
 									<th ng-click="eventsFilter.sortBy('time')">
 										Time
-										<span ng-show="eventsFilter.sortedBy == 'time'" ng-class="eventsFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="eventsFilter.sortedBy == 'time'" ng-class="eventsFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th ng-click="eventsFilter.sortBy('event')">
 										Event
-										<span ng-show="eventsFilter.sortedBy == 'event'" ng-class="eventsFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="eventsFilter.sortedBy == 'event'" ng-class="eventsFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th>
 										<a href="#" class="toggle-filter" ng-click="eventsFilter.toggle($event)">
@@ -343,19 +343,19 @@
 								<tr>
 									<th ng-click="databaseQueriesFilter.sortBy('model')">
 										Model
-										<span ng-show="databaseQueriesFilter.sortedBy == 'model'" ng-class="databaseQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="databaseQueriesFilter.sortedBy == 'model'" ng-class="databaseQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th ng-click="databaseQueriesFilter.sortBy('connection')" ng-show="showDatabaseConnectionColumn()">
 										Connection
-										<span ng-show="databaseQueriesFilter.sortedBy == 'connection'" ng-class="databaseQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="databaseQueriesFilter.sortedBy == 'connection'" ng-class="databaseQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th ng-click="databaseQueriesFilter.sortBy('sql')">
 										SQL
-										<span ng-show="databaseQueriesFilter.sortedBy == 'sql'" ng-class="databaseQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="databaseQueriesFilter.sortedBy == 'sql'" ng-class="databaseQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th ng-click="databaseQueriesFilter.sortBy('duration')" class="duration">
 										Duration
-										<span ng-show="databaseQueriesFilter.sortedBy == 'duration'" ng-class="databaseQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="databaseQueriesFilter.sortedBy == 'duration'" ng-class="databaseQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 										<a href="#" class="toggle-filter" ng-click="databaseQueriesFilter.toggle($event)">
 											<span class="fa fa-search"></span>
 										</a>
@@ -425,30 +425,30 @@
 								<tr>
 									<th ng-click="cacheQueriesFilter.sortBy('connection')" ng-show="showCacheQueriesConnectionColumn()">
 										Connection
-										<span ng-show="cacheQueriesFilter.sortedBy == 'connection'" ng-class="cacheQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="cacheQueriesFilter.sortedBy == 'connection'" ng-class="cacheQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th ng-click="cacheQueriesFilter.sortBy('type')">
 										Action
-										<span ng-show="cacheQueriesFilter.sortedBy == 'action'" ng-class="cacheQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="cacheQueriesFilter.sortedBy == 'action'" ng-class="cacheQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th ng-click="cacheQueriesFilter.sortBy('key')">
 										Key
-										<span ng-show="cacheQueriesFilter.sortedBy == 'key'" ng-class="cacheQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="cacheQueriesFilter.sortedBy == 'key'" ng-class="cacheQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th ng-click="cacheQueriesFilter.sortBy('value')">
 										Value
-										<span ng-show="cacheQueriesFilter.sortedBy == 'value'" ng-class="cacheQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="cacheQueriesFilter.sortedBy == 'value'" ng-class="cacheQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th ng-click="cacheQueriesFilter.sortBy('expires')">
 										Expires
-										<span ng-show="cacheQueriesFilter.sortedBy == 'expires'" ng-class="cacheQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="cacheQueriesFilter.sortedBy == 'expires'" ng-class="cacheQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 										<a href="#" class="toggle-filter" ng-click="cacheQueriesFilter.toggle($event)" ng-if="! showCacheQueriesDurationColumn()">
 											<span class="fa fa-search"></span>
 										</a>
 									</th>
 									<th ng-click="cacheQueriesFilter.sortBy('duration')" class="duration" ng-if="showCacheQueriesDurationColumn()">
 										Duration
-										<span ng-show="cacheQueriesFilter.sortedBy == 'duration'" ng-class="cacheQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="cacheQueriesFilter.sortedBy == 'duration'" ng-class="cacheQueriesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 										<a href="#" class="toggle-filter" ng-click="cacheQueriesFilter.toggle($event)">
 											<span class="fa fa-search"></span>
 										</a>
@@ -493,15 +493,15 @@
 								<tr>
 									<th ng-click="logFilter.sortBy('time')">
 										Time
-										<span ng-show="logFilter.sortedBy == 'time'" ng-class="logFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="logFilter.sortedBy == 'time'" ng-class="logFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th ng-click="logFilter.sortBy('level')">
 										Level
-										<span ng-show="logFilter.sortedBy == 'level'" ng-class="logFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="logFilter.sortedBy == 'level'" ng-class="logFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th ng-click="logFilter.sortBy('message')">
 										Message
-										<span ng-show="logFilter.sortedBy == 'message'" ng-class="logFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="logFilter.sortedBy == 'message'" ng-class="logFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 										<a href="#" class="toggle-filter" ng-click="logFilter.toggle($event)">
 											<span class="fa fa-search"></span>
 										</a>
@@ -599,11 +599,11 @@
 								<tr>
 									<th ng-click="viewsFilter.sortBy('name')">
 										Name
-										<span ng-show="viewsFilter.sortedBy == 'name'" ng-class="viewsFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="viewsFilter.sortedBy == 'name'" ng-class="viewsFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th ng-click="viewsFilter.sortBy('data')">
 										Data
-										<span ng-show="viewsFilter.sortedBy == 'data'" ng-class="viewsFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="viewsFilter.sortedBy == 'data'" ng-class="viewsFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 										<a href="#" class="toggle-filter" ng-click="viewsFilter.toggle($event)">
 											<span class="fa fa-search"></span>
 										</a>
@@ -634,11 +634,11 @@
 								<tr>
 									<th ng-click="emailsFilter.sortBy('to')">
 										To
-										<span ng-show="emailsFilter.sortedBy == 'to'" ng-class="emailsFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="emailsFilter.sortedBy == 'to'" ng-class="emailsFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th ng-click="emailsFilter.sortBy('subject')">
 										Subject
-										<span ng-show="emailsFilter.sortedBy == 'subject'" ng-class="emailsFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="emailsFilter.sortedBy == 'subject'" ng-class="emailsFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 										<a href="#" class="toggle-filter" ng-click="emailsFilter.toggle($event)">
 											<span class="fa fa-search"></span>
 										</a>
@@ -676,31 +676,31 @@
 								<tr>
 									<th ng-click="routesFilter.sortBy('method')">
 										Method
-										<span ng-show="routesFilter.sortedBy == 'method'" ng-class="routesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="routesFilter.sortedBy == 'method'" ng-class="routesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th ng-click="routesFilter.sortBy('uri')">
 										URI
-										<span ng-show="routesFilter.sortedBy == 'uri'" ng-class="routesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="routesFilter.sortedBy == 'uri'" ng-class="routesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th ng-click="routesFilter.sortBy('action')">
 										Action
-										<span ng-show="routesFilter.sortedBy == 'action'" ng-class="routesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="routesFilter.sortedBy == 'action'" ng-class="routesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th ng-click="routesFilter.sortBy('name')">
 										Name
-										<span ng-show="routesFilter.sortedBy == 'name'" ng-class="routesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="routesFilter.sortedBy == 'name'" ng-class="routesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th ng-click="routesFilter.sortBy('middleware')">
 										Middleware
-										<span ng-show="routesFilter.sortedBy == 'middleware'" ng-class="routesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="routesFilter.sortedBy == 'middleware'" ng-class="routesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th ng-click="routesFilter.sortBy('before')">
 										Before
-										<span ng-show="routesFilter.sortedBy == 'before'" ng-class="routesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="routesFilter.sortedBy == 'before'" ng-class="routesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 									</th>
 									<th ng-click="routesFilter.sortBy('after')">
 										After
-										<span ng-show="routesFilter.sortedBy == 'after'" ng-class="routesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'">
+										<span ng-show="routesFilter.sortedBy == 'after'" ng-class="routesFilter.sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
 										<a href="#" class="toggle-filter" ng-click="routesFilter.toggle($event)">
 											<span class="fa fa-search"></span>
 										</a>
