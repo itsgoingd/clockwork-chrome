@@ -61,9 +61,20 @@ class Extension
 			this.updateNotification.serverVersion = options.version
 
 			this.requests.setRemote(message.request.url, options)
-			this.requests.loadId(options.id, Request.placeholder(options.id, message.request)).then(() => {
+
+			let request = Request.placeholder(options.id, message.request)
+			this.requests.loadId(options.id, request).then(() => {
 				this.$scope.$apply(() => this.$scope.refreshRequests())
 			})
+
+			options.subrequests.forEach(subrequest => {
+				this.requests.setRemote(subrequest.url, { path: subrequest.path })
+				this.requests.loadId(subrequest.id, Request.placeholder(subrequest.id, subrequest, request)).then(() => {
+					this.$scope.$apply(() => this.$scope.refreshRequests())
+				})
+			})
+
+			this.requests.setRemote(message.request.url, options)
 
 			this.$scope.$apply(() => this.$scope.refreshRequests())
 		})
@@ -121,6 +132,16 @@ class Extension
 			}
 		})
 
-		return { id, path, version, headers }
+		let subrequests = requestHeaders.filter(header => header.name.toLowerCase() == 'x-clockwork-subrequest')
+			.reduce((subrequests, header) => {
+				return subrequests.concat(
+					header.value.split(',').map(value => {
+						let data = value.trim().split(';')
+						return { id: data[0], url: data[1], path: data[2] }
+					})
+				)
+			}, [])
+
+		return { id, path, version, headers, subrequests }
 	}
 }

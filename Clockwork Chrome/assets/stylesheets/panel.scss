@@ -792,7 +792,7 @@ a {
 	font-weight: bold;
 }
 
-.update-notification {
+.update-notification, .parent-request {
 	background: hsl(206, 71%, 95%);
 	border-radius: 3px;
 	display: flex;
@@ -812,7 +812,7 @@ a {
 		}
 	}
 
-	.updateNotification-close {
+	.updateNotification-close, .parentRequest-close {
 		margin-left: auto;
 	}
 }
