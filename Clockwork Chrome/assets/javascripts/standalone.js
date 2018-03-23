@@ -7,10 +7,28 @@ class Standalone
 	}
 
 	init () {
+		this.useProperTheme()
 		this.setMetadataUrl()
 		this.setMetadataClient()
 
 		this.startPollingRequests()
+	}
+
+	// dark theme can be activated by adding ?dark or ?dark=1 query string to the url, the setting is preserved
+	// and can be deactivated again by adding ?dark=0
+	useProperTheme () {
+		let wantsDarkTheme = URI(window.location.href).query(true).dark
+
+		if (wantsDarkTheme === undefined) {
+			wantsDarkTheme = localStorage.getItem('use-dark-theme') == 'true'
+		} else {
+			wantsDarkTheme = wantsDarkTheme == '1' || wantsDarkTheme === null
+			localStorage.setItem('use-dark-theme', wantsDarkTheme)
+		}
+
+		if (wantsDarkTheme) {
+			$('body').addClass('dark')
+		}
 	}
 
 	setMetadataUrl () {
