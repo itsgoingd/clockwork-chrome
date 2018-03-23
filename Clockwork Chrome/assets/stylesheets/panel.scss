@@ -528,6 +528,34 @@ a {
 
 	// Log tab
 
+	.log-row {
+		&.error {
+			background: rgb(255, 235, 235);
+			color: rgb(197, 31, 36);
+
+			&:nth-child(even) {
+				background: hsl(0, 100%, 94%);
+			}
+
+			.log-message-path {
+				color: hsl(358, 55%, 70%);
+			}
+		}
+
+		&.warning {
+			background: rgb(255, 250, 226);
+			color: rgb(168, 89, 25);
+
+			&:nth-child(even) {
+				background: hsl(50, 100%, 88%);
+			}
+
+			.log-message-path {
+				color: hsl(27, 55%, 65%);
+			}
+		}
+	}
+
 	.log-date, .log-level {
 		width: 70px;
 	}

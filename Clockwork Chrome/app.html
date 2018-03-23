@@ -365,7 +365,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="message in request.log">
+								<tr ng-repeat="message in request.log" ng-class="{ 'log-row': true, 'error': ['emergency', 'alert', 'critical', 'error'].includes(message.level), warning: message.level == 'warning' }">
 									<td class="log-date">{{message.time | date:'HH:mm:ss'}}</td>
 									<td class="log-level">{{message.level}}</td>
 									<td>
