@@ -321,6 +321,34 @@ a {
   .details-content .timeline-duration {
     text-align: right;
     width: 70px; }
+  .details-content .log-row.error {
+    background: #ffebeb;
+    color: #c51f24; }
+    .details-content .log-row.error:nth-child(even) {
+      background: #ffe0e0; }
+    .details-content .log-row.error .log-message-path {
+      color: #dd888b; }
+    body.dark .details-content .log-row.error {
+      background: #380000;
+      color: #ed797a; }
+      body.dark .details-content .log-row.error:nth-child(even) {
+        background: #2e0000; }
+      body.dark .details-content .log-row.error .log-message-path {
+        color: #c3797b; }
+  .details-content .log-row.warning {
+    background: #fffae2;
+    color: #a85919; }
+    .details-content .log-row.warning:nth-child(even) {
+      background: #fff5c2; }
+    .details-content .log-row.warning .log-message-path {
+      color: #d7a175; }
+    body.dark .details-content .log-row.warning {
+      background: #382f00;
+      color: #fad89f; }
+      body.dark .details-content .log-row.warning:nth-child(even) {
+        background: #2e2600; }
+      body.dark .details-content .log-row.warning .log-message-path {
+        color: #d0b78b; }
   .details-content .log-date, .details-content .log-level {
     width: 70px; }
   .details-content .log-message {
