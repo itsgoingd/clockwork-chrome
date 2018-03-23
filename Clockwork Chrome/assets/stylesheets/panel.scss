@@ -540,6 +540,19 @@ a {
 			.log-message-path {
 				color: hsl(358, 55%, 70%);
 			}
+
+			body.dark & {
+				background: hsl(0, 100%, 11%);
+				color: rgb(237, 121, 122);
+
+				&:nth-child(even) {
+					background: hsl(0, 100%, 9%);
+				}
+
+				.log-message-path {
+					color: hsl(359, 38%, 62%);
+				}
+			}
 		}
 
 		&.warning {
@@ -552,6 +565,19 @@ a {
 
 			.log-message-path {
 				color: hsl(27, 55%, 65%);
+			}
+
+			body.dark & {
+				background: hsl(50, 100%, 11%);
+				color: rgb(250, 216, 159);
+
+				&:nth-child(even) {
+					background: hsl(50, 100%, 9%);
+				}
+
+				.log-message-path {
+					color: hsl(38, 42%, 68%);
+				}
 			}
 		}
 	}
