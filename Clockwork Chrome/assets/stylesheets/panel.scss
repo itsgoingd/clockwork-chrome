@@ -39,7 +39,7 @@ a {
 		color: rgb(59, 59, 59);
 
 		body.dark & {
-			color: rgb(253, 148, 39);
+			color: hsl(31, 98%, 48%);
 		}
 	}
 
@@ -132,7 +132,7 @@ a {
 				color: white;
 
 				body.dark & {
-					background: rgb(253, 148, 39) !important;
+					background: hsl(31, 98%, 48%) !important;
 				}
 			}
 
@@ -152,7 +152,7 @@ a {
 				}
 
 				body.dark & {
-					background: rgb(253, 148, 39) !important;
+					background: hsl(31, 98%, 48%) !important;
 				}
 			}
 		}
@@ -286,7 +286,7 @@ a {
 				color: rgb(37, 140, 219);
 
 				body.dark & {
-					color: rgb(253, 148, 39);
+					color: hsl(31, 98%, 48%);
 				}
 			}
 
@@ -332,7 +332,7 @@ a {
 				color: rgb(37, 140, 219);
 
 				body.dark & {
-					color: rgb(253, 148, 39);
+					color: hsl(31, 98%, 48%);
 				}
 			}
 
@@ -725,7 +725,7 @@ a {
 		text-decoration: none;
 
 		body.dark & {
-			color: rgb(253, 148, 39);
+			color: hsl(31, 98%, 48%);
 		}
 	}
 
