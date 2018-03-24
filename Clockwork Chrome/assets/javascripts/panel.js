@@ -131,6 +131,7 @@ Clockwork.controller('PanelController', function ($scope, $http, filter, request
 		$scope.performanceMetricsChartValues = $scope.getPerformanceMetricsChartValues()
 		$scope.performanceMetricsChartColors = $scope.getPerformanceMetricsChartColors()
 		$scope.performanceMetricsChartOptions = $scope.getPerformanceMetricsChartOptions()
+		$scope.databaseQueriesStats = $scope.getDatabaseQueriesStats()
 		$scope.timelineLegend = $scope.generateTimelineLegend()
 
 		$scope.showIncomingRequests = (id == $scope.requests[$scope.requests.length - 1].id)
@@ -173,6 +174,17 @@ Clockwork.controller('PanelController', function ($scope, $http, filter, request
 			.filter((connection, i, connections) => connections.indexOf(connection) == i)
 
 		return connnections.length > 1
+	}
+
+	$scope.getDatabaseQueriesStats = function () {
+		return {
+			queries: $scope.request.databaseQueries.length,
+			selects: $scope.request.databaseQueries.filter(query => query.query.match(/^select /i)).length,
+			inserts: $scope.request.databaseQueries.filter(query => query.query.match(/^insert /i)).length,
+			updates: $scope.request.databaseQueries.filter(query => query.query.match(/^update /i)).length,
+			deletes: $scope.request.databaseQueries.filter(query => query.query.match(/^delete /i)).length,
+			other: $scope.request.databaseQueries.filter(query => ! query.query.match(/^(select|insert|update|delete) /i)).length
+		}
 	}
 
 	$scope.showCacheTab = function () {

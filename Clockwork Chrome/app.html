@@ -349,6 +349,38 @@
 					</div>
 
 					<div tab-content="db">
+
+						<div class="counters-row">
+							<div class="counter">
+								<div class="counter-value">{{databaseQueriesStats.queries}}</div>
+								<div class="counter-title">queries</div>
+							</div>
+							<div class="counter" ng-show="databaseQueriesStats.selects">
+								<div class="counter-value">{{databaseQueriesStats.selects}}</div>
+								<div class="counter-title">selects</div>
+							</div>
+							<div class="counter" ng-show="databaseQueriesStats.inserts">
+								<div class="counter-value">{{databaseQueriesStats.inserts}}</div>
+								<div class="counter-title">inserts</div>
+							</div>
+							<div class="counter" ng-show="databaseQueriesStats.updates">
+								<div class="counter-value">{{databaseQueriesStats.updates}}</div>
+								<div class="counter-title">updates</div>
+							</div>
+							<div class="counter" ng-show="databaseQueriesStats.deletes">
+								<div class="counter-value">{{databaseQueriesStats.deletes}}</div>
+								<div class="counter-title">deletes</div>
+							</div>
+							<div class="counter" ng-show="databaseQueriesStats.other">
+								<div class="counter-value">{{databaseQueriesStats.other}}</div>
+								<div class="counter-title">other</div>
+							</div>
+							<div class="counter">
+								<div class="counter-value">{{request.databaseDurationRounded}} ms</div>
+								<div class="counter-title">time</div>
+							</div>
+						</div>
+
 						<table>
 							<thead>
 								<tr>
