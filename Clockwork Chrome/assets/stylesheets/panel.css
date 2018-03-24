@@ -492,11 +492,6 @@ a {
     font-size: 75%;
     margin: 5px 0 0 0; }
 
-.number-of-queries {
-  font-size: 11px;
-  padding: 7px 0 0 5px;
-  font-weight: bold; }
-
 .update-notification, .parent-request {
   background: #e9f3fb;
   border-radius: 3px;
