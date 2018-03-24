@@ -128,6 +128,9 @@ Clockwork.controller('PanelController', function ($scope, $http, filter, request
 		$scope.request = requests.findId(id)
 
 		$scope.updateNotification = updateNotification.show(requests.remoteUrl)
+		$scope.performanceMetricsChartValues = $scope.getPerformanceMetricsChartValues()
+		$scope.performanceMetricsChartColors = $scope.getPerformanceMetricsChartColors()
+		$scope.performanceMetricsChartOptions = $scope.getPerformanceMetricsChartOptions()
 		$scope.timelineLegend = $scope.generateTimelineLegend()
 
 		$scope.showIncomingRequests = (id == $scope.requests[$scope.requests.length - 1].id)
@@ -135,6 +138,31 @@ Clockwork.controller('PanelController', function ($scope, $http, filter, request
 
 	$scope.getRequestClass = function (id) {
 		return $scope.request && $scope.request.id == id ? 'selected' : ''
+	}
+
+	$scope.getPerformanceMetricsChartValues = function () {
+		return $scope.request.performanceMetrics.map(metric => metric.value)
+	}
+
+	$scope.getPerformanceMetricsChartColors = function () {
+		let colors = {
+			style1: { light: '#78b1de', dark: '#649dca' },
+			style2: { light: '#e79697', dark: '#d38283' },
+			style3: { light: '#b1ca6d', dark: '#9db659' },
+			style4: { light: '#ba94e6', dark: '#a680d2' }
+		}
+		let theme = $('body').hasClass('dark') ? 'dark' : 'light'
+
+		return $scope.request.performanceMetrics.map(metric => colors[metric.style][theme])
+	}
+
+	$scope.getPerformanceMetricsChartOptions = function () {
+		return {
+			aspectRatio: 1,
+			tooltips: { enabled: false },
+			hover: { mode: null },
+			elements: { arc: { borderColor: $('body').hasClass('dark') ? '#1f1f1f' : '#fff' } }
+		}
 	}
 
 	$scope.showDatabaseConnectionColumn = function () {
