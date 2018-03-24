@@ -302,7 +302,7 @@ a {
       border-radius: 3px;
       box-shadow: 0 2px 3px #e5e5e5;
       margin: 0 5px;
-      flex: 1;
+      flex: 0 1 120px;
       padding: 8px 20px 10px;
       text-align: center; }
       body.dark .details-content .counters-row .counter {
@@ -317,6 +317,29 @@ a {
       .details-content .counters-row .counter .counter-title {
         font-size: 120%;
         font-variant: small-caps; }
+  .details-content .performance-chart-container {
+    flex: 0 1 100px; }
+  .details-content .performance-chart {
+    height: 60px;
+    margin: 0 auto;
+    position: relative;
+    width: 60px; }
+  .details-content .performance-chart-legend.style1 {
+    border-left: 3px solid #78b1de !important; }
+    body.dark .details-content .performance-chart-legend.style1 {
+      border-left: 3px solid #649dca !important; }
+  .details-content .performance-chart-legend.style2 {
+    border-left: 3px solid #e79697 !important; }
+    body.dark .details-content .performance-chart-legend.style2 {
+      border-left: 3px solid #d38283 !important; }
+  .details-content .performance-chart-legend.style3 {
+    border-left: 3px solid #b1ca6d !important; }
+    body.dark .details-content .performance-chart-legend.style3 {
+      border-left: 3px solid #9db659 !important; }
+  .details-content .performance-chart-legend.style4 {
+    border-left: 3px solid #ba94e6 !important; }
+    body.dark .details-content .performance-chart-legend.style4 {
+      border-left: 3px solid #a680d2 !important; }
   .details-content .timeline {
     position: relative; }
   .details-content .timeline-graph {

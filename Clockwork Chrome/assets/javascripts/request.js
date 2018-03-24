@@ -17,6 +17,7 @@ class Request
 		this.log = this.processLog(this.log)
 		this.postData = this.createKeypairs(this.postData)
 		this.sessionData = this.createKeypairs(this.sessionData)
+		this.performanceMetrics = this.processPerformanceMetrics(this.performanceMetrics)
 		this.timeline = this.processTimeline(this.timelineData)
 		this.views = this.processViews(this.viewsData)
 
@@ -157,6 +158,28 @@ class Request
 
 			return message
 		})
+	}
+
+	processPerformanceMetrics (data) {
+		if (! data) {
+			return [
+				{ name: 'Database', value: this.databaseDurationRounded, style: 'style2' },
+				{ name: 'Cache', value: this.cacheTime, style: 'style3' },
+				{ name: 'Other', value: this.responseDurationRounded - this.databaseDurationRounded - this.cacheTime, style: 'style1' }
+			].filter(metric => metric.value !== null && metric.value !== undefined)
+		}
+
+		data = data.filter(metric => metric instanceof Object)
+			.map((metric, index) => {
+				metric.style = 'style' + (index + 2)
+				return metric
+			})
+
+		let metricsSum = data.reduce((sum, metric) => { return sum + metric.value }, 0)
+
+		data.push({ name: 'Other', value: this.responseDurationRounded - metricsSum, style: 'style1' })
+
+		return data
 	}
 
 	processTimeline (data) {

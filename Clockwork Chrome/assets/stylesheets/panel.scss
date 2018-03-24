@@ -496,7 +496,7 @@ a {
 			border-radius: 3px;
 			box-shadow: 0 2px 3px #e5e5e5;
 			margin: 0 5px;
-			flex: 1;
+			flex: 0 1 120px;
 			padding: 8px 20px 10px;
 			text-align: center;
 
@@ -524,7 +524,52 @@ a {
 		}
 	}
 
-	// Timeline tab
+	// Performance tab
+
+	.performance-chart-container {
+		flex: 0 1 100px;
+	}
+
+	.performance-chart {
+		height: 60px;
+		margin: 0 auto;
+		position: relative;
+		width: 60px;
+	}
+
+	.performance-chart-legend {
+		&.style1 {
+			border-left: 3px solid rgb(120, 177, 222) !important;
+
+			body.dark & {
+				border-left: 3px solid rgb(100, 157, 202) !important;
+			}
+		}
+
+		&.style2 {
+			border-left: 3px solid rgb(231, 150, 151) !important;
+
+			body.dark & {
+				border-left: 3px solid rgb(211, 130, 131) !important;
+			}
+		}
+
+		&.style3 {
+			border-left: 3px solid rgb(177, 202, 109) !important;
+
+			body.dark & {
+				border-left: 3px solid rgb(157, 182, 89) !important;
+			}
+		}
+
+		&.style4 {
+			border-left: 3px solid rgb(186, 148, 230) !important;
+
+			body.dark & {
+				border-left: 3px solid rgb(166, 128, 210) !important;
+			}
+		}
+	}
 
 	.timeline {
 		position: relative;
