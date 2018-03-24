@@ -437,6 +437,10 @@
 
 					<div tab-content="cache">
 						<div class="counters-row">
+							<div class="counter" ng-show="request.cacheQueries.length">
+								<div class="counter-value">{{request.cacheQueries.length}}</div>
+								<div class="counter-title">queries</div>
+							</div>
 							<div class="counter" ng-show="request.cacheReads !== null">
 								<div class="counter-value">{{request.cacheReads}}</div>
 								<div class="counter-title">reads</div>
