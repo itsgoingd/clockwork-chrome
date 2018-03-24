@@ -349,6 +349,38 @@
 					</div>
 
 					<div tab-content="db">
+
+						<div class="counters-row">
+							<div class="counter">
+								<div class="counter-value">{{databaseQueriesStats.queries}}</div>
+								<div class="counter-title">queries</div>
+							</div>
+							<div class="counter" ng-show="databaseQueriesStats.selects">
+								<div class="counter-value">{{databaseQueriesStats.selects}}</div>
+								<div class="counter-title">selects</div>
+							</div>
+							<div class="counter" ng-show="databaseQueriesStats.inserts">
+								<div class="counter-value">{{databaseQueriesStats.inserts}}</div>
+								<div class="counter-title">inserts</div>
+							</div>
+							<div class="counter" ng-show="databaseQueriesStats.updates">
+								<div class="counter-value">{{databaseQueriesStats.updates}}</div>
+								<div class="counter-title">updates</div>
+							</div>
+							<div class="counter" ng-show="databaseQueriesStats.deletes">
+								<div class="counter-value">{{databaseQueriesStats.deletes}}</div>
+								<div class="counter-title">deletes</div>
+							</div>
+							<div class="counter" ng-show="databaseQueriesStats.other">
+								<div class="counter-value">{{databaseQueriesStats.other}}</div>
+								<div class="counter-title">other</div>
+							</div>
+							<div class="counter">
+								<div class="counter-value">{{request.databaseDurationRounded}}&nbsp;ms</div>
+								<div class="counter-title">time</div>
+							</div>
+						</div>
+
 						<table>
 							<thead>
 								<tr>
@@ -400,11 +432,14 @@
 								</tr>
 							</tbody>
 						</table>
-						<div class="number-of-queries">Number of queries: {{request.databaseQueries.length}}</div>
 					</div>
 
 					<div tab-content="cache">
 						<div class="counters-row">
+							<div class="counter" ng-show="request.cacheQueries.length">
+								<div class="counter-value">{{request.cacheQueries.length}}</div>
+								<div class="counter-title">queries</div>
+							</div>
 							<div class="counter" ng-show="request.cacheReads !== null">
 								<div class="counter-value">{{request.cacheReads}}</div>
 								<div class="counter-title">reads</div>
@@ -495,7 +530,6 @@
 								</tr>
 							</tbody>
 						</table>
-						<div class="number-of-queries">Number of queries: {{request.cacheQueries.length}}</div>
 					</div>
 
 					<div tab-content="log">
@@ -558,11 +592,11 @@
 								</div>
 							</div>
 							<div ng-repeat="metric in request.performanceMetrics" class="counter performance-chart-legend {{ metric.style }}">
-								<div class="counter-value">{{metric.value}} ms</div>
+								<div class="counter-value">{{metric.value}}&nbsp;ms</div>
 								<div class="counter-title">{{metric.name}}</div>
 							</div>
 							<div class="counter" ng-show="request.responseDurationRounded">
-								<div class="counter-value">{{request.responseDurationRounded}} ms</div>
+								<div class="counter-value">{{request.responseDurationRounded}}&nbsp;ms</div>
 								<div class="counter-title">total</div>
 							</div>
 						</div>
@@ -694,7 +728,6 @@
 								</tr>
 							</tbody>
 						</table>
-						<div class="number-of-queries">Number of emails: {{request.emails.length}}</div>
 					</div>
 
 					<div tab-content="routes">
