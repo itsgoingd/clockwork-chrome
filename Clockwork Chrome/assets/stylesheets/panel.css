@@ -316,7 +316,8 @@ a {
         font-size: 175%; }
       .details-content .counters-row .counter .counter-title {
         font-size: 120%;
-        font-variant: small-caps; }
+        font-variant: small-caps;
+        text-transform: lowercase; }
   .details-content .performance-chart-container {
     flex: 0 1 100px; }
   .details-content .performance-chart {
