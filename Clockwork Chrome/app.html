@@ -24,6 +24,7 @@
 		<script src="assets/javascripts/directives/resizable-columns.js"></script>
 		<script src="assets/javascripts/directives/scroll-to-new.js"></script>
 		<script src="assets/javascripts/directives/shortened-text.js"></script>
+		<script src="assets/javascripts/directives/stack-trace.js"></script>
 		<script src="assets/javascripts/directives/tabs.js"></script>
 		<script src="assets/javascripts/extension.js"></script>
 		<script src="assets/javascripts/filter.js"></script>
@@ -318,9 +319,7 @@
 													{{event.event}}
 												</div>
 											</div>
-											<div class="fired-event-path">
-												<div shortened-text="{{event.fullPath}}">{{event.shortPath}}</div>
-											</div>
+											<stack-trace class="fired-query-path" trace="event.trace" short-path="event.shortPath" full-path="event.fullPath"></stack-trace>
 										</div>
 										<div class="fired-event-details" ng-show="isEventExpanded(event)">
 											<div class="fired-event-parameters" ng-if="! event.objectEvent">
@@ -423,9 +422,7 @@
 									<td>
 										<div class="database-query">
 											<div class="database-query-content">{{query.query}}</div>
-											<div class="database-query-path">
-												<div shortened-text="{{query.fullPath}}">{{query.shortPath}}</div>
-											</div>
+											<stack-trace class="database-query-path" trace="query.trace" short-path="query.shortPath" full-path="query.fullPath"></stack-trace>
 										</div>
 									</td>
 									<td class="database-duration">{{query.duration | number:3}} ms</td>
@@ -520,9 +517,7 @@
 											<div class="database-query-content">
 												<pretty-print data="query.value"></pretty-print>
 											</div>
-											<div class="database-query-path">
-												<div shortened-text="{{query.fullPath}}">{{query.shortPath}}</div>
-											</div>
+											<stack-trace class="database-query-path" trace="query.trace" short-path="query.shortPath" full-path="query.fullPath"></stack-trace>
 										</div>
 									</td>
 									<td><span ng-show="query.expiration">{{query.expiration}}</span></td>
@@ -574,9 +569,7 @@
 													<pretty-print data="message.context"></pretty-print>
 												</div>
 											</div>
-											<div class="log-message-path">
-												<div shortened-text="{{message.fullPath}}">{{message.shortPath}}</div>
-											</div>
+											<stack-trace class="log-message-path" trace="message.trace" short-path="message.shortPath" full-path="message.fullPath"></stack-trace>
 										</div>
 									</td>
 								</tr>

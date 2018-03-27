@@ -75,6 +75,7 @@ class Request
 			query.value = query.type == 'hit' || query.type == 'write' ? query.value : ''
 			query.fullPath = query.file && query.line ? query.file.replace(/^\//, '') + ':' + query.line : undefined
 			query.shortPath = query.fullPath ? query.fullPath.split(/[\/\\]/).pop() : undefined
+			query.trace = this.processStackTrace(query.trace)
 
 			return query
 		})
@@ -88,6 +89,7 @@ class Request
 			query.shortModel = query.model ? query.model.split('\\').pop() : '-'
 			query.fullPath = query.file && query.line ? query.file.replace(/^\//, '') + ':' + query.line : undefined
 			query.shortPath = query.fullPath ? query.fullPath.split(/[\/\\]/).pop() : undefined
+			query.trace = this.processStackTrace(query.trace)
 
 			return query
 		})
@@ -107,6 +109,7 @@ class Request
 			event.time = new Date(event.time * 1000)
 			event.fullPath = event.file && event.line ? event.file.replace(/^\//, '') + ':' + event.line : undefined
 			event.shortPath = event.fullPath ? event.fullPath.split(/[\/\\]/).pop() : undefined
+			event.trace = this.processStackTrace(event.trace)
 
 			event.listeners = event.listeners instanceof Array ? event.listeners : []
 			event.listeners = event.listeners.map(listener => {
@@ -155,6 +158,7 @@ class Request
 			message.context = message.context instanceof Object && Object.keys(message.context).length ? message.context : undefined
 			message.fullPath = message.file && message.line ? message.file.replace(/^\//, '') + ':' + message.line : undefined
 			message.shortPath = message.fullPath ? message.fullPath.split(/[\/\\]/).pop() : undefined
+			message.trace = this.processStackTrace(message.trace)
 
 			return message
 		})
@@ -201,6 +205,17 @@ class Request
 		if (! (data instanceof Object)) return []
 
 		return Object.values(data).filter(view => view.data instanceof Object).map(view => view.data)
+	}
+
+	processStackTrace (trace) {
+		if (! trace) return undefined
+
+		return trace.map(frame => {
+			frame.fullPath = frame.file && frame.line ? frame.file.replace(/^\//, '') + ':' + frame.line : undefined
+			frame.shortPath = frame.fullPath ? frame.fullPath.split(/[\/\\]/).pop() : undefined
+
+			return frame
+		})
 	}
 
 	getErrorsCount () {

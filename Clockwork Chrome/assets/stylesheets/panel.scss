@@ -181,7 +181,6 @@ a {
 		font-weight: normal;
 		height: 30px;
 		line-height: 1.1;
-		overflow: hidden;
 		padding: 2px 4px;
 		white-space: nowrap;
 
@@ -414,7 +413,6 @@ a {
 		}
 
 		td {
-			overflow: hidden;
 			padding: 8px 10px;
 			vertical-align: top;
 
@@ -855,6 +853,116 @@ a {
 	.updateNotification-close, .parentRequest-close {
 		margin-left: auto;
 	}
+}
+
+.stack-trace {
+	cursor: pointer;
+
+	.popover {
+		cursor: default;
+	}
+
+	.stack-frame {
+		color: #000;
+		padding: 6px 10px;
+		text-align: left;
+		word-break: break-word;
+
+		body.dark & {
+			color: rgb(178, 178, 178);
+		}
+
+		&:nth-child(even) {
+			background: rgb(245, 245, 245);
+
+			body.dark & {
+				background: rgb(27, 27, 27);
+			}
+		}
+
+
+		.stack-frame-call {
+			font-size: 12px;
+			padding-bottom: 3px;
+		}
+
+		.stack-frame-file {
+			color: #aaa;
+			font-size: 11px;
+		}
+
+		&.is-vendor {
+			.stack-frame-call {
+				font-size: 10px;
+			}
+
+			.stack-frame-file {
+				font-size: 10px
+			}
+		}
+	}
+}
+
+.popover {
+	padding-right: 20px;
+	position: absolute;
+	right: 100%;
+	top: -20px;
+	width: 300px;
+	z-index: 666;
+
+	.popover-content {
+		background: #fff;
+		border: 1px solid rgb(209, 209, 209);
+		border-radius: 5px;
+		box-shadow: 0 0 4px #e5e5e5;
+		max-height: 400px;
+		overflow: auto;
+		padding: 5px 0;
+		text-align: center;
+		width: 100%;
+
+		body.dark & {
+			background: rgb(31, 31, 31);
+			border: 1px solid #404040;
+			box-shadow: 0 0 4px #292929;
+		}
+
+		&:before, &:after {
+			border-style: solid;
+			content: '';
+			height: 0;
+			position: absolute;
+			width: 0;
+		}
+
+		&:before {
+			border-color: transparent transparent transparent #fff;
+			border-width: 14px 0 14px 14px;
+			right: 8px;
+			top: 13px;
+			z-index: 500;
+
+			body.dark & {
+				border-color: transparent transparent transparent rgb(31, 31, 31);
+			}
+		}
+
+		&:after {
+			border-color: transparent transparent transparent #e5e5e5;
+			border-width: 15px 0 15px 15px;
+			right: 6px;
+			top: 12px;
+
+			body.dark & {
+				border-color: transparent transparent transparent #292929;
+			}
+		}
+	}
+}
+
+.popover-container {
+	position: relative;
 }
 
 // Directives
