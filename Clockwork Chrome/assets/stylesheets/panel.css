@@ -532,10 +532,10 @@ a {
       font-size: 10px; }
 
 .popover {
-  left: calc(50% - 150px);
-  padding-top: 20px;
+  padding-right: 20px;
   position: absolute;
-  top: 100%;
+  right: 100%;
+  top: -20px;
   width: 300px;
   z-index: 666; }
   .popover .popover-content {
@@ -559,20 +559,20 @@ a {
       position: absolute;
       width: 0; }
     .popover .popover-content:before {
-      border-color: transparent transparent #fff transparent;
-      border-width: 0 14px 14px 14px;
-      left: calc(50% - 7px);
-      top: 8px;
+      border-color: transparent transparent transparent #fff;
+      border-width: 14px 0 14px 14px;
+      right: 8px;
+      top: 13px;
       z-index: 500; }
       body.dark .popover .popover-content:before {
-        border-color: transparent transparent #1f1f1f transparent; }
+        border-color: transparent transparent transparent #1f1f1f; }
     .popover .popover-content:after {
-      border-color: transparent transparent #e5e5e5 transparent;
-      border-width: 0 15px 15px 15px;
-      left: calc(50% - 8px);
-      top: 6px; }
+      border-color: transparent transparent transparent #e5e5e5;
+      border-width: 15px 0 15px 15px;
+      right: 6px;
+      top: 12px; }
       body.dark .popover .popover-content:after {
-        border-color: transparent transparent #292929 transparent; }
+        border-color: transparent transparent transparent #292929; }
 
 .popover-container {
   position: relative; }
