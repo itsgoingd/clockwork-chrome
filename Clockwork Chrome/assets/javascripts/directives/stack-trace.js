@@ -4,7 +4,8 @@ Clockwork.directive('stackTrace', function ($parse) {
 		transclude: false,
 		scope: { trace: '=trace', shortPath: '=shortPath', fullPath: '=fullPath' },
 		templateUrl: 'assets/partials/stack-trace.html',
-		link: function (scope, element, attrs) {
+		controller: function ($scope) {
+			$scope.showPopover = false
 		}
 	}
 })

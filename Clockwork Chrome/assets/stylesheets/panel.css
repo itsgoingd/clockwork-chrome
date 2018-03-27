@@ -118,6 +118,7 @@ a {
       border-right: 1px solid #363636; }
   .split-view-requests td {
     border-right: 1px solid #d1d1d1;
+    overflow: hidden;
     padding: 8px 6px;
     vertical-align: middle;
     white-space: nowrap; }
