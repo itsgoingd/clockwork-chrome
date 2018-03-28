@@ -27,7 +27,7 @@ class Standalone
 		}
 
 		if (wantsDarkTheme) {
-			$('body').addClass('dark')
+			document.querySelector('body').classList.add('dark')
 		}
 	}
 

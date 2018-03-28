@@ -152,7 +152,7 @@ Clockwork.controller('PanelController', function ($scope, $http, filter, request
 			style3: { light: '#b1ca6d', dark: '#9db659' },
 			style4: { light: '#ba94e6', dark: '#a680d2' }
 		}
-		let theme = $('body').hasClass('dark') ? 'dark' : 'light'
+		let theme = document.querySelector('body').classList.contains('dark') ? 'dark' : 'light'
 
 		return $scope.request.performanceMetrics.map(metric => colors[metric.style][theme])
 	}
@@ -162,7 +162,7 @@ Clockwork.controller('PanelController', function ($scope, $http, filter, request
 			aspectRatio: 1,
 			tooltips: { enabled: false },
 			hover: { mode: null },
-			elements: { arc: { borderColor: $('body').hasClass('dark') ? '#1f1f1f' : '#fff' } }
+			elements: { arc: { borderColor: document.querySelector('body').classList.contains('dark') ? '#1f1f1f' : '#fff' } }
 		}
 	}
 
@@ -230,13 +230,13 @@ Clockwork.controller('PanelController', function ($scope, $http, filter, request
 	}
 
 	$scope.getTimelineWidth = function () {
-		let timelineShown = $('[tab-content="timeline"]').css('display') !== 'none'
+		let timelineShown = document.querySelector('[tab-content="performance"]').style.display !== 'none'
 
-		if (! timelineShown) $('[tab-content="timeline"]').show()
+		if (! timelineShown) document.querySelector('[tab-content="performance"]').style.display = 'block'
 
-		let width = $('.timeline-graph').width()
+		let width = document.querySelector('.timeline-graph').offsetWidth
 
-		if (! timelineShown) $('[tab-content="timeline"]').hide()
+		if (! timelineShown) document.querySelector('[tab-content="performance"]').style.display = 'none'
 
 		return width
 	}
@@ -245,10 +245,8 @@ Clockwork.controller('PanelController', function ($scope, $http, filter, request
 		$scope.loadingMoreRequests = true
 
 		requests.loadPrevious(10).then(() => {
-			$scope.$apply(() => {
-				$scope.requests = requests.all()
-				$scope.loadingMoreRequests = false
-			})
+			$scope.requests = requests.all()
+			$scope.loadingMoreRequests = false
 		})
 	}
 
