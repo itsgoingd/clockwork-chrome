@@ -18,7 +18,14 @@ class Filter
 		this.shown = ! this.shown
 
 		if (this.shown) {
-			this.$timeout(() => $(ev.target).closest('table').find('.filter input').focus())
+			this.$timeout(() => {
+				let table = ev.target
+				while (table = table.parentNode) {
+					if (table.tagName == 'TABLE') break
+				}
+
+				table.querySelector('.filter input').focus()
+			})
 		}
 	}
 

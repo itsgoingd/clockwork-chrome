@@ -25,7 +25,7 @@ class Extension
 
 	useProperTheme () {
 		if (this.api.devtools.panels.themeName === 'dark') {
-			$('body').addClass('dark')
+			document.querySelector('body').classList.add('dark')
 		}
 	}
 
