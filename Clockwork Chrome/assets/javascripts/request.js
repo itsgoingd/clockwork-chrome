@@ -29,9 +29,9 @@ class Request
 		return Object.assign(new Request({
 			loading: true,
 			id: id,
-			uri: (new URI(request.url)).pathname(),
+			uri: request ? (new URI(request.url)).pathname() : '/',
 			controller: 'Waiting...',
-			method: request.method,
+			method: request ? request.method : 'GET',
 			responseStatus: '?',
 			parent
 		}), {
@@ -41,7 +41,7 @@ class Request
 	}
 
 	resolve (request) {
-		Object.assign(this, request, { loading: false })
+		Object.assign(this, request, { loading: false, error: undefined })
 		return this
 	}
 

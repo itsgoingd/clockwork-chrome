@@ -1,7 +1,8 @@
 class Extension
 {
-	constructor ($scope, requests, updateNotification) {
+	constructor ($scope, $q, requests, updateNotification) {
 		this.$scope = $scope
+		this.$q = $q
 		this.requests = requests
 		this.updateNotification = updateNotification
 	}
@@ -34,11 +35,11 @@ class Extension
 	}
 
 	setMetadataClient () {
-		this.requests.setClient((url, headers) => {
-			return new Promise((accept, reject) => {
+		this.requests.setClient((method, url, data, headers) => {
+			return this.$q((accept, reject) => {
 				this.api.runtime.sendMessage(
-					{ action: 'getJSON', url, headers }, (message) => {
-						message.error ? reject(message.error) : accept(message.data)
+					{ action: 'getJSON', method, url, data, headers }, (message) => {
+						message.error ? reject(message) : accept(message.data)
 					}
 				)
 			})
@@ -64,19 +65,19 @@ class Extension
 
 			let request = Request.placeholder(options.id, message.request)
 			this.requests.loadId(options.id, request).then(() => {
-				this.$scope.$apply(() => this.$scope.refreshRequests())
+				this.$scope.refreshRequests()
 			})
 
 			options.subrequests.forEach(subrequest => {
 				this.requests.setRemote(subrequest.url, { path: subrequest.path })
 				this.requests.loadId(subrequest.id, Request.placeholder(subrequest.id, subrequest, request)).then(() => {
-					this.$scope.$apply(() => this.$scope.refreshRequests())
+					this.$scope.refreshRequests()
 				})
 			})
 
 			this.requests.setRemote(message.request.url, options)
 
-			this.$scope.$apply(() => this.$scope.refreshRequests())
+			// this.$scope.$apply(() => this.$scope.refreshRequests())
 		})
 
 		// handle clearing of requests list if we are not preserving log
@@ -105,10 +106,10 @@ class Extension
 
 				this.requests.setRemote(request.url, options)
 				this.requests.loadId(options.id, Request.placeholder(options.id, request)).then(() => {
-					this.$scope.$apply(() => this.$scope.refreshRequests())
+					this.$scope.refreshRequests()
 				})
 
-				this.$scope.$apply(() => this.$scope.refreshRequests())
+				this.$scope.refreshRequests()
 			}
 		)
 	}

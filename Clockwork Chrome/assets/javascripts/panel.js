@@ -1,4 +1,4 @@
-Clockwork.controller('PanelController', function ($scope, $http, filter, requests, updateNotification)
+Clockwork.controller('PanelController', function ($scope, $q, $http, filter, requests, updateNotification)
 {
 	$scope.requests = []
 	$scope.request = null
@@ -16,7 +16,7 @@ Clockwork.controller('PanelController', function ($scope, $http, filter, request
 		key('⌘+k, ctrl+l', () => $scope.$apply(() => $scope.clear()))
 
 		if (Extension.runningAsExtension()) {
-			$scope.$integration = new Extension($scope, requests, updateNotification)
+			$scope.$integration = new Extension($scope, $q, requests, updateNotification)
 		} else {
 			$scope.$integration = new Standalone($scope, $http, requests)
 		}
@@ -24,6 +24,8 @@ Clockwork.controller('PanelController', function ($scope, $http, filter, request
 		$scope.$integration.init()
 
 		this.initFilters()
+
+		this.authentication = new Authentication($scope, $q, requests)
 	}
 
 	$scope.initFilters = function () {
@@ -133,6 +135,10 @@ Clockwork.controller('PanelController', function ($scope, $http, filter, request
 		$scope.performanceMetricsChartOptions = $scope.getPerformanceMetricsChartOptions()
 		$scope.databaseQueriesStats = $scope.getDatabaseQueriesStats()
 		$scope.timelineLegend = $scope.generateTimelineLegend()
+
+		if ($scope.request && $scope.request.error && $scope.request.error.error == 'requires-authentication') {
+			$scope.authentication.request($scope.request.error.message, $scope.request.error.requires)
+		}
 
 		$scope.showIncomingRequests = (id == $scope.requests[$scope.requests.length - 1].id)
 	}

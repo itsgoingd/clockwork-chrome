@@ -23,6 +23,7 @@
 		<script src="assets/javascripts/directives/shortened-text.js"></script>
 		<script src="assets/javascripts/directives/stack-trace.js"></script>
 		<script src="assets/javascripts/directives/tabs.js"></script>
+		<script src="assets/javascripts/authentication.js"></script>
 		<script src="assets/javascripts/extension.js"></script>
 		<script src="assets/javascripts/filter.js"></script>
 		<script src="assets/javascripts/panel.js"></script>
@@ -782,7 +783,7 @@
 
 				</div>
 
-				<div class="details-loading-overlay" ng-show="request.loading">
+				<div class="details-loading-overlay" ng-show="request.loading && ! authentication.overlay.show">
 					<div class="sk-fading-circle">
 						<div class="sk-circle1 sk-circle"></div>
 						<div class="sk-circle2 sk-circle"></div>
@@ -799,12 +800,29 @@
 					</div>
 				</div>
 
-				<div class="details-error-overlay" ng-show="request.error">
+				<div class="details-error-overlay" ng-show="request.error && request.error.error != 'requires-authentication'">
 					<span class="fa fa-exclamation-circle"></span>
 					<p class="title">Error loading request metadata.</p>
-					<p class="message">{{ request.error }}</p>
+					<p class="message">{{ request.error.error }}</p>
 				</div>
 
+				<div class="details-authentication-overlay" ng-class="{failed:authentication.failed}" ng-show="authentication.shown">
+					<form ng-submit="authentication.attempt()">
+						<span class="fa fa-lock"></span>
+						<p class="title">This site requires authentication.</p>
+						<p class="title failed">Authentication failed.</p>
+						<p class="message" ng-show="authentication.message">{{ authentication.message }}</p>
+						<p ng-show="authentication.requires.includes('username')">
+							<input type="text" ng-model="authentication.username" placeholder="Username">
+						</p>
+						<p ng-show="authentication.requires.includes('password')">
+							<input type="password" ng-model="authentication.password" placeholder="Password">
+						</p>
+						<p>
+							<button type="submit">Submit</button>
+						</p>
+					</form>
+				</div>
 			</div>
 		</div>
 	</body>
