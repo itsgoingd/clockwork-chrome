@@ -803,19 +803,20 @@ a {
 	}
 }
 
-.details-loading-overlay, .details-error-overlay {
+.details-loading-overlay, .details-error-overlay, .details-authentication-overlay {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
 	font-size: 16px;
-	height: 100%;
+	height: calc(100% - 31px);
 	justify-content: center;
 	left: 0;
 	position: absolute;
-	top: 0;
+	top: 31px;
 	width: 100%;
 
 	.fa {
+		color: #696969;
 		font-size: 46px;
 	}
 
@@ -827,6 +828,69 @@ a {
 		color: #aaa;
 		font-size: 75%;
 		margin: 5px 0 0 0;
+	}
+}
+
+.details-authentication-overlay {
+	text-align: center;
+
+	.title, .message {
+		font-size: 80%;
+	}
+
+	.title.failed {
+		display: none;
+	}
+
+	p {
+		margin: 1.3em 0;
+	}
+
+	input {
+		background: #eee;
+		border: 1px solid #eee;
+		border-radius: 4px;
+		font-size: 14px;
+		height: 30px;
+		padding: 0 10px;
+
+		body.dark & {
+			background: #2e2e2e;
+			border: 1px solid #2e2e2e;
+			color: #ccc;
+		}
+	}
+
+	button {
+		background: transparent;
+		border: none;
+		color: #258cdb;
+		font-size: 90%;
+
+		body.dark & {
+		    color: #f27e02;
+		}
+	}
+
+	&.failed {
+		.title {
+			display: none;
+
+			&.failed {
+				display: block;
+			}
+		}
+
+		.fa {
+			animation: shake 0.77s linear;
+		}
+
+		@keyframes shake {
+			10%, 90% { transform: translate(-2px); }
+			20%, 80% { transform: translate(3px); }
+			30%, 50%, 70% { transform: translate(-5px); }
+			40%, 60% { transform: translate(5px); }
+		}
 	}
 }
 

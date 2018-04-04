@@ -470,25 +470,69 @@ a {
     font-size: 125%;
     font-variant: small-caps; }
 
-.details-loading-overlay, .details-error-overlay {
+.details-loading-overlay, .details-error-overlay, .details-authentication-overlay {
   align-items: center;
   display: flex;
   flex-direction: column;
   font-size: 16px;
-  height: 100%;
+  height: calc(100% - 31px);
   justify-content: center;
   left: 0;
   position: absolute;
-  top: 0;
+  top: 31px;
   width: 100%; }
-  .details-loading-overlay .fa, .details-error-overlay .fa {
+  .details-loading-overlay .fa, .details-error-overlay .fa, .details-authentication-overlay .fa {
+    color: #696969;
     font-size: 46px; }
-  .details-loading-overlay .title, .details-error-overlay .title {
+  .details-loading-overlay .title, .details-error-overlay .title, .details-authentication-overlay .title {
     margin: 10px 0 0 0; }
-  .details-loading-overlay .message, .details-error-overlay .message {
+  .details-loading-overlay .message, .details-error-overlay .message, .details-authentication-overlay .message {
     color: #aaa;
     font-size: 75%;
     margin: 5px 0 0 0; }
+
+.details-authentication-overlay {
+  text-align: center; }
+  .details-authentication-overlay .title, .details-authentication-overlay .message {
+    font-size: 80%; }
+  .details-authentication-overlay .title.failed {
+    display: none; }
+  .details-authentication-overlay p {
+    margin: 1.3em 0; }
+  .details-authentication-overlay input {
+    background: #eee;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    font-size: 14px;
+    height: 30px;
+    padding: 0 10px; }
+    body.dark .details-authentication-overlay input {
+      background: #2e2e2e;
+      border: 1px solid #2e2e2e;
+      color: #ccc; }
+  .details-authentication-overlay button {
+    background: transparent;
+    border: none;
+    color: #258cdb;
+    font-size: 90%; }
+    body.dark .details-authentication-overlay button {
+      color: #f27e02; }
+  .details-authentication-overlay.failed .title {
+    display: none; }
+    .details-authentication-overlay.failed .title.failed {
+      display: block; }
+  .details-authentication-overlay.failed .fa {
+    animation: shake 0.77s linear; }
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate(-2px); }
+  20%, 80% {
+    transform: translate(3px); }
+  30%, 50%, 70% {
+    transform: translate(-5px); }
+  40%, 60% {
+    transform: translate(5px); } }
 
 .update-notification, .parent-request {
   background: #e9f3fb;

@@ -38,8 +38,16 @@ class Standalone
 	}
 
 	setMetadataClient () {
-		this.requests.setClient((url, headers) => {
-			return this.$http.get(url).then(data => data.data)
+		this.requests.setClient((method, url, data, headers) => {
+			return this.$http({ method: method.toLowerCase(), url, data, headers })
+				.then(data => data.data)
+				.catch(data => {
+					if (data.status == 403) {
+						throw { error: 'requires-authentication', message: data.data.message, requires: data.data.requires }
+					} else {
+						throw { error: 'Server returned an error response.' }
+					}
+				})
 		})
 	}
 
@@ -48,8 +56,14 @@ class Standalone
 			this.lastRequestId = this.requests.last().id
 
 			this.pollRequests()
-		}).catch(() => {
-			setTimeout(() => this.startPollingRequests(), 1000)
+		}).catch(error => {
+			if (error.error == 'requires-authentication') {
+				this.$scope.authentication.request(error.message, error.requires).then(() => {
+					this.startPollingRequests()
+				})
+			} else {
+				setTimeout(() => this.startPollingRequests(), 1000)
+			}
 		})
 	}
 
