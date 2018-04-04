@@ -2,7 +2,10 @@ class Requests
 {
 	constructor () {
 		this.items = []
-		this.tokens = {}
+
+		try {
+			this.tokens = JSON.parse(localStorage.getItem('requests.tokens') || '{}')
+		} catch (e) {}
 	}
 
 	// returns all requests up to the first placeholder, or everything if there are no placeholders
@@ -100,6 +103,7 @@ class Requests
 
 	setAuthenticationToken (token) {
 		this.tokens[this.remoteUrl] = token
+		localStorage.setItem('requests.tokens', JSON.stringify(this.tokens))
 	}
 
 	callRemote (url) {

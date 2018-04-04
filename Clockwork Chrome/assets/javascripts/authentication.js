@@ -26,8 +26,6 @@ class Authentication
 			this.accept()
 		}).catch(e => {
 			this.failed = true
-
-			// this.reject(e)
 		})
 	}
 
