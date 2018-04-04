@@ -14,16 +14,18 @@ class Standalone
 		this.startPollingRequests()
 	}
 
-	// dark theme can be activated by adding ?dark or ?dark=1 query string to the url, the setting is preserved
-	// and can be deactivated again by adding ?dark=0
+	// appending ?dark to the query string will cause dark theme to be used, ?dark=1 or ?dark=0 can be used to
+	// permanently activate or deactivate dark theme in this browser
 	useProperTheme () {
 		let wantsDarkTheme = URI(window.location.href).query(true).dark
 
-		if (wantsDarkTheme === undefined) {
-			wantsDarkTheme = localStorage.getItem('use-dark-theme') == 'true'
-		} else {
-			wantsDarkTheme = wantsDarkTheme == '1' || wantsDarkTheme === null
+		if (wantsDarkTheme == '1' || wantsDarkTheme == '0')	{
 			localStorage.setItem('use-dark-theme', wantsDarkTheme)
+			wantsDarkTheme = wantsDarkTheme == '1'
+		} else if (localStorage.getItem('use-dark-theme')) {
+			wantsDarkTheme = localStorage.getItem('use-dark-theme') == '1'
+		} else {
+			wantsDarkTheme = wantsDarkTheme === null
 		}
 
 		if (wantsDarkTheme) {
