@@ -523,6 +523,60 @@ a {
 		}
 	}
 
+	// Request tab
+
+	.request-tab-info {
+		display: flex;
+		margin: 0 0 10px;
+
+		.field {
+			display: flex;
+			flex: 0 1 120px;
+			flex-direction: column;
+			margin: 0 5px;
+			padding: 8px 20px 10px;
+
+			&:first-child {
+				margin-left: 0;
+			}
+
+			&:last-child {
+				margin-right: 0;
+			}
+
+			.field-value {
+				display: flex;
+				flex: 1;
+				flex-direction: column;
+				font-size: 140%;
+				justify-content: center;
+
+				.small {
+					color: #888;
+					font-size: 75%;
+					padding-top: 2px;
+				}
+			}
+
+			.field-title {
+				font-size: 120%;
+				font-variant: small-caps;
+				padding-bottom: 5px;
+				text-transform: lowercase;
+			}
+
+			&.action {
+				flex: 1;
+			}
+
+			&.link {
+				flex: 0 1 0;
+				font-size: 90%;
+				padding: 0;
+			}
+		}
+	}
+
 	// Performance tab
 
 	.performance-chart-container {

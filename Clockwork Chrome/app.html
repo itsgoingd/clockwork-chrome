@@ -163,6 +163,36 @@
 							</span>
 						</div>
 
+						<div class="request-tab-info">
+							<div class="field">
+								<div class="field-title">Method</div>
+								<div class="field-value">
+									<div>{{request.method}}</div>
+								</div>
+							</div>
+							<div class="field action">
+								<div class="field-title">Action</div>
+								<div class="field-value">
+									<div>{{request.uri}}</div>
+									<div class="small">{{request.controller}}</div>
+								</div>
+							</div>
+							<div class="field link">
+								<div class="field-title">&nbsp;</div>
+								<div class="field-value">
+									<a href="#">
+										<span class="fa fa-link"></span>
+									</a>
+								</div>
+							</div>
+							<div class="field">
+								<div class="field-title">Status</div>
+								<div class="field-value">
+									<div>{{request.responseStatus}}</div>
+								</div>
+							</div>
+						</div>
+
 						<table ng-show="request.headers.length">
 							<thead>
 								<tr>
