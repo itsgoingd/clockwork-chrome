@@ -15,6 +15,8 @@
 		<script src="assets/vendor/javascripts/moment.min.js"></script>
 		<script src="assets/vendor/javascripts/Chart.min.js"></script>
 		<script src="assets/vendor/javascripts/angular-chart.min.js"></script>
+		<script src="assets/vendor/javascripts/clipboard.min.js"></script>
+		<script src="assets/vendor/javascripts/ngclipboard.min.js"></script>
 
 		<script src="assets/javascripts/app.js"></script>
 		<script src="assets/javascripts/directives/load-more-requests.js"></script>
@@ -180,7 +182,7 @@
 							<div class="field link">
 								<div class="field-title">&nbsp;</div>
 								<div class="field-value">
-									<a href="#">
+									<a href="#" ngclipboard data-clipboard-text="{{request.url}}" title="Copy url">
 										<span class="fa fa-link"></span>
 									</a>
 								</div>

@@ -318,13 +318,12 @@ a {
         text-transform: lowercase; }
   .details-content .request-tab-info {
     display: flex;
-    margin: 0 0 10px; }
+    margin: 4px 0 8px; }
     .details-content .request-tab-info .field {
       display: flex;
-      flex: 0 1 120px;
       flex-direction: column;
       margin: 0 5px;
-      padding: 8px 20px 10px; }
+      padding: 0 20px; }
       .details-content .request-tab-info .field:first-child {
         margin-left: 0; }
       .details-content .request-tab-info .field:last-child {
@@ -333,7 +332,7 @@ a {
         display: flex;
         flex: 1;
         flex-direction: column;
-        font-size: 140%;
+        font-size: 130%;
         justify-content: center; }
         .details-content .request-tab-info .field .field-value .small {
           color: #888;
@@ -347,7 +346,6 @@ a {
       .details-content .request-tab-info .field.action {
         flex: 1; }
       .details-content .request-tab-info .field.link {
-        flex: 0 1 0;
         font-size: 90%;
         padding: 0; }
   .details-content .performance-chart-container {

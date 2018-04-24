@@ -527,14 +527,13 @@ a {
 
 	.request-tab-info {
 		display: flex;
-		margin: 0 0 10px;
+		margin: 4px 0 8px;
 
 		.field {
 			display: flex;
-			flex: 0 1 120px;
 			flex-direction: column;
 			margin: 0 5px;
-			padding: 8px 20px 10px;
+			padding: 0 20px;
 
 			&:first-child {
 				margin-left: 0;
@@ -548,7 +547,7 @@ a {
 				display: flex;
 				flex: 1;
 				flex-direction: column;
-				font-size: 140%;
+				font-size: 130%;
 				justify-content: center;
 
 				.small {
@@ -570,7 +569,6 @@ a {
 			}
 
 			&.link {
-				flex: 0 1 0;
 				font-size: 90%;
 				padding: 0;
 			}
