@@ -21,8 +21,6 @@ class Request
 		this.timeline = this.processTimeline(this.timelineData)
 		this.views = this.processViews(this.viewsData)
 
-		this.url = this.getFullUrl()
-
 		this.errorsCount = this.getErrorsCount()
 		this.warningsCount = this.getWarningsCount()
 	}
@@ -58,12 +56,6 @@ class Request
 		return Object.keys(data)
 			.map(key => ({ name: key, value: data[key] }))
 			.sort((a, b) => a.name.localeCompare(b.name))
-	}
-
-	getFullUrl () {
-		let host = this.headers.find(header => header.name.toLowerCase() == 'host')
-
-		return host ? `http://${host.value}${this.uri}` : ''
 	}
 
 	processCacheStats () {
