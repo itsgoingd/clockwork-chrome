@@ -815,7 +815,7 @@
 					</div>
 
 					<div ng-repeat="userTab in request.userData" tab-content="user-{{userTab.key}}">
-						<div ng-repeat="section in userTab.sections">
+						<div ng-repeat="(sectionIndex, section) in userTab.sections">
 							<div ng-if="section.showAs == 'counters'" class="counters-row">
 								<div ng-repeat="item in section.data" class="counter">
 									<div class="counter-value">{{item.value}}</div>
@@ -830,11 +830,25 @@
 							<table ng-if="section.showAs == 'table'">
 								<thead>
 									<tr>
-										<th ng-repeat="item in section.data[0]">{{item.key}}</th>
+										<th ng-repeat="item in section.data[0]" ng-click="userDataFilter[userTab.key][sectionIndex].sortBy(item.key)">
+											{{item.key}}
+											<span ng-show="userDataFilter[userTab.key][sectionIndex].sortedBy == item.key" ng-class="userDataFilter[userTab.key][sectionIndex].sortedDesc ? 'fa fa-angle-down' : 'fa fa-angle-up'"></span>
+											<a href="#" class="toggle-filter" ng-click="userDataFilter[userTab.key][sectionIndex].toggle($event)" ng-if="$last">
+												<span class="fa fa-search"></span>
+											</a>
+										</th>
+									</tr>
+									<tr class="filter" ng-show="userDataFilter[userTab.key][sectionIndex].shown">
+										<td colspan="2">
+											<label>
+												<span class="fa fa-search"></span>
+												<input type="search" placeholder="Filter..." ng-model="userDataFilter[userTab.key][sectionIndex].input">
+											</div>
+										</td>
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-repeat="item in section.data">
+									<tr ng-repeat="item in section.data | filter:userDataFilter[userTab.key][sectionIndex].filter() | orderBy:userDataFilter[userTab.key][sectionIndex].sortedBy:userDataFilter[userTab.key][sectionIndex].sortedDesc">
 										<td ng-repeat="item in item">{{item.value}}</td>
 									</tr>
 								</tbody>
