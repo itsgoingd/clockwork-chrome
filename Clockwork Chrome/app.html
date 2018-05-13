@@ -128,6 +128,7 @@
 						<a tab-name="views" ng-show="request.views.length" class="details-header-tab" href="#">Views</a>
 						<a tab-name="emails" ng-show="request.emails.length" class="details-header-tab" href="#">Emails</a>
 						<a tab-name="routes" ng-show="request.routes.length" class="details-header-tab" href="#">Routes</a>
+						<a ng-repeat="userTab in request.userData" tab-name="user-{{ userTab.key }}" class="details-header-tab" href="#">{{ userTab.title }}</a>
 					</div>
 
 					<div class="icons">
@@ -811,6 +812,34 @@
 								</tr>
 							</tbody>
 						</table>
+					</div>
+
+					<div ng-repeat="userTab in request.userData" tab-content="user-{{userTab.key}}">
+						<div ng-repeat="section in userTab.sections">
+							<div ng-if="section.showAs == 'counters'" class="counters-row">
+								<div ng-repeat="item in section.data" class="counter">
+									<div class="counter-value">{{item.value}}</div>
+									<div class="counter-title">{{item.key}}</div>
+								</div>
+							</div>
+
+							<h3 ng-if="section.title">
+								{{section.title}}
+							</h3>
+
+							<table ng-if="section.showAs == 'table'">
+								<thead>
+									<tr>
+										<th ng-repeat="item in section.data[0]">{{item.key}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="item in section.data">
+										<td ng-repeat="item in item">{{item.value}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 
 				</div>

@@ -221,6 +221,12 @@ a {
   flex: 1;
   overflow: auto;
   padding: 10px; }
+  .details-content h3 {
+    border-bottom: 1px solid #d1d1d1;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0;
+    padding: 4px 10px; }
   .details-content table {
     font-size: 12px;
     margin-bottom: 18px; }
