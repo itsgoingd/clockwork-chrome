@@ -630,6 +630,34 @@ a {
 		}
 	}
 
+	.performance-tabs {
+		display: flex;
+		flex: 1;
+		justify-content: center;
+
+		.performance-tab {
+			color: rgb(64, 64, 64);
+			cursor: default;
+			font-size: 12px;
+			line-height: 31px;
+			padding: 0 31px;
+			text-align: center;
+			text-decoration: none;
+
+			&.active {
+				color: rgb(37, 140, 219);
+
+				body.dark & {
+					color: hsl(31, 98%, 48%);
+				}
+			}
+
+			body.dark & {
+				color: rgb(158, 158, 158);
+			}
+		}
+	}
+
 	.timeline {
 		position: relative;
 
@@ -833,6 +861,69 @@ a {
 	.timeline-duration {
 		text-align: right;
 		width: 100px;
+	}
+
+	.profiler {
+		.profiler-controls {
+			position: absolute;
+			right: 0;
+			top: 4px;
+
+			.profiler-control-group {
+				margin: 0 5px;
+			}
+
+			.profiler-show-metric {
+				font-size: 110%;
+			}
+
+			.profiler-shown-fraction {
+				font-size: 85%;
+			}
+
+			.toggle-filter {
+				position: static;
+				visibility: visible;
+			}
+
+			a {
+				margin: 0 2px;
+				text-decoration: none;
+
+				&.active {
+					color: rgb(37, 140, 219);
+
+					body.dark & {
+						color: hsl(31, 98%, 48%);
+					}
+				}
+
+				body.dark & {
+					color: rgb(158, 158, 158);
+				}
+			}
+		}
+
+		.profiler-metric {
+			white-space: nowrap;
+		}
+
+		.profiler-function {
+			display: flex;
+		    flex-wrap: wrap;
+
+			.profiler-function-name {
+				flex: 1 1 auto;
+				word-break: break-all;
+			}
+
+			.profiler-path {
+				color: #aaa;
+			    flex: 0;
+			    font-size: 90%;
+			    margin-top: 3px;
+			}
+		}
 	}
 
 	// Log tab

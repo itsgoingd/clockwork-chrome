@@ -38,6 +38,14 @@ class Requests
 		})
 	}
 
+	loadExtended (id, fields) {
+		let request = this.findId(id)
+
+		return this.callRemote(this.remoteUrl + id + '/extended').then(data => {
+			return request.extend(data[0], fields)
+		}).catch(error => {})
+	}
+
 	loadLatest () {
 		return this.callRemote(this.remoteUrl + 'latest').then(data => {
 			this.items.push(...data)

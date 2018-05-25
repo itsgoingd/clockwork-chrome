@@ -52,6 +52,11 @@ class Request
 		return this
 	}
 
+	extend (data, fields) {
+		fields.forEach(field => this[field] = data[field])
+		return this
+	}
+
 	createKeypairs (data) {
 		if (! (data instanceof Object)) return []
 

@@ -1,4 +1,4 @@
-Clockwork.controller('PanelController', function ($scope, $q, $http, filter, requests, updateNotification)
+Clockwork.controller('PanelController', function ($scope, $q, $http, filter, profiler, requests, updateNotification)
 {
 	$scope.requests = []
 	$scope.request = null
@@ -27,6 +27,7 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, req
 		this.initFilters()
 
 		this.authentication = new Authentication($scope, $q, requests)
+		this.profiler = profiler
 	}
 
 	$scope.initFilters = function () {
@@ -105,6 +106,15 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, req
 		$scope.timelineFilter = filter.create([
 			{ tag: 'duration', type: 'number' }
 		], item => item.description)
+
+		$scope.xdebugFilter = filter.create([
+			{ tag: 'model' },
+			{ tag: 'file', map: item => item.shortPath },
+			{ tag: 'self', type: 'number' },
+			{ tag: 'inclusive', type: 'number' }
+		])
+		$scope.xdebugFilter.sortedBy = 'self[0]'
+		$scope.xdebugFilter.sortedDesc = true
 	}
 
 	$scope.initUserDataFilters = function () {
@@ -144,6 +154,10 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, req
 	}
 
 	$scope.showRequest = function (id) {
+		if ($scope.request && $scope.request.id == id) return
+
+		$scope.profiler.clear()
+
 		$scope.request = requests.findId(id)
 
 		$scope.updateNotification = updateNotification.show(requests.remoteUrl)
@@ -158,6 +172,8 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, req
 		if ($scope.request && $scope.request.error && $scope.request.error.error == 'requires-authentication') {
 			$scope.authentication.request($scope.request.error.message, $scope.request.error.requires)
 		}
+
+		requests.loadExtended(id, [ 'xdebug' ]).then(request => $scope.profiler.loadProfileForRequest(request))
 
 		$scope.showIncomingRequests = (id == $scope.requests[$scope.requests.length - 1].id)
 	}
@@ -259,13 +275,13 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, req
 	}
 
 	$scope.getTimelineWidth = function () {
-		let timelineShown = document.querySelector('[tab-content="performance"]').style.display !== 'none'
+		let timelineShown = document.querySelector('[tab-content="app.performance"]').style.display !== 'none'
 
-		if (! timelineShown) document.querySelector('[tab-content="performance"]').style.display = 'block'
+		if (! timelineShown) document.querySelector('[tab-content="app.performance"]').style.display = 'block'
 
 		let width = document.querySelector('.timeline-table').offsetWidth
 
-		if (! timelineShown) document.querySelector('[tab-content="performance"]').style.display = 'none'
+		if (! timelineShown) document.querySelector('[tab-content="app.performance"]').style.display = 'none'
 
 		return width - 8
 	}
