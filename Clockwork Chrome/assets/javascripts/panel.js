@@ -27,7 +27,7 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, pro
 		this.initFilters()
 
 		this.authentication = new Authentication($scope, $q, requests)
-		this.profiler = profiler
+		this.profiler = profiler.setScope($scope)
 	}
 
 	$scope.initFilters = function () {
@@ -112,7 +112,7 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, pro
 			{ tag: 'file', map: item => item.shortPath },
 			{ tag: 'self', type: 'number' },
 			{ tag: 'inclusive', type: 'number' }
-		])
+		], item => item.name)
 		$scope.xdebugFilter.sortedBy = 'self[0]'
 		$scope.xdebugFilter.sortedDesc = true
 	}
@@ -156,8 +156,6 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, pro
 	$scope.showRequest = function (id) {
 		if ($scope.request && $scope.request.id == id) return
 
-		$scope.profiler.clear()
-
 		$scope.request = requests.findId(id)
 
 		$scope.updateNotification = updateNotification.show(requests.remoteUrl)
@@ -172,8 +170,6 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, pro
 		if ($scope.request && $scope.request.error && $scope.request.error.error == 'requires-authentication') {
 			$scope.authentication.request($scope.request.error.message, $scope.request.error.requires)
 		}
-
-		requests.loadExtended(id, [ 'xdebug' ]).then(request => $scope.profiler.loadProfileForRequest(request))
 
 		$scope.showIncomingRequests = (id == $scope.requests[$scope.requests.length - 1].id)
 	}

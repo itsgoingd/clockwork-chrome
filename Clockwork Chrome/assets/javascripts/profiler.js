@@ -1,36 +1,92 @@
 class Profiler
 {
-	constructor () {
+	constructor (requests) {
+		this.requests = requests
+
+		this.available = false
+		this.loading = false
+		this.parsing = false
+		this.ready = false
+
 		this.metric = 0
 		this.percentual = false
 		this.shownFraction = 0.9
-		this.rnd = Math.random()
+
+		this.request = undefined
 	}
 
-	loadProfileForRequest (request) {
+	setScope ($scope) {
+		this.$scope = $scope
+
+		this.$scope.$integration.getCookie('XDEBUG_PROFILE').then(value => this.isProfiling = value)
+
+		return this
+	}
+
+	enableProfiling () {
+		this.$scope.$integration.setCookie('XDEBUG_PROFILE', '1', 60 * 60 * 24 * 30)
+
+		this.isProfiling = true
+	}
+
+	disableProfiling () {
+		this.$scope.$integration.setCookie('XDEBUG_PROFILE', '0', 0)
+
+		this.isProfiling = false
+	}
+
+	loadRequest (request) {
+		if (this.request && this.request.id == request.id) return
+
 		this.request = request
 
+		this.available = this.loading = this.parsing = this.ready = false
 		this.summary = this.metadata = this.functions = undefined
 
-		let profile = Callgrind.parse(request.xdebug.profileData)
+		if (! request.xdebug || ! request.xdebug.profile) return
 
-		this.metadata = profile.metadata
-		this.summary = this.metadata.summary.split(' ')
+		this.available = true
 
-		let budget = this.shownFraction * this.summary[this.metric]
+		if (request.xdebug.profileData) {
+			return this.parseProfile()
+		}
 
-		this.functions = profile.functions
-			.filter(fn => fn.name != '{main}')
-			.sort((fn1, fn2) => fn2.self[this.metric] - fn1.self[this.metric])
-			.filter(fn => {
-				budget -= fn.self[this.metric]
-				return budget > 0
+		this.loading = true
+
+		this.requests.loadExtended(request.id, [ 'xdebug' ]).then(request => {
+			this.loading = false
+			this.parseProfile()
+		})
+	}
+
+	parseProfile () {
+		this.ready = false
+		this.parsing = true
+
+		Callgrind.parse(this.request.xdebug.profileData).then(profile => {
+			this.metadata = profile.metadata
+			this.summary = this.metadata.summary.split(' ')
+
+			let budget = this.shownFraction * this.summary[this.metric]
+
+			this.$scope.$apply(() => {
+				this.functions = profile.functions
+					.filter(fn => fn.name != '{main}')
+					.sort((fn1, fn2) => fn2.self[this.metric] - fn1.self[this.metric])
+					.filter(fn => {
+						budget -= fn.self[this.metric]
+						return budget > 0
+					})
+					.map(fn => {
+						fn.fullPath = fn.file == 'php:internal' ? 'internal' : `${fn.file}:${fn.line}`
+						fn.shortPath = fn.fullPath != 'internal' ? fn.fullPath.split(/[\/\\]/).pop() : fn.fullPath
+						return fn
+					})
+
+				this.parsing = false
+				this.ready = true
 			})
-			.map(fn => {
-				fn.fullPath = fn.file == 'php:internal' ? 'internal' : `${fn.file}:${fn.line}`
-				fn.shortPath = fn.fullPath != 'internal' ? fn.fullPath.split(/[\/\\]/).pop() : fn.fullPath
-				return fn
-			})
+		})
 	}
 
 	clear () {
@@ -42,7 +98,7 @@ class Profiler
 
 		this.metric = metric
 
-		this.loadProfileForRequest(this.request)
+		this.parseProfile()
 	}
 
 	showPercentual ($event, percentual) {
@@ -56,7 +112,7 @@ class Profiler
 
 		this.shownFraction = shownFraction
 
-		this.loadProfileForRequest(this.request)
+		this.parseProfile()
 	}
 
 	metricFilter () {

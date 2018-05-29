@@ -6,6 +6,12 @@ class Callgrind
 	}
 
 	static parse(data) {
+		return new Promise((accept, reject) => {
+			accept(Callgrind.parseSync(data))
+		})
+	}
+
+	static parseSync(data) {
 		let metadata = {}
 		let functions = []
 

@@ -634,7 +634,7 @@
 						<div tabs="performance">
 							<div class="performance-tabs">
 								<a tab-name="performance.timeline" class="performance-tab active" href="#">Timeline</a>
-								<a tab-name="performance.profiler" class="performance-tab" href="#">Profiler</a>
+								<a tab-name="performance.profiler" class="performance-tab" href="#" ng-click="profiler.loadRequest(request)">Profiler</a>
 							</div>
 
 							<div tab-content="performance.timeline">
@@ -693,7 +693,8 @@
 							</div>
 
 							<div tab-content="performance.profiler">
-								<table class="profiler">
+
+								<table class="profiler" ng-if="profiler.ready">
 									<thead>
 										<tr>
 											<th ng-click="xdebugFilter.sortBy('self[' + profiler.metric + ']')">
@@ -769,6 +770,47 @@
 										</tr>
 									</tbody>
 								</table>
+
+								<div class="profiler-loading" ng-show="profiler.loading || profiler.parsing">
+									<div class="sk-fading-circle">
+										<div class="sk-circle1 sk-circle"></div>
+										<div class="sk-circle2 sk-circle"></div>
+										<div class="sk-circle3 sk-circle"></div>
+										<div class="sk-circle4 sk-circle"></div>
+										<div class="sk-circle5 sk-circle"></div>
+										<div class="sk-circle6 sk-circle"></div>
+										<div class="sk-circle7 sk-circle"></div>
+										<div class="sk-circle8 sk-circle"></div>
+										<div class="sk-circle9 sk-circle"></div>
+										<div class="sk-circle10 sk-circle"></div>
+										<div class="sk-circle11 sk-circle"></div>
+										<div class="sk-circle12 sk-circle"></div>
+									</div>
+									<p class="message" ng-show="profiler.loading">
+										Loading profile...
+									</p>
+									<p class="message" ng-show="profiler.parsing">
+										Processing profile...
+									</p>
+								</div>
+
+								<div class="profiler-not-available" ng-show="! profiler.available">
+									<p>
+										Profile is not present for current request.
+									</p>
+									<p class="message">
+										Profiling requires the Xdebug php extension.<br>
+										<a href="#">Read more about how to set up Xdebug</a>
+									</p>
+									<p class="message profiler-enable">
+										<a href="#" ng-click="profiler.enableProfiling()" ng-show="! profiler.isProfiling">
+											Enable profiler
+										</a>
+										<a href="#" ng-click="profiler.disableProfiling()" ng-show="profiler.isProfiling">
+											Disable profiler
+										</a>
+									</p>
+								</div>
 							</div>
 						</div>
 					</div>

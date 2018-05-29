@@ -18,6 +18,7 @@
 	},
 
 	"permissions": [
+		"cookies",
 		"webNavigation",
 		"webRequest",
 		"http://*/",

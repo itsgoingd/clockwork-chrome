@@ -53,6 +53,16 @@ class Standalone
 		})
 	}
 
+	setCookie (name, value, expiration) {
+		document.cookie = `${name}=${value};path=/;max-age=${expiration}`
+	}
+
+	getCookie (name) {
+		let matches = document.cookie.match(new RegExp(`(?:^| )${name}=(?<value>[^;]*)`))
+
+		return Promise.resolve(! matches ? undefined : matches.groups.value)
+	}
+
 	startPollingRequests () {
 		this.requests.loadLatest().then(() => {
 			if (! this.requests.last()) throw new Error

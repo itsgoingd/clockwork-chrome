@@ -634,6 +634,7 @@ a {
 		display: flex;
 		flex: 1;
 		justify-content: center;
+		padding: 8px 0 4px;
 
 		.performance-tab {
 			color: rgb(64, 64, 64);
@@ -874,7 +875,11 @@ a {
 			}
 
 			.profiler-show-metric {
-				font-size: 110%;
+				font-size: 105%;
+
+				.fa-clock-o {
+					font-size: 110%;
+				}
 			}
 
 			.profiler-shown-fraction {
@@ -922,6 +927,47 @@ a {
 			    flex: 0;
 			    font-size: 90%;
 			    margin-top: 3px;
+			}
+		}
+	}
+
+	.profiler-loading, .profiler-not-available {
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+		font-size: 16px;
+		padding: 40px 0;
+		text-align: center;
+		width: 100%;
+
+		.message {
+			color: #aaa;
+			font-size: 75%;
+			margin: 10px 0 0 0;
+		}
+	}
+
+	.profiler-not-available {
+		font-size: 15px;
+		line-height: 1.5;
+
+		.message {
+			font-size: 90%;
+			margin: 15px 0 0;
+		}
+
+		a {
+			color: #aaa;
+			cursor: pointer;
+		}
+
+		.profiler-enable {
+			a {
+				color: rgb(37, 140, 219);
+
+				body.dark & {
+					color: hsl(31, 98%, 48%);
+				}
 			}
 		}
 	}

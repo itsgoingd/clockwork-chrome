@@ -380,7 +380,8 @@ a {
   .details-content .performance-tabs {
     display: flex;
     flex: 1;
-    justify-content: center; }
+    justify-content: center;
+    padding: 8px 0 4px; }
     .details-content .performance-tabs .performance-tab {
       color: #404040;
       cursor: default;
@@ -513,7 +514,9 @@ a {
     .details-content .profiler .profiler-controls .profiler-control-group {
       margin: 0 5px; }
     .details-content .profiler .profiler-controls .profiler-show-metric {
-      font-size: 110%; }
+      font-size: 105%; }
+      .details-content .profiler .profiler-controls .profiler-show-metric .fa-clock-o {
+        font-size: 110%; }
     .details-content .profiler .profiler-controls .profiler-shown-fraction {
       font-size: 85%; }
     .details-content .profiler .profiler-controls .toggle-filter {
@@ -541,6 +544,31 @@ a {
       flex: 0;
       font-size: 90%;
       margin-top: 3px; }
+  .details-content .profiler-loading, .details-content .profiler-not-available {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    padding: 40px 0;
+    text-align: center;
+    width: 100%; }
+    .details-content .profiler-loading .message, .details-content .profiler-not-available .message {
+      color: #aaa;
+      font-size: 75%;
+      margin: 10px 0 0 0; }
+  .details-content .profiler-not-available {
+    font-size: 15px;
+    line-height: 1.5; }
+    .details-content .profiler-not-available .message {
+      font-size: 90%;
+      margin: 15px 0 0; }
+    .details-content .profiler-not-available a {
+      color: #aaa;
+      cursor: pointer; }
+    .details-content .profiler-not-available .profiler-enable a {
+      color: #258cdb; }
+      body.dark .details-content .profiler-not-available .profiler-enable a {
+        color: #f27e02; }
   .details-content .log-row.error {
     background: #ffebeb;
     color: #c51f24; }

@@ -46,6 +46,24 @@ class Extension
 		})
 	}
 
+	setCookie (name, value, expiration) {
+		this.api.devtools.inspectedWindow.eval('window.location.href', url => {
+			this.api.cookies.set({
+				url, name, value, path: '/', expirationDate: Math.floor(Date.now() / 1000) + expiration
+			})
+		})
+	}
+
+	getCookie (name) {
+		return new Promise((accept, reject) => {
+			this.api.devtools.inspectedWindow.eval('window.location.href', url => {
+				this.api.cookies.get({ url, name }, cookie => {
+					accept(cookie ? cookie.value : undefined)
+				})
+			})
+		})
+	}
+
 	listenToRequests () {
 		this.api.runtime.onMessage.addListener(message => {
 			if (message.action !== 'requestCompleted') return;
