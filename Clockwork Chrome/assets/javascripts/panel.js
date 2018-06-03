@@ -102,6 +102,18 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, req
 		])
 	}
 
+	$scope.initUserDataFilters = function () {
+		$scope.userDataFilter = {}
+
+		$scope.request.userData.forEach(tab => {
+			$scope.userDataFilter[tab.key] = tab.sections.map(section => {
+				if (section.showAs != 'table') return
+
+				return filter.create(section.data[0].map(item => ({ tag: item.key })))
+			})
+		})
+	}
+
 	$scope.clear = function () {
 		requests.clear()
 
@@ -135,6 +147,8 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, req
 		$scope.performanceMetricsChartOptions = $scope.getPerformanceMetricsChartOptions()
 		$scope.databaseQueriesStats = $scope.getDatabaseQueriesStats()
 		$scope.timelineLegend = $scope.generateTimelineLegend()
+
+		this.initUserDataFilters()
 
 		if ($scope.request && $scope.request.error && $scope.request.error.error == 'requires-authentication') {
 			$scope.authentication.request($scope.request.error.message, $scope.request.error.requires)

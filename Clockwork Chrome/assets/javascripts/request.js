@@ -20,6 +20,7 @@ class Request
 		this.performanceMetrics = this.processPerformanceMetrics(this.performanceMetrics)
 		this.timeline = this.processTimeline(this.timelineData)
 		this.views = this.processViews(this.viewsData)
+		this.userData = this.processUserData(this.userData)
 
 		this.errorsCount = this.getErrorsCount()
 		this.warningsCount = this.getWarningsCount()
@@ -206,6 +207,73 @@ class Request
 
 		return Object.values(data).filter(view => view.data instanceof Object).map(view => view.data)
 	}
+
+	processUserData (tabs) {
+		if (! (tabs instanceof Object)) return []
+
+		let stripMeta = ([ key, section ]) => key != '__meta'
+		let labeledValues = (labels) => ([ key, value ]) => ({ key: labels[key] || key, value })
+
+		return Object.entries(tabs).filter(([ key, tab ]) => {
+			return (tab instanceof Object) || tab.__meta || tab.__meta.title
+		}).map(([ key, tab ]) => {
+			return {
+				key,
+				title: tab.__meta.title,
+				sections: Object.entries(tab).filter(stripMeta).map(([ key, section ]) => {
+					let labels = section.__meta.labels || {}
+					let data = section.__meta.showAs == 'counters'
+						? Object.entries(section).filter(stripMeta).map(labeledValues(labels))
+						: Object.entries(section).filter(stripMeta).map(([ key, value ]) => {
+							return Object.entries(value).map(labeledValues(labels))
+						})
+
+					return {
+						data,
+						showAs: section.__meta.showAs,
+						title: section.__meta.title
+					}
+				})
+			}
+		})
+	}
+
+	// processUserData (data) {
+	// 	if (! (data instanceof Object)) return []
+	//
+	// 	return Object.entries(data).map(([ key, data ]) => {
+	// 		if (! (data instanceof Object) || ! data.__meta || ! data.__meta.title) return
+	//
+	// 		return {
+	// 			key,
+	// 			data: Object.entries(data).map(([ key, item ]) => {
+	// 				if (key == '__meta' || ! (item instanceof Object)) return
+	//
+	// 				let labels = item.__meta.labels || {}
+	// 				let data
+	//
+	// 				if (item.__meta.showAs == 'counters') {
+	// 					data = Object.entries(item).filter(([ key, value ]) => key != '__meta').map(([ key, value ]) => {
+	// 						return [ labels[key] || key, value ]
+	// 					})
+	// 				} else {
+	// 					data = Object.entries(item).filter(([ key, value ]) => key != '__meta').map(([ key, value ]) => {
+	// 						return Object.entries(value).map(([ key, value ]) => {
+	// 							return [ labels[key] || key, value ]
+	// 						})
+	// 					})
+	// 				}
+	//
+	// 				return {
+	// 					data,
+	// 					showAs: item.__meta.showAs,
+	// 					title: item.__meta.title
+	// 				}
+	// 			}).filter(Boolean),
+	// 			title: data.__meta.title
+	// 		}
+	// 	}).filter(Boolean)
+	// }
 
 	processStackTrace (trace) {
 		if (! trace) return undefined
