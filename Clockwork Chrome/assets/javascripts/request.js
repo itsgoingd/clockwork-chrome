@@ -106,8 +106,8 @@ class Request
 		if (! (data instanceof Array)) return []
 
 		return data.map(event => {
-			event.objectEvent = (event.event == event.data.__class__)
-			event.time = new Date(event.time * 1000)
+			event.objectEvent = (event.data instanceof Object && event.event == event.data.__class__)
+			event.time = event.time ? new Date(event.time * 1000) : undefined
 			event.fullPath = event.file && event.line ? event.file.replace(/^\//, '') + ':' + event.line : undefined
 			event.shortPath = event.fullPath ? event.fullPath.split(/[\/\\]/).pop() : undefined
 			event.trace = this.processStackTrace(event.trace)
