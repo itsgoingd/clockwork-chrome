@@ -4,6 +4,7 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, req
 	$scope.request = null
 
 	$scope.timelineLegend = []
+	$scope.timelineView = 'chart'
 
 	$scope.loadingMoreRequests = false
 	$scope.preserveLog = true
@@ -100,6 +101,10 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, req
 			} },
 			{ tag: 'uri' }
 		])
+
+		$scope.timelineFilter = filter.create([
+			{ tag: 'duration', type: 'number' }
+		], item => item.description)
 	}
 
 	$scope.initUserDataFilters = function () {
@@ -221,6 +226,10 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, req
 
 	$scope.showCacheQueriesDurationColumn = function () {
 		return $scope.request && $scope.request.cacheQueries.some(query => query.duration)
+	}
+
+	$scope.setTimelineView = function (view) {
+		$scope.timelineView = view
 	}
 
 	$scope.generateTimelineLegend = function () {

@@ -631,6 +631,73 @@ a {
 	}
 
 	.timeline {
+		position: relative;
+
+		.timeline-duration, .timeline-description {
+			display: none;
+		}
+
+		&.table-view {
+			.timeline-duration, .timeline-description {
+				display: table-cell;
+			}
+
+			.timeline-graph {
+				padding: 12px 0 0;
+				width: 25%;
+			}
+
+			.timeline-legend {
+				display: none;
+			}
+
+			.timeline-bar {
+				.label {
+					display: none;
+				}
+			}
+		}
+	}
+
+	.timeline-controls {
+		position: absolute;
+		right: 0;
+		top: 4px;
+		z-index: 100;
+
+		.timeline-control-group {
+			margin: 0 5px;
+		}
+
+		.toggle-filter {
+			position: static;
+			visibility: visible;
+		}
+
+		.fa-bar-chart {
+			font-size: 110%;
+		}
+
+		.fa-bars {
+			font-size: 115%;
+		}
+
+		a {
+			margin: 0 2px;
+			text-decoration: none;
+
+			&.active {
+				color: rgb(37, 140, 219);
+
+				body.dark & {
+					color: hsl(31, 98%, 48%);
+				}
+			}
+
+			body.dark & {
+				color: rgb(158, 158, 158);
+			}
+		}
 	}
 
 	.timeline-graph {
@@ -763,13 +830,9 @@ a {
 		}
 	}
 
-	.timeline-description {
-		width: 160px;
-	}
-
 	.timeline-duration {
 		text-align: right;
-		width: 70px;
+		width: 100px;
 	}
 
 	// Log tab

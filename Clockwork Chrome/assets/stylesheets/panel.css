@@ -377,6 +377,42 @@ a {
     border-left: 3px solid #ba94e6 !important; }
     body.dark .details-content .performance-chart-legend.style4 {
       border-left: 3px solid #a680d2 !important; }
+  .details-content .timeline {
+    position: relative; }
+    .details-content .timeline .timeline-duration, .details-content .timeline .timeline-description {
+      display: none; }
+    .details-content .timeline.table-view .timeline-duration, .details-content .timeline.table-view .timeline-description {
+      display: table-cell; }
+    .details-content .timeline.table-view .timeline-graph {
+      padding: 12px 0 0;
+      width: 25%; }
+    .details-content .timeline.table-view .timeline-legend {
+      display: none; }
+    .details-content .timeline.table-view .timeline-bar .label {
+      display: none; }
+  .details-content .timeline-controls {
+    position: absolute;
+    right: 0;
+    top: 4px;
+    z-index: 100; }
+    .details-content .timeline-controls .timeline-control-group {
+      margin: 0 5px; }
+    .details-content .timeline-controls .toggle-filter {
+      position: static;
+      visibility: visible; }
+    .details-content .timeline-controls .fa-bar-chart {
+      font-size: 110%; }
+    .details-content .timeline-controls .fa-bars {
+      font-size: 115%; }
+    .details-content .timeline-controls a {
+      margin: 0 2px;
+      text-decoration: none; }
+      .details-content .timeline-controls a.active {
+        color: #258cdb; }
+        body.dark .details-content .timeline-controls a.active {
+          color: #f27e02; }
+      body.dark .details-content .timeline-controls a {
+        color: #9e9e9e; }
   .details-content .timeline-graph {
     background-image: linear-gradient(to right, transparent 99.5%, #e5e5e5 99.5%, #e5e5e5 100%);
     background-size: 80px 1px;
@@ -449,11 +485,9 @@ a {
     body.dark .details-content .timeline-bar.style4 .bar {
       background: #a680d2;
       border: 1px solid #835ea1; }
-  .details-content .timeline-description {
-    width: 160px; }
   .details-content .timeline-duration {
     text-align: right;
-    width: 70px; }
+    width: 100px; }
   .details-content .log-row.error {
     background: #ffebeb;
     color: #c51f24; }
