@@ -229,19 +229,19 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, req
 		let items = []
 		let maxWidth = $scope.getTimelineWidth()
 		let labelCount = Math.floor(maxWidth / 80)
-		let step = $scope.request.responseDuration / (maxWidth - 20)
+		let step = $scope.request.responseDuration / maxWidth
 		let j
 
-		for (j = 2; j < labelCount + 1; j++) {
+		for (j = 1; j < labelCount + 1; j++) {
 			items.push({
-				left: (j * 80 - 40).toString(),
+				left: ((j * 80 - 44) / maxWidth * 100).toString(),
 				time: Math.round(j * 80 * step).toString()
 			})
 		}
 
 		if (maxWidth - ((j - 1) * 80) > 45) {
 			items.push({
-				left: (maxWidth - 35).toString(),
+				left: ((maxWidth - 38) / maxWidth * 100).toString(),
 				time: Math.round(maxWidth * step).toString()
 			});
 		}
@@ -258,7 +258,7 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, req
 
 		if (! timelineShown) document.querySelector('[tab-content="performance"]').style.display = 'none'
 
-		return width
+		return width - 8
 	}
 
 	$scope.loadMoreRequests = function () {

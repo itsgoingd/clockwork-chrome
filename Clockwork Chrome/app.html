@@ -628,21 +628,24 @@
 						<table class="timeline">
 							<thead>
 								<tr>
-									<th class="timeline-graph">
-										Timeline
-										<span ng-repeat="item in timelineLegend" class="timeline-bar-time" style="left:{{item.left}}px">{{item.time}} ms</span>
-									</th>
-									<th class="timeline-duration">Duration</th>
-									<th class="timeline-description">Description</th>
+									<th>Timeline</th>
+									<th class="timeline-duration hidden">Duration</th>
+									<th class="timeline-description hidden">Description</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr ng-repeat="item in request.timeline">
 									<td class="timeline-graph">
-										<div class="timeline-bar {{item.style}}" style="width:{{item.width}}%;margin-left:{{item.left}}%;"></div>
+										<div ng-if="$first" class="timeline-legend">
+											<span ng-repeat="item in timelineLegend" class="timeline-legend-time" style="left:{{item.left}}%">{{item.time}} ms</span>
+										</div>
+										<div class="timeline-bar {{item.style}}" style="width:{{item.width}}%;margin-left:{{item.left}}%;">
+											<div class="label">{{item.description}} ({{item.durationRounded}} ms)</div>
+											<div class="bar"></div>
+										</div>
 									</td>
-									<td class="timeline-duration">{{item.durationRounded}} ms</td>
-									<td class="timeline-description">{{item.description}}</td>
+									<td class="timeline-duration hidden">{{item.durationRounded}} ms</td>
+									<td class="timeline-description hidden">{{item.description}}</td>
 								</tr>
 							</tbody>
 						</table>
