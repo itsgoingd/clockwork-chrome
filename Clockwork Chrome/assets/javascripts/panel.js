@@ -233,7 +233,7 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, req
 	}
 
 	$scope.generateTimelineLegend = function () {
-		if (! $scope.request) return []
+		if (! $scope.request || $scope.request.loading) return []
 
 		let items = []
 		let maxWidth = $scope.getTimelineWidth()
@@ -263,7 +263,7 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, req
 
 		if (! timelineShown) document.querySelector('[tab-content="performance"]').style.display = 'block'
 
-		let width = document.querySelector('.timeline-graph').offsetWidth
+		let width = document.querySelector('.timeline-table').offsetWidth
 
 		if (! timelineShown) document.querySelector('[tab-content="performance"]').style.display = 'none'
 
