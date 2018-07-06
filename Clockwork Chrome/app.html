@@ -625,27 +625,58 @@
 							</div>
 						</div>
 
-						<table class="timeline">
-							<thead>
-								<tr>
-									<th class="timeline-graph">
-										Timeline
-										<span ng-repeat="item in timelineLegend" class="timeline-bar-time" style="left:{{item.left}}px">{{item.time}} ms</span>
-									</th>
-									<th class="timeline-duration">Duration</th>
-									<th class="timeline-description">Description</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="item in request.timeline">
-									<td class="timeline-graph">
-										<div class="timeline-bar {{item.style}}" style="width:{{item.width}}%;margin-left:{{item.left}}%;"></div>
-									</td>
-									<td class="timeline-duration">{{item.durationRounded}} ms</td>
-									<td class="timeline-description">{{item.description}}</td>
-								</tr>
-							</tbody>
-						</table>
+						<div class="timeline" ng-class="{ 'table-view': timelineView == 'table' }">
+							<div class="timeline-controls">
+								<span class="timeline-control-group">
+									<a href="#" class="toggle-filter" ng-click="timelineFilter.toggle($event)">
+										<span class="fa fa-search"></span>
+									</a>
+								</span>
+								<span class="timeline-control-group">
+									<a href="#" ng-click="setTimelineView('chart')" ng-class="{ 'active': timelineView == 'chart' }">
+										<span class="fa fa-bar-chart"></span>
+									</a>
+									<a href="#" ng-click="setTimelineView('table')" ng-class="{ 'active': timelineView == 'table' }">
+										<span class="fa fa-bars"></span>
+									</a>
+								</span>
+							</div>
+							<table class="timeline-table">
+								<thead>
+									<tr>
+										<th>Timeline</th>
+										<th class="timeline-duration">Duration</th>
+										<th class="timeline-description">Description</th>
+									</tr>
+									<tr class="filter" ng-show="timelineFilter.shown">
+										<td colspan="3">
+											<label>
+												<span class="fa fa-search"></span>
+												<input type="search" placeholder="Filter..." ng-model="timelineFilter.input">
+												<span class="example" ng-hide="timelineFilter.input">eg. database query duration:>50</span>
+											</div>
+										</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="item in request.timeline | filter:timelineFilter.filter()">
+										<td class="timeline-graph">
+											<div ng-if="$first" class="timeline-legend">
+												<span ng-repeat="item in timelineLegend" class="timeline-legend-time" style="left:{{item.left}}%">{{item.time}} ms</span>
+											</div>
+											<div class="timeline-bar {{item.style}}">
+												<div class="label" style="text-align:{{item.labelAlign}};margin-left:{{item.labelLeft}};margin-right:{{item.labelRight}};">
+													{{item.description}} ({{item.durationRounded}} ms)
+												</div>
+												<div class="bar" style="width:{{item.barWidth}};margin-left:{{item.barLeft}};"></div>
+											</div>
+										</td>
+										<td class="timeline-duration">{{item.durationRounded}} ms</td>
+										<td class="timeline-description">{{item.description}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 
 					<div tab-content="session">

@@ -192,8 +192,23 @@ class Request
 
 		return Object.values(data).map((entry, i) => {
 			entry.style = 'style' + (i % 4 + 1)
-			entry.left = (entry.start - this.time) * 1000 / this.responseDuration * 100
-			entry.width = entry.duration / this.responseDuration * 100
+			entry.startPercentual = (entry.start - this.time) * 1000 / this.responseDuration * 100
+			entry.durationPercentual = entry.duration / this.responseDuration * 100
+
+			entry.barLeft = `${entry.startPercentual}%`
+			entry.barWidth = entry.startPercentual + entry.durationPercentual < 100
+				? `${entry.durationPercentual}%` : `${100 - entry.startPercentual}%`
+
+			entry.labelAlign = 'left'
+			entry.labelLeft = entry.barLeft
+			entry.labelRight = 'auto'
+
+			if (entry.startPercentual > 50) {
+				entry.labelAlign = 'right'
+				entry.labelLeft = 'auto'
+				entry.labelRight = entry.durationPercentual < 1
+					? `calc(100% - ${entry.barLeft} - 8px)` : `calc(100% - ${entry.barLeft} - ${entry.barWidth})`
+			}
 
 			entry.durationRounded = Math.round(entry.duration)
 			if (entry.durationRounded === 0) entry.durationRounded = '< 1'

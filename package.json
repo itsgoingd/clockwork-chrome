@@ -7,6 +7,6 @@
     "watch": "node-sass --watch \"Clockwork Chrome/assets/stylesheets/panel.scss\" \"Clockwork Chrome/assets/stylesheets/panel.css\""
   },
   "devDependencies": {
-    "node-sass": "^4.5.3"
+    "node-sass": "^4.9.0"
   }
 }
