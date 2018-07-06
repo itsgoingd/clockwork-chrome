@@ -664,9 +664,11 @@
 											<div ng-if="$first" class="timeline-legend">
 												<span ng-repeat="item in timelineLegend" class="timeline-legend-time" style="left:{{item.left}}%">{{item.time}} ms</span>
 											</div>
-											<div class="timeline-bar {{item.style}}" style="width:{{item.width}}%;margin-left:{{item.left}}%;">
-												<div class="label">{{item.description}} ({{item.durationRounded}} ms)</div>
-												<div class="bar"></div>
+											<div class="timeline-bar {{item.style}}">
+												<div class="label" style="text-align:{{item.labelAlign}};margin-left:{{item.labelLeft}};margin-right:{{item.labelRight}};">
+													{{item.description}} ({{item.durationRounded}} ms)
+												</div>
+												<div class="bar" style="width:{{item.barWidth}};margin-left:{{item.barLeft}};"></div>
 											</div>
 										</td>
 										<td class="timeline-duration">{{item.durationRounded}} ms</td>
