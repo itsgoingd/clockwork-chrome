@@ -1156,12 +1156,27 @@ a {
 }
 
 .popover {
-	padding-right: 20px;
+	left: 0;
+	padding-top: 20px;
 	position: absolute;
-	right: 100%;
-	top: -20px;
+	top: 100%;
 	width: 300px;
 	z-index: 666;
+
+	&.right-aligned {
+		left: auto;
+		right: 0;
+
+		.popover-content:before {
+			left: auto;
+			right: 8px;
+		}
+
+		.popover-content:after {
+			left: auto;
+			right: 7px;
+		}
+	}
 
 	.popover-content {
 		background: #fff;
@@ -1189,25 +1204,25 @@ a {
 		}
 
 		&:before {
-			border-color: transparent transparent transparent #fff;
-			border-width: 14px 0 14px 14px;
-			right: 8px;
-			top: 13px;
+			border-color: transparent transparent #fff transparent;
+			border-width: 0 14px 14px 14px;
+			left: 8px;
+			top: 7px;
 			z-index: 500;
 
 			body.dark & {
-				border-color: transparent transparent transparent rgb(31, 31, 31);
+				border-color: transparent transparent rgb(31, 31, 31) transparent;
 			}
 		}
 
 		&:after {
-			border-color: transparent transparent transparent #e5e5e5;
-			border-width: 15px 0 15px 15px;
-			right: 6px;
-			top: 12px;
+			border-color: transparent transparent #e5e5e5 transparent;
+			border-width: 0 15px 15px 15px;
+			left: 7px;
+			top: 5px;
 
 			body.dark & {
-				border-color: transparent transparent transparent #292929;
+				border-color: transparent transparent #292929 transparent;
 			}
 		}
 	}
