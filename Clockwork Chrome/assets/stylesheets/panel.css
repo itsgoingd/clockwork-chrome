@@ -570,6 +570,7 @@ a {
 
 .details-loading-overlay, .details-error-overlay, .details-authentication-overlay {
   align-items: center;
+  background: #fff;
   display: flex;
   flex-direction: column;
   font-size: 16px;
@@ -578,7 +579,10 @@ a {
   left: 0;
   position: absolute;
   top: 31px;
-  width: 100%; }
+  width: 100%;
+  z-index: 999; }
+  body.dark .details-loading-overlay, body.dark .details-error-overlay, body.dark .details-authentication-overlay {
+    background: #1f1f1f; }
   .details-loading-overlay .fa, .details-error-overlay .fa, .details-authentication-overlay .fa {
     color: #696969;
     font-size: 46px; }

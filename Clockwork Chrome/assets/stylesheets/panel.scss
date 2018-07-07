@@ -987,6 +987,7 @@ a {
 
 .details-loading-overlay, .details-error-overlay, .details-authentication-overlay {
 	align-items: center;
+	background: #fff;
 	display: flex;
 	flex-direction: column;
 	font-size: 16px;
@@ -996,6 +997,11 @@ a {
 	position: absolute;
 	top: 31px;
 	width: 100%;
+	z-index: 999;
+
+	body.dark & {
+		background: rgb(31, 31, 31);
+	}
 
 	.fa {
 		color: #696969;
