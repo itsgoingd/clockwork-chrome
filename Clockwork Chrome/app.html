@@ -623,6 +623,10 @@
 								<div class="counter-value">{{request.responseDurationRounded}}&nbsp;ms</div>
 								<div class="counter-title">total</div>
 							</div>
+							<div class="counter" ng-show="request.memoryUsage">
+								<div class="counter-value">{{request.memoryUsageFormatted}}</div>
+								<div class="counter-title">memory</div>
+							</div>
 						</div>
 
 						<div class="timeline" ng-class="{ 'table-view': timelineView == 'table' }">

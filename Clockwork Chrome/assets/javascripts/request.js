@@ -5,6 +5,7 @@ class Request
 
 		this.responseDurationRounded = this.responseDuration ? Math.round(this.responseDuration) : 0
 		this.databaseDurationRounded = this.databaseDuration ? Math.round(this.databaseDuration) : 0
+		this.memoryUsageFormatted = this.memoryUsage ? this.formatBytes(this.memoryUsage) : undefined
 
 		this.processCacheStats()
 		this.cacheQueries = this.processCacheQueries(this.cacheQueries)
@@ -327,5 +328,12 @@ class Request
 		if (seconds) time.push(seconds + 'sec')
 
 		return time.join(' ')
+	}
+
+	formatBytes (bytes) {
+		let units = [ 'B', 'kB', 'MB', 'GB', 'TB', 'PB' ]
+		let pow = Math.floor(Math.log(bytes) / Math.log(1024))
+
+		return `${Math.round(bytes / Math.round(Math.pow(1024, pow)))} ${units[pow]}`
 	}
 }
