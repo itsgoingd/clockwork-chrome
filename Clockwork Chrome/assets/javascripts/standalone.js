@@ -55,6 +55,8 @@ class Standalone
 
 	startPollingRequests () {
 		this.requests.loadLatest().then(() => {
+			if (! this.requests.last()) throw new Error
+
 			this.lastRequestId = this.requests.last().id
 
 			this.$scope.refreshRequests()

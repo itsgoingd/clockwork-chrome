@@ -110,6 +110,7 @@ class Requests
 		let headers = Object.assign({}, this.remoteHeaders, { 'X-Clockwork-Auth': this.tokens[this.remoteUrl] })
 
 		return this.client('GET', url, {}, headers).then(data => {
+			if (! data) return []
 			return ((data instanceof Array) ? data : [ data ]).map(data => new Request(data))
 		})
 	}
