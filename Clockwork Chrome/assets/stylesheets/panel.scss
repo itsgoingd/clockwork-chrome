@@ -1268,6 +1268,12 @@ body.dark {
 		color: rgb(127, 127, 127);
 	}
 
+	.pretty-jason-value-boolean,
+	.pretty-jason-value-anonymous-function,
+	.pretty-jason-value-resource {
+		color: rgb(130, 150, 255);
+	}
+
 	.pretty-jason-icon-closed {
 		border-color: transparent transparent transparent rgb(145, 145, 145);
 	}
