@@ -758,6 +758,11 @@ body.dark .pretty-jason-value-null,
 body.dark .pretty-jason-value-undefined {
   color: #7f7f7f; }
 
+body.dark .pretty-jason-value-boolean,
+body.dark .pretty-jason-value-anonymous-function,
+body.dark .pretty-jason-value-resource {
+  color: #8296ff; }
+
 body.dark .pretty-jason-icon-closed {
   border-color: transparent transparent transparent #919191; }
 

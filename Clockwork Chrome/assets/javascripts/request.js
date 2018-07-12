@@ -157,7 +157,7 @@ class Request
 
 		return data.map(message => {
 			message.time = new Date(message.time * 1000)
-			message.context = message.context instanceof Object && Object.keys(message.context).length ? message.context : undefined
+			message.context = message.context instanceof Object && Object.keys(message.context).filter(key => key != '__type__').length ? message.context : undefined
 			message.fullPath = message.file && message.line ? message.file.replace(/^\//, '') + ':' + message.line : undefined
 			message.shortPath = message.fullPath ? message.fullPath.split(/[\/\\]/).pop() : undefined
 			message.trace = this.processStackTrace(message.trace)
