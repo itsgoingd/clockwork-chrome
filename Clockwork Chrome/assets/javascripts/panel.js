@@ -142,20 +142,31 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, pro
 		$scope.expandedEvents = []
 	}
 
-	$scope.refreshRequests = function (activeRequest) {
+	// refresh the requests list and decide if we want to set new active request, if this function is called because a
+	// new request was loaded or updated it will be passed as an argument
+	$scope.refreshRequests = function (incomingRequest) {
 		$scope.requests = requests.all()
 
+		// currently selected request was updated, "show" it again so all data is correctly updated
+		if (incomingRequest && $scope.request && $scope.request.id == incomingRequest.id) {
+			$scope.showRequest(incomingRequest.id)
+		}
+
+		// preserve log is disabled, show first request after each refresh
 		if (! $scope.preserveLog) {
 			$scope.showRequest($scope.requests[0].id)
-		} else if ($scope.showIncomingRequests && $scope.requests.length) {
-			$scope.showRequest(activeRequest ? activeRequest.id : $scope.requests[$scope.requests.length - 1].id)
+		}
+
+		// if we are showing incoming requests, show the last aviailable request if not already shown
+		let lastRequest = $scope.requests[$scope.requests.length - 1]
+		if ($scope.showIncomingRequests && lastRequest && (! $scope.request || lastRequest.id != $scope.request.id)) {
+			$scope.showRequest(lastRequest.id)
 			$scope.showIncomingRequests = true
 		}
 	}
 
+	// show details of a request specified by id, alo prepares bunch of stuff like performance chart or timeline legend
 	$scope.showRequest = function (id) {
-		if ($scope.request && $scope.request.id == id) return
-
 		$scope.request = requests.findId(id)
 
 		$scope.updateNotification = updateNotification.show(requests.remoteUrl)

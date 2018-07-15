@@ -82,14 +82,14 @@ class Extension
 			this.requests.setRemote(message.request.url, options)
 
 			let request = Request.placeholder(options.id, message.request)
-			this.requests.loadId(options.id, request).then(() => {
-				this.$scope.refreshRequests()
+			this.requests.loadId(options.id, request).then(request => {
+				this.$scope.refreshRequests(request)
 			})
 
 			options.subrequests.forEach(subrequest => {
 				this.requests.setRemote(subrequest.url, { path: subrequest.path })
-				this.requests.loadId(subrequest.id, Request.placeholder(subrequest.id, subrequest, request)).then(() => {
-					this.$scope.refreshRequests()
+				this.requests.loadId(subrequest.id, Request.placeholder(subrequest.id, subrequest, request)).then(request => {
+					this.$scope.refreshRequests(request)
 				})
 			})
 
@@ -123,8 +123,8 @@ class Extension
 				this.updateNotification.serverVersion = options.version
 
 				this.requests.setRemote(request.url, options)
-				this.requests.loadId(options.id, Request.placeholder(options.id, request)).then(() => {
-					this.$scope.refreshRequests()
+				this.requests.loadId(options.id, Request.placeholder(options.id, request)).then(request => {
+					this.$scope.refreshRequests(request)
 				})
 
 				this.$scope.refreshRequests()

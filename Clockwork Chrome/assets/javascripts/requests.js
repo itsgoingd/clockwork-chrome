@@ -48,7 +48,8 @@ class Requests
 
 	loadLatest () {
 		return this.callRemote(this.remoteUrl + 'latest').then(data => {
-			this.items.push(...data)
+			this.items.push(data[0])
+			return data[0]
 		})
 	}
 

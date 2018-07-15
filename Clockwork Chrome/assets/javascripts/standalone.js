@@ -69,7 +69,7 @@ class Standalone
 
 			this.lastRequestId = this.requests.last().id
 
-			this.$scope.refreshRequests()
+			this.$scope.refreshRequests(this.requests.last())
 
 			this.pollRequests()
 		}).catch(error => {
@@ -91,7 +91,7 @@ class Standalone
 
 			if (this.requests.last()) {
 				if (this.lastRequestId != this.requests.last().id) {
-					this.$scope.refreshRequests()
+					this.$scope.refreshRequests(this.requests.last())
 				}
 
 				this.lastRequestId = this.requests.last().id
