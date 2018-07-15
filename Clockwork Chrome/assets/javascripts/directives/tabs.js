@@ -16,7 +16,7 @@ Clockwork.directive('tabs', function ($parse) {
 
 				if (namespace && ! tabName.startsWith(namespacePrefix)) return
 
-				tabs.querySelectorAll(`[tab-name^="${namespacePrefix}."]`)
+				tabs.querySelectorAll(`[tab-name^="${namespacePrefix}"]`)
 					.forEach(el => el.classList.remove('active'))
 				ev.target.classList.add('active')
 
@@ -25,7 +25,7 @@ Clockwork.directive('tabs', function ($parse) {
 				tabs.querySelector(`[tab-content="${tabName}"]`).style.display = 'block'
 			})
 
-			tabs.querySelectorAll(`[tab-name^="${namespacePrefix}"].active`).click()
+			tabs.querySelector(`[tab-name^="${namespacePrefix}"].active`).click()
 		}
 	}
 })
