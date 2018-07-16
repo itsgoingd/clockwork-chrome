@@ -24,15 +24,15 @@ class Profiler
 	}
 
 	enableProfiling () {
-		this.$scope.$integration.setCookie('XDEBUG_PROFILE', '1', 60 * 60 * 24 * 30)
-
-		this.isProfiling = true
+		return this.$scope.$integration.setCookie('XDEBUG_PROFILE', '1', 60 * 60 * 24 * 30).then(() => {
+			return this.isProfiling = true
+		})
 	}
 
 	disableProfiling () {
-		this.$scope.$integration.setCookie('XDEBUG_PROFILE', '0', 0)
-
-		this.isProfiling = false
+		return this.$scope.$integration.setCookie('XDEBUG_PROFILE', '0', 0).then(() => {
+			return this.isProfiling = false
+		})
 	}
 
 	loadRequest (request) {
@@ -64,12 +64,16 @@ class Profiler
 		this.parsing = true
 
 		Callgrind.parse(this.request.xdebug.profileData).then(profile => {
-			this.metadata = profile.metadata
-			this.summary = this.metadata.summary.split(' ')
-
-			let budget = this.shownFraction * this.summary[this.metric]
-
 			this.$scope.$apply(() => {
+				if (! profile.metadata.summary) {
+					return this.parsing = this.available = false
+				}
+
+				this.metadata = profile.metadata
+				this.summary = this.metadata.summary.split(' ')
+
+				let budget = this.shownFraction * this.summary[this.metric]
+
 				this.functions = profile.functions
 					.filter(fn => fn.name != '{main}')
 					.sort((fn1, fn2) => fn2.self[this.metric] - fn1.self[this.metric])

@@ -1,8 +1,9 @@
 class Standalone
 {
-	constructor ($scope, $http, requests) {
+	constructor ($scope, $http, profiler, requests) {
 		this.$scope = $scope
 		this.$http = $http
+		this.profiler = profiler
 		this.requests = requests
 	}
 
@@ -41,20 +42,32 @@ class Standalone
 
 	setMetadataClient () {
 		this.requests.setClient((method, url, data, headers) => {
-			return this.$http({ method: method.toLowerCase(), url, data, headers })
-				.then(data => data.data)
-				.catch(data => {
-					if (data.status == 403) {
-						throw { error: 'requires-authentication', message: data.data.message, requires: data.data.requires }
-					} else {
-						throw { error: 'Server returned an error response.' }
-					}
-				})
+			let isProfiling = this.profiler.isProfiling
+
+			let makeRequest = () => {
+				return this.$http({ method: method.toLowerCase(), url, data, headers })
+					.then(data => {
+						if (isProfiling) this.profiler.enableProfiling()
+
+						return data.data
+					})
+					.catch(data => {
+						if (data.status == 403) {
+							throw { error: 'requires-authentication', message: data.data.message, requires: data.data.requires }
+						} else {
+							throw { error: 'Server returned an error response.' }
+						}
+					})
+			}
+
+			isProfiling ? this.profiler.disableProfiling().then(makeRequest) : makeRequest()
 		})
 	}
 
 	setCookie (name, value, expiration) {
 		document.cookie = `${name}=${value};path=/;max-age=${expiration}`
+
+		return Promise.resolve()
 	}
 
 	getCookie (name) {

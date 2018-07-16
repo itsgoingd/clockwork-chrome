@@ -17,9 +17,9 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, pro
 		key('⌘+k, ctrl+l', () => $scope.$apply(() => $scope.clear()))
 
 		if (Extension.runningAsExtension()) {
-			$scope.$integration = new Extension($scope, $q, requests, updateNotification)
+			$scope.$integration = new Extension($scope, $q, profiler, requests, updateNotification)
 		} else {
-			$scope.$integration = new Standalone($scope, $http, requests)
+			$scope.$integration = new Standalone($scope, $http, profiler, requests)
 		}
 
 		$scope.$integration.init()
