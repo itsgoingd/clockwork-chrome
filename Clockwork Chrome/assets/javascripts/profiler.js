@@ -38,12 +38,12 @@ class Profiler
 	loadRequest (request) {
 		if (this.request && this.request.id == request.id) return
 
+		if (! request.xdebug || ! request.xdebug.profile) return
+
 		this.request = request
 
 		this.available = this.loading = this.parsing = this.ready = false
 		this.summary = this.metadata = this.functions = undefined
-
-		if (! request.xdebug || ! request.xdebug.profile) return
 
 		this.available = true
 
@@ -94,6 +94,7 @@ class Profiler
 	}
 
 	clear () {
+		this.available = this.loading = this.parsing = this.ready = false
 		this.metadata = this.functions = undefined
 	}
 

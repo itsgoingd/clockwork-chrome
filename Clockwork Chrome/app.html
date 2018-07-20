@@ -633,8 +633,8 @@
 
 						<div tabs="performance">
 							<div class="performance-tabs">
-								<a tab-name="performance.timeline" class="performance-tab active" href="#">Timeline</a>
-								<a tab-name="performance.profiler" class="performance-tab" href="#" ng-click="profiler.loadRequest(request)">Profiler</a>
+								<a tab-name="performance.timeline" class="performance-tab active" href="#" ng-click="profilerIsOpen = false">Timeline</a>
+								<a tab-name="performance.profiler" class="performance-tab" href="#" ng-click="profiler.loadRequest(request); profilerIsOpen = true">Profiler</a>
 							</div>
 
 							<div tab-content="performance.timeline">

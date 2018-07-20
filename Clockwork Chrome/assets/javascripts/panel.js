@@ -182,6 +182,10 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, pro
 			$scope.authentication.request($scope.request.error.message, $scope.request.error.requires)
 		}
 
+		if ($scope.profilerIsOpen) {
+			$scope.profiler.loadRequest($scope.request)
+		}
+
 		$scope.showIncomingRequests = (id == $scope.requests[$scope.requests.length - 1].id)
 	}
 
@@ -282,15 +286,7 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, pro
 	}
 
 	$scope.getTimelineWidth = function () {
-		let timelineShown = document.querySelector('[tab-content="app.performance"]').style.display !== 'none'
-
-		if (! timelineShown) document.querySelector('[tab-content="app.performance"]').style.display = 'block'
-
-		let width = document.querySelector('.timeline-table').offsetWidth
-
-		if (! timelineShown) document.querySelector('[tab-content="app.performance"]').style.display = 'none'
-
-		return width - 8
+		return document.querySelector('.details-content').offsetWidth - 28
 	}
 
 	$scope.loadMoreRequests = function () {
