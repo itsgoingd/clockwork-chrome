@@ -23,15 +23,21 @@ class Profiler
 		return this
 	}
 
-	enableProfiling () {
+	enableProfiling ($event) {
+		if ($event) $event.stopPropagation()
+
 		return this.$scope.$integration.setCookie('XDEBUG_PROFILE', '1', 60 * 60 * 24 * 30).then(() => {
-			return this.isProfiling = true
+			this.$scope.$apply(() => this.isProfiling = true)
 		})
 	}
 
-	disableProfiling () {
+	disableProfiling ($event) {
+		if ($event) $event.stopPropagation()
+
+		this.clear()
+
 		return this.$scope.$integration.setCookie('XDEBUG_PROFILE', '0', 0).then(() => {
-			return this.isProfiling = false
+			this.$scope.$apply(() => this.isProfiling = false)
 		})
 	}
 

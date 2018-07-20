@@ -646,10 +646,10 @@
 											</a>
 										</span>
 										<span class="timeline-control-group">
-											<a href="#" ng-click="setTimelineView('chart')" ng-class="{ 'active': timelineView == 'chart' }">
+											<a href="#" ng-click="setTimelineView('chart')" ng-class="{ 'active': timelineView == 'chart' }" title="Timeline view">
 												<span class="fa fa-bar-chart"></span>
 											</a>
-											<a href="#" ng-click="setTimelineView('table')" ng-class="{ 'active': timelineView == 'table' }">
+											<a href="#" ng-click="setTimelineView('table')" ng-class="{ 'active': timelineView == 'table' }" title="Table view">
 												<span class="fa fa-bars"></span>
 											</a>
 										</span>
@@ -715,19 +715,19 @@
 														</a>
 													</span>
 													<span class="profiler-control-group profiler-show-metric">
-														<a href="#" ng-click="profiler.showMetric($event, 0)" ng-class="{ 'active': profiler.metric == 0 }">
+														<a href="#" ng-click="profiler.showMetric($event, 0)" ng-class="{ 'active': profiler.metric == 0 }" title="Execution time">
 															<span class="fa fa-clock-o"></span>
 														</a>
-														<a href="#" ng-click="profiler.showMetric($event, 1)" ng-class="{ 'active': profiler.metric == 1 }">
+														<a href="#" ng-click="profiler.showMetric($event, 1)" ng-class="{ 'active': profiler.metric == 1 }" title="Memory usage">
 															<span class="fa fa-microchip"></span>
 														</a>
 													</span>
 													<span class="profiler-control-group">
-														<a href="#" ng-click="profiler.showPercentual($event, false)" ng-class="{ 'active': ! profiler.percentual }">
+														<a href="#" ng-click="profiler.showPercentual($event, false)" ng-class="{ 'active': ! profiler.percentual }" title="Exact">
 															<span ng-if="profiler.metric == 0">ms</span>
 															<span ng-if="profiler.metric == 1">kB</span>
 														</a>
-														<a href="#" ng-click="profiler.showPercentual($event)" ng-class="{ 'active': profiler.percentual }">
+														<a href="#" ng-click="profiler.showPercentual($event)" ng-class="{ 'active': profiler.percentual }" title="Percentual">
 															<span class="fa fa-percent"></span>
 														</a>
 													</span>
@@ -740,6 +740,11 @@
 														</a>
 														<a href="#" ng-click="profiler.setShownFraction($event, 0.5)" ng-class="{ 'active': profiler.shownFraction == 0.5 }">
 															50%
+														</a>
+													</span>
+													<span class="profiler-control-group">
+														<a href="#" ng-click="profiler.disableProfiling($event)" title="Disable profiler">
+															<span class="fa fa-times-circle"></span>
 														</a>
 													</span>
 												</div>
