@@ -34,7 +34,7 @@ class Requests
 		return this.callRemote(this.remoteUrl + id).then(data => {
 			return placeholder.resolve(data[0])
 		}).catch(message => {
-			placeholder.resolveWithError(message)
+			return placeholder.resolveWithError(message)
 		})
 	}
 
