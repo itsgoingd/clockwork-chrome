@@ -32,9 +32,10 @@ class Profiler
 	}
 
 	disableProfiling ($event) {
-		if ($event) $event.stopPropagation()
-
-		this.clear()
+		if ($event) {
+			$event.stopPropagation()
+			this.clear()
+		}
 
 		return this.$scope.$integration.setCookie('XDEBUG_PROFILE', '0', 0).then(() => {
 			this.$scope.$apply(() => this.isProfiling = false)
@@ -44,7 +45,9 @@ class Profiler
 	loadRequest (request) {
 		if (this.request && this.request.id == request.id) return
 
-		if (! request.xdebug || ! request.xdebug.profile) return
+		if (! request.xdebug || ! request.xdebug.profile) {
+			return this.clear()
+		}
 
 		this.request = request
 
