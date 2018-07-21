@@ -60,7 +60,7 @@ class Standalone
 					})
 			}
 
-			isProfiling ? this.profiler.disableProfiling().then(makeRequest) : makeRequest()
+			return isProfiling ? this.profiler.disableProfiling().then(makeRequest) : makeRequest()
 		})
 	}
 
