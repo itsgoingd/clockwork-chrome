@@ -9,23 +9,25 @@ Clockwork.directive('tabs', function ($parse) {
 				return (element) => element.getAttribute(attribute).startsWith(prefix)
 			}
 
-			tabs.addEventListener('click', ev => {
-				if (! ev.target.getAttribute('tab-name')) return
+			let showTab = (tabEl) => {
+				let tabName = tabEl.getAttribute('tab-name')
 
-				let tabName = ev.target.getAttribute('tab-name')
+				if (! tabEl.getAttribute('tab-name')) return
 
 				if (namespace && ! tabName.startsWith(namespacePrefix)) return
 
 				tabs.querySelectorAll(`[tab-name^="${namespacePrefix}"]`)
 					.forEach(el => el.classList.remove('active'))
-				ev.target.classList.add('active')
+				tabEl.classList.add('active')
 
 				tabs.querySelectorAll(`[tab-content^="${namespacePrefix}"]`)
 					.forEach(el => el.style.display = 'none')
 				tabs.querySelector(`[tab-content="${tabName}"]`).style.display = 'block'
-			})
+			}
 
-			tabs.querySelector(`[tab-name^="${namespacePrefix}"].active`).click()
+			tabs.addEventListener('click', ev => showTab(ev.target))
+
+			showTab(tabs.querySelector(`[tab-name^="${namespacePrefix}"].active`))
 		}
 	}
 })
