@@ -25,6 +25,7 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, pro
 		$scope.$integration.init()
 
 		this.initFilters()
+		this.fixRequestsScrollbar()
 
 		this.authentication = new Authentication($scope, $q, requests)
 		this.profiler = profiler.setScope($scope)
@@ -322,6 +323,14 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, pro
 		$scope.updateNotification = null
 
 		updateNotification.ignoreUpdate(requests.remoteUrl)
+	}
+
+	$scope.fixRequestsScrollbar = function () {
+		let requiredPadding = document.querySelector('.requests-container').offsetWidth
+			- document.querySelector('#requests').offsetWidth
+
+		document.querySelector('.requests-header .duration').style.paddingRight = `${requiredPadding + 4}px`
+		document.querySelector('.requests-header .duration').style.width = `${80 + requiredPadding}px`
 	}
 
 	angular.element(window).bind('resize', () => {
