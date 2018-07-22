@@ -1,3 +1,28 @@
+3.0
+- added performance metrics and renamed the timeline tab to performance tab
+- added new timeline component UI
+- added peak memory usage to the performance tab
+- added support for filtering all tables (thanks Gennnji)
+- added support for reordering all tables
+- added support for user-data (custom tabs)
+- added request method, url, controller, response status and the ability to copy the url to the request tab (thanks sisve)
+- added query counts and time on top of the database tab (thanks fgilio)
+- added distinct colors to errors and warning in the log tab (thanks Gennnji)
+- added support for stack traces in the log, events, database and cache tabs (thanks sisve)
+- added total number of queries to the cache tab
+- added Xdebug profiler to the performance tab
+- added support for authentication (thanks xiaohuilam)
+- added support for subrequests
+- added support for dark theme when running as a standalone app
+- improved pretty printing - arrays are shown as Array with items count, supports new type metadata, fixed showing booleans, added distinct styles to booleans, nulls, resources and anonymous functions
+- improved the requests list behaviour, reliability of metadata loading and error handling
+- improved performance dropping jQuery and other minor improvements
+- improved dark theme highlight color to be a bit more contrasting (thanks robclancy)
+- fixed requests table header to compensate for scrollbar
+- fixed standalone app opening in a broken state if the web app have no metadata yet (thanks spaceemotion)
+- dropped support for resizing requests table columns
+- polished bunch of styles
+
 2.2
 - learn more about privacy when using Clockwork extensions - https://underground.works/clockwork/docs/extension-privacy
 - added support for displaying route middleware (thanks Vercoutere)
