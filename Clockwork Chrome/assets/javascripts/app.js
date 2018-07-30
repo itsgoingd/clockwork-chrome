@@ -3,6 +3,7 @@ let Clockwork = angular.module('Clockwork', [ 'chart.js', 'ngclipboard' ])
 		$compileProvider.debugInfoEnabled(false)
 		$compileProvider.commentDirectivesEnabled(false)
 	} ])
+	.config($sceProvider => $sceProvider.enabled(false))
 	.factory('filter', [ '$timeout', ($timeout) => {
 		return {
 			create (tags, mapValue) { return new Filter(tags, mapValue, $timeout) }
