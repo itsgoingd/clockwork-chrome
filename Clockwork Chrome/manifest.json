@@ -17,6 +17,8 @@
 		"scripts": [ "assets/javascripts/chrome/background.js" ]
 	},
 
+	"incognito": "split",
+
 	"permissions": [
 		"cookies",
 		"tabs",
