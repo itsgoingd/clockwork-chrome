@@ -10,8 +10,8 @@ class UpdateNotification
 
 	latest () {
 		return {
-			version: '3.0',
-			url: 'https://underground.works/blog/clockwork-3.0-now-available'
+			version: '3.0.2',
+			url: 'https://underground.works/clockwork/changelog'
 		}
 	}
 

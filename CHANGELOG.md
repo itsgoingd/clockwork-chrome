@@ -1,3 +1,7 @@
+3.0.1
+- fixed Clockwork not working in incognito mode (thanks YummyTofu)
+- fixed requests not showing up in some rare cases (thanks alextime)
+
 3.0
 - added performance metrics and renamed the timeline tab to performance tab
 - added new timeline component UI
