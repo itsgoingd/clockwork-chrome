@@ -1,4 +1,4 @@
-Clockwork.controller('PanelController', function ($scope, $q, $http, filter, profiler, requests, updateNotification)
+Clockwork.controller('PanelController', function ($scope, $q, $http, filter, profiler, requests, settings, updateNotification)
 {
 	$scope.requests = []
 	$scope.request = null
@@ -10,6 +10,7 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, pro
 	$scope.preserveLog = true
 	$scope.requestsListCollapsed = false
 	$scope.showIncomingRequests = true
+	$scope.showSettings = false
 
 	$scope.expandedEvents = []
 
@@ -29,6 +30,7 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, pro
 
 		this.authentication = new Authentication($scope, $q, requests)
 		this.profiler = profiler.setScope($scope)
+		this.settings = settings
 	}
 
 	$scope.initFilters = function () {
@@ -323,6 +325,16 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, pro
 		$scope.updateNotification = null
 
 		updateNotification.ignoreUpdate(requests.remoteUrl)
+	}
+
+	$scope.openSettings = function () {
+		$scope.showSettings = true
+	}
+
+	$scope.saveSettings = function () {
+		settings.save()
+
+		$scope.showSettings = false
 	}
 
 	$scope.fixRequestsScrollbar = function () {

@@ -733,10 +733,51 @@ a {
   .update-notification .updateNotification-close, .update-notification .parentRequest-close, .parent-request .updateNotification-close, .parent-request .parentRequest-close {
     margin-left: auto; }
 
+.settings-container .popover {
+  right: -11px;
+  top: 14px; }
+
+.settings-container .popover-content {
+  padding: 10px 18px;
+  text-align: left; }
+
+.settings-container .controls-group {
+  margin: 12px 0; }
+
+.settings-container .help-text {
+  font-size: 80%;
+  margin-top: 10px; }
+
+.settings-container label {
+  display: block;
+  font-size: 90%;
+  margin-bottom: 6px; }
+
+.settings-container input, .settings-container select {
+  font-size: 90%;
+  margin: 0 -6px;
+  width: calc(100% + 12px); }
+
+.settings-container .settings-save {
+  text-align: center; }
+
+.settings-container button {
+  background: transparent;
+  border: none;
+  color: #258cdb;
+  font-size: 90%; }
+  body.dark .settings-container button {
+    color: #f27e02; }
+
+.settings-container a {
+  padding: 0 !important; }
+
 .stack-trace {
   cursor: pointer; }
   .stack-trace .popover {
     cursor: default; }
+  .stack-trace a {
+    text-decoration: none; }
   .stack-trace .stack-frame {
     color: #000;
     padding: 6px 10px;
