@@ -26,6 +26,7 @@
 		<script src="assets/javascripts/directives/shortened-text.js"></script>
 		<script src="assets/javascripts/directives/stack-trace.js"></script>
 		<script src="assets/javascripts/directives/tabs.js"></script>
+		<script src="assets/javascripts/filters/editor-link.js"></script>
 		<script src="assets/javascripts/authentication.js"></script>
 		<script src="assets/javascripts/extension.js"></script>
 		<script src="assets/javascripts/filter.js"></script>
@@ -33,6 +34,7 @@
 		<script src="assets/javascripts/profiler.js"></script>
 		<script src="assets/javascripts/request.js"></script>
 		<script src="assets/javascripts/requests.js"></script>
+		<script src="assets/javascripts/settings.js"></script>
 		<script src="assets/javascripts/standalone.js"></script>
 		<script src="assets/javascripts/update-notification.js"></script>
 	</head>
@@ -134,12 +136,58 @@
 					</div>
 
 					<div class="icons">
+						<div class="popover-container settings-container">
+							<a href="#" title="Settings" ng-click="openSettings()">
+								<span class="fa fa-cog"></span>
+							</a>
+							<div class="popover right-aligned" ng-show="showSettings">
+								<div class="popover-content">
+									<div class="controls-group">
+										<label for="settings-editor">Code editor</label>
+
+										<select id="settings-editor" ng-model="settings.editor">
+											<option value="atom">Atom</option>
+											<option value="phpstorm">PhpStorm</option>
+											<option value="sublime">Sublime Text</option>
+											<option value="textmate">Textmate</option>
+											<option value="vs-code">Visual Studio Code</option>
+										</select>
+
+										<div class="help-text" ng-show="settings.editor == 'atom'">
+											Requires <a href="https://atom.io/packages/open" target="_blank">Atom Open</a> package.
+										</div>
+										<div class="help-text" ng-show="settings.editor == 'sublime'">
+											Requires <a href="https://github.com/asuth/subl-handler" target="_blank">subl-handler</a>.
+										</div>
+									</div>
+
+									<div class="controls-group">
+										<label for="settings-local-path-map">Local path map</label>
+
+										<input type="text" name="settings-local-path-map-real" ng-model="settings.localPathMapReal" placeholder="/real/path">
+										<input type="text" name="settings-local-path-map-local" ng-model="settings.localPathMapLocal" placeholder="/local/path">
+
+										<div class="help-text">
+											Map real to local path for the code editor links. Useful when using a virtual machine for development.
+										</div>
+									</div>
+
+									<div class="controls-group settings-save">
+										<button ng-click="saveSettings()">
+											Save
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
 						<a href="#" title="Preserve log" ng-show="! preserveLog" ng-click="togglePreserveLog()">
 							<span class="fa fa-circle-o"></span>
 						</a>
 						<a href="#" title="Preserve log" ng-show="preserveLog" ng-click="togglePreserveLog()">
 							<span class="fa fa-circle"></span>
 						</a>
+
 						<a href="#" title="Clear" ng-click="clear()">
 							<span class="fa fa-ban"></span>
 						</a>

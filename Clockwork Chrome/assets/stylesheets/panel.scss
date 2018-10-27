@@ -1244,11 +1244,67 @@ a {
 	}
 }
 
+.settings-container {
+	.popover {
+	    right: -11px;
+	    top: 14px;
+	}
+
+	.popover-content {
+	    padding: 10px 18px;
+	    text-align: left;
+	}
+
+	.controls-group {
+		margin: 12px 0 20px;
+	}
+
+	.help-text {
+	    font-size: 80%;
+		margin-top: 10px;
+	}
+
+	label {
+		display: block;
+		font-size: 90%;
+		margin-bottom: 6px;
+	}
+
+	input, select {
+		font-size: 90%;
+		margin: 0 -6px;
+		width: calc(100% + 12px);
+	}
+
+	.settings-save {
+		text-align: center;
+	}
+
+	button {
+		background: transparent;
+		border: none;
+		color: #258cdb;
+		font-size: 90%;
+
+		body.dark & {
+		    color: #f27e02;
+		}
+	}
+
+	a {
+		padding: 0 !important;
+	}
+}
+
 .stack-trace {
 	cursor: pointer;
 
 	.popover {
 		cursor: default;
+	}
+
+	a {
+		text-decoration: none;
 	}
 
 	.stack-frame {
@@ -1268,7 +1324,6 @@ a {
 				background: rgb(27, 27, 27);
 			}
 		}
-
 
 		.stack-frame-call {
 			font-size: 12px;
