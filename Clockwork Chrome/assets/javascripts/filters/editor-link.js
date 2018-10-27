@@ -12,6 +12,10 @@ Clockwork.filter('editorLink', [ 'settings', function (settings) {
 
 		if (! editor || ! scheme[editor]) return
 
+		if (file && settings.localPathMapReal) {
+			file = file.replace(settings.localPathMapReal, settings.localPathMapLocal)
+		}
+
 		return scheme[editor](file, line)
 	}
 } ])

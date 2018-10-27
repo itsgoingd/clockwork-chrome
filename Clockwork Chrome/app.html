@@ -161,6 +161,17 @@
 										</div>
 									</div>
 
+									<div class="controls-group">
+										<label for="settings-local-path-map">Local path map</label>
+
+										<input type="text" name="settings-local-path-map-real" ng-model="settings.localPathMapReal" placeholder="/real/path">
+										<input type="text" name="settings-local-path-map-local" ng-model="settings.localPathMapLocal" placeholder="/local/path">
+
+										<div class="help-text">
+											Map real to local path for the code editor links. Useful when using a virtual machine for development.
+										</div>
+									</div>
+
 									<div class="controls-group settings-save">
 										<button ng-click="saveSettings()">
 											Save
