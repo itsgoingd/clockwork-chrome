@@ -648,6 +648,31 @@ a {
   .details-content .cache-query-type {
     font-size: 125%;
     font-variant: small-caps; }
+  .details-content .session-user {
+    align-items: center;
+    border: 1px solid #d1d1d1;
+    border-radius: 3px;
+    box-shadow: 0 2px 3px #e5e5e5;
+    display: flex;
+    font-size: 130%;
+    margin: 0 5px 10px;
+    padding: 12px 20px 14px; }
+    body.dark .details-content .session-user {
+      border: 1px solid #404040;
+      box-shadow: 0 2px 3px #292929; }
+    .details-content .session-user .fa {
+      color: gray;
+      font-size: 28px;
+      margin-right: 16px; }
+    .details-content .session-user .name {
+      margin-right: 8px; }
+    .details-content .session-user .dimmed {
+      color: gray;
+      font-size: 90%; }
+      body.dark .details-content .session-user .dimmed {
+        color: #767676; }
+    .details-content .session-user .session-user-details {
+      margin-left: auto; }
 
 .details-loading-overlay, .details-error-overlay, .details-authentication-overlay {
   align-items: center;
