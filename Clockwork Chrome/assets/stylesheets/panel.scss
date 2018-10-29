@@ -1145,7 +1145,13 @@ a {
 		}
 
 		.name {
-			margin-right: 8px;
+			margin-right: 4px;
+		}
+
+		.title {
+			font-size: 13px;
+			font-variant: small-caps;
+			text-transform: lowercase;
 		}
 
 		.dimmed {

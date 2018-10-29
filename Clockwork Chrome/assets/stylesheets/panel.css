@@ -665,7 +665,11 @@ a {
       font-size: 28px;
       margin-right: 16px; }
     .details-content .session-user .name {
-      margin-right: 8px; }
+      margin-right: 4px; }
+    .details-content .session-user .title {
+      font-size: 13px;
+      font-variant: small-caps;
+      text-transform: lowercase; }
     .details-content .session-user .dimmed {
       color: gray;
       font-size: 90%; }

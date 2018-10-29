@@ -872,8 +872,10 @@
 						<div class="session-user" ng-if="request.authenticatedUser">
 							<span class="fa fa-user"></span>
 							<div>
-								<span class="name" ng-if="request.authenticatedUser.name">{{ request.authenticatedUser.name }}</span>
-								<span ng-class="request.authenticatedUser.name ? 'dimmed' : ''">{{ request.authenticatedUser.username }}</span>
+								<span class="name" ng-if="request.authenticatedUser.name && request.authenticatedUser.name.trim()">{{ request.authenticatedUser.name }}</span>
+								<span ng-class="request.authenticatedUser.name && request.authenticatedUser.name.trim() ? 'dimmed' : ''">{{ request.authenticatedUser.username }}</span>
+								<br>
+								<span class="title">authenticated user</span>
 							</div>
 							<span class="session-user-details" ng-if="request.authenticatedUser.email || request.authenticatedUser.id">
 								<span class="dimmed" ng-if="request.authenticatedUser.id">#{{ request.authenticatedUser.id }}</span>
