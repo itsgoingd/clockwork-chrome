@@ -128,7 +128,7 @@
 						<a tab-name="app.events" ng-show="request.events.length" class="details-header-tab" href="#">Events</a>
 						<a tab-name="app.db" ng-show="request.databaseQueries.length" class="details-header-tab" href="#">Database</a>
 						<a tab-name="app.cache" ng-show="showCacheTab()" class="details-header-tab" href="#">Cache</a>
-						<a tab-name="app.session" ng-show="request.sessionData.length" class="details-header-tab" href="#">Session</a>
+						<a tab-name="app.session" ng-show="request.sessionData.length || request.authenticatedUser" class="details-header-tab" href="#">Session</a>
 						<a tab-name="app.views" ng-show="request.views.length" class="details-header-tab" href="#">Views</a>
 						<a tab-name="app.emails" ng-show="request.emails.length" class="details-header-tab" href="#">Emails</a>
 						<a tab-name="app.routes" ng-show="request.routes.length" class="details-header-tab" href="#">Routes</a>
@@ -869,6 +869,19 @@
 					</div>
 
 					<div tab-content="app.session">
+						<div class="session-user" ng-if="request.authenticatedUser">
+							<span class="fa fa-user"></span>
+							<div>
+								<span class="name" ng-if="request.authenticatedUser.name && request.authenticatedUser.name.trim()">{{ request.authenticatedUser.name }}</span>
+								<span ng-class="request.authenticatedUser.name && request.authenticatedUser.name.trim() ? 'dimmed' : ''">{{ request.authenticatedUser.username }}</span>
+								<br>
+								<span class="title">authenticated user</span>
+							</div>
+							<span class="session-user-details" ng-if="request.authenticatedUser.email || request.authenticatedUser.id">
+								<span class="dimmed" ng-if="request.authenticatedUser.id">#{{ request.authenticatedUser.id }}</span>
+							</span>
+						</div>
+
 						<table>
 							<thead>
 								<tr>

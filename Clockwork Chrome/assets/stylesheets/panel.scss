@@ -1120,6 +1120,53 @@ a {
 		font-size: 125%;
 		font-variant: small-caps;
 	}
+
+	// Session tab
+
+	.session-user {
+		align-items: center;
+		border: 1px solid rgb(209, 209, 209);
+		border-radius: 3px;
+		box-shadow: 0 2px 3px #e5e5e5;
+		display: flex;
+		font-size: 130%;
+		margin: 0 5px 10px;
+		padding: 12px 20px 14px;
+
+		body.dark & {
+			border: 1px solid rgb(64, 64, 64);
+			box-shadow: 0 2px 3px #292929;
+		}
+
+		.fa {
+			color: rgb(128, 128, 128);
+			font-size: 28px;
+			margin-right: 16px;
+		}
+
+		.name {
+			margin-right: 4px;
+		}
+
+		.title {
+			font-size: 13px;
+			font-variant: small-caps;
+			text-transform: lowercase;
+		}
+
+		.dimmed {
+			color: rgb(128, 128, 128);
+			font-size: 90%;
+
+			body.dark & {
+				color: rgb(118, 118, 118);
+			}
+		}
+
+		.session-user-details {
+			margin-left: auto;
+		}
+	}
 }
 
 .details-loading-overlay, .details-error-overlay, .details-authentication-overlay {
