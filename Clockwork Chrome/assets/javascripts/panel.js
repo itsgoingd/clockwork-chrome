@@ -309,7 +309,15 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, pro
 		$scope.preserveLog = ! $scope.preserveLog
 	}
 
-	$scope.showPreviousException = function (event, message) {
+	$scope.showPreviousRequestException = function (event, exception) {
+		event.preventDefault()
+
+		$scope.request.exceptions.push(exception.previous)
+
+		exception.previous = undefined
+	}
+
+	$scope.showPreviousLogException = function (event, message) {
 		event.preventDefault()
 
 		let messageIndex = $scope.request.log.indexOf(message)

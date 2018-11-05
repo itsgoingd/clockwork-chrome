@@ -25,6 +25,7 @@ class Request
 
 		this.errorsCount = this.getErrorsCount()
 		this.warningsCount = this.getWarningsCount()
+		this.exceptions = this.processExceptions()
 	}
 
 	static placeholder (id, request, parent) {
@@ -133,6 +134,27 @@ class Request
 
 			return event
 		})
+	}
+
+	processExceptions () {
+		let exception = this.log.length ? this.log[this.log.length - 1].exception : null
+
+		if (this.responseStatus != 500 || ! exception) return []
+
+		exception = angular.copy(exception)
+
+		let current = exception;
+
+		do {
+			current.trace = this.processStackTrace([ {
+				call:     `${current.type}()`,
+				file:     current.file,
+				line:     current.line,
+				isVendor: false
+			}, ...current.trace ])
+		} while (current = current.previous)
+
+		return [ exception ]
 	}
 
 	processHeaders (data) {

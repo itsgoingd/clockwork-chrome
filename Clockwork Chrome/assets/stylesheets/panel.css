@@ -354,6 +354,44 @@ a {
       .details-content .request-tab-info .field.link {
         font-size: 90%;
         padding: 0; }
+  .details-content .request-tab-exception {
+    margin: 10px -10px; }
+    .details-content .request-tab-exception .exception-info {
+      align-items: center;
+      background: #ffebeb;
+      color: #c51f24;
+      display: flex;
+      padding: 10px 30px; }
+      .details-content .request-tab-exception .exception-info:nth-child(even) {
+        background: #ffe0e0; }
+      .details-content .request-tab-exception .exception-info:first-child {
+        padding-top: 15px; }
+      .details-content .request-tab-exception .exception-info:last-child {
+        padding-bottom: 15px; }
+      body.dark .details-content .request-tab-exception .exception-info {
+        background: #380000;
+        color: #ed797a; }
+        body.dark .details-content .request-tab-exception .exception-info:nth-child(even) {
+          background: #2e0000; }
+      .details-content .request-tab-exception .exception-info h3 {
+        border-bottom: 0;
+        padding: 6px 0; }
+      .details-content .request-tab-exception .exception-info .exception-message {
+        flex: 1;
+        font-size: 15px;
+        line-height: 1.5; }
+      .details-content .request-tab-exception .exception-info .exception-previous, .details-content .request-tab-exception .exception-info .exception-trace .stack-trace > a {
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        font-size: 11px;
+        font-variant: small-caps;
+        padding: 3px 12px;
+        text-transform: uppercase; }
+      .details-content .request-tab-exception .exception-info .exception-previous {
+        margin-right: 4px;
+        text-decoration: none; }
+      .details-content .request-tab-exception .exception-info .exception-trace {
+        display: inline-block; }
   .details-content .performance-chart-container {
     flex: 0 1 100px; }
   .details-content .performance-chart {
