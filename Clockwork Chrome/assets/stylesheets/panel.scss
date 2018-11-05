@@ -1041,6 +1041,21 @@ a {
 			max-width: 100%;
 		}
 
+		.log-message-exception {
+			flex: 0;
+			font-size: 90%;
+			margin: 3px 5px 0 0;
+		    white-space: nowrap;
+
+		    .exception-previous {
+	    	    border: 1px solid #aaa;
+			    border-radius: 4px;
+			    text-decoration: none;
+			    padding: 2px 4px;
+			    margin-right: 5px;
+		    }
+		}
+
 		.log-message-path {
 			color: #aaa;
 			flex: 0;

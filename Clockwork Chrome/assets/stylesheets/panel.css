@@ -605,6 +605,17 @@ a {
     .details-content .log-message .log-message-content {
       flex: 1 0 auto;
       max-width: 100%; }
+    .details-content .log-message .log-message-exception {
+      flex: 0;
+      font-size: 90%;
+      margin: 3px 5px 0 0;
+      white-space: nowrap; }
+      .details-content .log-message .log-message-exception .exception-previous {
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        text-decoration: none;
+        padding: 2px 4px;
+        margin-right: 5px; }
     .details-content .log-message .log-message-path {
       color: #aaa;
       flex: 0;

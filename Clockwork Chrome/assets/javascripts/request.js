@@ -161,6 +161,12 @@ class Request
 		if (! (data instanceof Array)) return []
 
 		return data.map(message => {
+			if (message.exception) {
+				message.file = message.exception.file
+				message.line = message.exception.line
+				message.trace = message.exception.trace
+			}
+
 			message.time = new Date(message.time * 1000)
 			message.context = message.context instanceof Object && Object.keys(message.context).filter(key => key != '__type__').length ? message.context : undefined
 			message.fullPath = message.file && message.line ? message.file.replace(/^\//, '') + ':' + message.line : undefined
