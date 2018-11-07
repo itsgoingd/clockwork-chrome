@@ -246,6 +246,20 @@
 							</div>
 						</div>
 
+						<div class="request-tab-exception" ng-if="request.exceptions.length">
+							<div class="exception-info" ng-repeat="exception in request.exceptions">
+								<div class="exception-message">
+									<h3>{{exception.type}} <small ng-if="exception.code">#{{exception.code}}</small></h3>
+
+									{{exception.message}}
+								</div>
+								<div>
+									<a href="#" class="exception-previous" ng-click="showPreviousRequestException($event, exception)" ng-if="exception.previous">Previous</a>
+									<stack-trace class="exception-trace" trace="exception.trace" short-path="'Trace'"></stack-trace>
+								</div>
+							</div>
+						</div>
+
 						<table ng-show="request.headers.length">
 							<thead>
 								<tr>
@@ -649,6 +663,11 @@
 												<div ng-show="message.context">
 													<pretty-print data="message.context"></pretty-print>
 												</div>
+											</div>
+											<div class="log-message-exception" ng-if="message.exception">
+												<a href="#" class="exception-previous" ng-if="message.exception.previous" ng-click="showPreviousLogException($event, message)">Show previous</a>
+												<span class="exception-type">{{message.exception.type}}</span>
+												<span class="exception-code" ng-if="message.exception.code">#{{message.exception.code}}</span>
 											</div>
 											<stack-trace class="log-message-path" trace="message.trace" short-path="message.shortPath" full-path="message.fullPath"></stack-trace>
 										</div>
