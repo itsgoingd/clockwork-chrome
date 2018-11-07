@@ -144,6 +144,8 @@ a {
     float: right;
     letter-spacing: -0.5px;
     line-height: 29px;
+    margin-right: -6px;
+    padding: 0 6px;
     position: relative; }
     .split-view-requests .notifications-count .errors-count i {
       color: #b3492e;
@@ -355,7 +357,7 @@ a {
         font-size: 90%;
         padding: 0; }
   .details-content .request-tab-exception {
-    margin: 10px -10px; }
+    margin: 12px -10px; }
     .details-content .request-tab-exception .exception-info {
       align-items: center;
       background: #ffebeb;

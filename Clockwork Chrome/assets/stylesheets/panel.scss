@@ -234,6 +234,8 @@ a {
 		float: right;
 		letter-spacing: -0.5px;
 		line-height: 29px;
+	    margin-right: -6px;
+	    padding: 0 6px;
 		position: relative;
 
 		.errors-count i {
@@ -584,7 +586,7 @@ a {
 	}
 
 	.request-tab-exception {
-	    margin: 10px -10px;
+	    margin: 12px -10px;
 
 		.exception-info {
 			align-items: center;
