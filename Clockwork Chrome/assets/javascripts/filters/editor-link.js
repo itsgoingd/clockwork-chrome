@@ -5,7 +5,7 @@ Clockwork.filter('editorLink', [ 'settings', function (settings) {
 			'phpstorm': (file, line) => `phpstorm://open?url=file://${file}&line=${line}`,
 			'sublime': (file, line) => `subl://open?url=file://${file}&line=${line}`,
 			'textmate': (file, line) => `txmt://open?url=file://${file}&line=${line}`,
-			'vs-code': (file, line) => `vscode://${file}:${line}`
+			'vs-code': (file, line) => `vscode://file/${file}:${line}`
 		}
 
 		let editor = settings.editor
