@@ -814,12 +814,13 @@ a {
     margin-left: auto; }
 
 .settings-container .popover {
-  right: -11px;
+  right: -11px !important;
   top: 14px; }
-
-.settings-container .popover-content {
-  padding: 10px 18px;
-  text-align: left; }
+  .settings-container .popover .popover-content {
+    padding: 10px 18px;
+    text-align: left; }
+    .settings-container .popover .popover-content a {
+      padding: 0; }
 
 .settings-container .controls-group {
   margin: 12px 0 20px; }
@@ -848,9 +849,6 @@ a {
   font-size: 90%; }
   body.dark .settings-container button {
     color: #f27e02; }
-
-.settings-container a {
-  padding: 0 !important; }
 
 .stack-trace {
   cursor: pointer; }

@@ -1372,13 +1372,17 @@ a {
 
 .settings-container {
 	.popover {
-	    right: -11px;
+	    right: -11px !important;
 	    top: 14px;
-	}
 
-	.popover-content {
-	    padding: 10px 18px;
-	    text-align: left;
+    	.popover-content {
+		    padding: 10px 18px;
+		    text-align: left;
+
+	    	a {
+				padding: 0;
+			}
+		}
 	}
 
 	.controls-group {
@@ -1415,10 +1419,6 @@ a {
 		body.dark & {
 		    color: #f27e02;
 		}
-	}
-
-	a {
-		padding: 0 !important;
 	}
 }
 
