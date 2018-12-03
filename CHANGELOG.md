@@ -1,3 +1,15 @@
+3.1
+- added showing of last exception to the request tab for HTTP 500 responses
+- added authenticated user info to the session tab
+- added support for opening files in editor in stack traces (thanks xiaohuilam)
+- improved displaying exceptions in the log tab now show the class, code, correct stack trace and support chained exceptions
+- fixed xdebug installation instructions link pointing nowhere
+- fixed error handling in some cases where metadata can't be retrieved
+- fixed pretty printing not rendering numeric value "0" correctly
+- fixed subrequest processing missing urldecode
+- fixed some minor styles issues
+- fixed metadata requests having wrong Content-Type when running as standalone (thanks ssnepenthe)
+
 3.0.1
 - fixed Clockwork not working in incognito mode (thanks YummyTofu)
 - fixed requests not showing up in some rare cases (thanks alextime)
