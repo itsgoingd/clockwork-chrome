@@ -634,6 +634,10 @@ a {
 			    font-variant: small-caps;
 				padding: 3px 12px;
 			    text-transform: uppercase;
+
+			    body.dark & {
+					border-color: gray;
+			    }
 			}
 
 			.exception-previous {
@@ -1117,6 +1121,10 @@ a {
 			    text-decoration: none;
 			    padding: 2px 4px;
 			    margin-right: 5px;
+
+			    body.dark & {
+					border-color: gray;
+			    }
 		    }
 		}
 
@@ -1433,6 +1441,7 @@ a {
 
 			&::placeholder {
 				color: rgb(147, 146, 145);
+				opacity: 1;
 			}
 		}
 	}
@@ -1440,7 +1449,8 @@ a {
 	select {
 		body.dark & {
 			background: rgb(106, 104, 102);
-			border-color: rgb(124, 122, 120);
+			border: 1px solid rgb(124, 122, 120);
+			border-radius: 5px;
 		}
 	}
 

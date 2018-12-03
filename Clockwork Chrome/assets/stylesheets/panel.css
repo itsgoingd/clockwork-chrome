@@ -389,6 +389,8 @@ a {
         font-variant: small-caps;
         padding: 3px 12px;
         text-transform: uppercase; }
+        body.dark .details-content .request-tab-exception .exception-info .exception-previous, body.dark .details-content .request-tab-exception .exception-info .exception-trace .stack-trace > a {
+          border-color: gray; }
       .details-content .request-tab-exception .exception-info .exception-previous {
         margin-right: 4px;
         text-decoration: none; }
@@ -656,6 +658,8 @@ a {
         text-decoration: none;
         padding: 2px 4px;
         margin-right: 5px; }
+        body.dark .details-content .log-message .log-message-exception .exception-previous {
+          border-color: gray; }
     .details-content .log-message .log-message-path {
       color: #aaa;
       flex: 0;
@@ -856,11 +860,13 @@ body.dark .settings-container input {
   background: #71706f;
   border-color: #7c7a78; }
   body.dark .settings-container input::placeholder {
-    color: #939291; }
+    color: #939291;
+    opacity: 1; }
 
 body.dark .settings-container select {
   background: #6a6866;
-  border-color: #7c7a78; }
+  border: 1px solid #7c7a78;
+  border-radius: 5px; }
 
 .settings-container .settings-save {
   text-align: center; }
