@@ -10,9 +10,14 @@ Clockwork.directive('stackTrace', function ($parse) {
 			$scope.togglePopover = function (ev) {
 				if (! $scope.trace) return
 
-				ev.preventDefault()
+				if (ev) {
+					ev.preventDefault()
+					ev.stopPropagation()
+				}
 
 				$scope.showPopover = ! $scope.showPopover
+
+				if (! $scope.showPopover) return
 
 				let popoverContainerEl = $element[0].querySelector('.popover-container')
 				let popoverEl = $element[0].querySelector('.popover')

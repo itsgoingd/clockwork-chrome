@@ -1376,7 +1376,7 @@ a {
 	    top: 14px;
 
     	.popover-content {
-		    padding: 10px 18px;
+		    padding: 6px 18px;
 		    text-align: left;
 
 	    	a {
@@ -1386,12 +1386,30 @@ a {
 	}
 
 	.controls-group {
-		margin: 12px 0 20px;
+		margin: 8px 0 14px;
+	}
+
+	.controls-input-vgroup {
+		font-size: 90%;
+
+		input {
+			border: 1px solid #ccc;
+			padding: 1px 4px;
+		}
+
+		input:first-child {
+			border-radius: 4px 4px 0 0;
+		}
+
+		input:last-child {
+			border-radius: 0 0 4px 4px;
+		    margin-top: -2px;
+		}
 	}
 
 	.help-text {
 	    font-size: 80%;
-		margin-top: 10px;
+		margin-top: 8px;
 	}
 
 	label {
@@ -1404,6 +1422,26 @@ a {
 		font-size: 90%;
 		margin: 0 -6px;
 		width: calc(100% + 12px);
+
+		body.dark & { color: rgb(233, 233, 233); }
+	}
+
+	input {
+		body.dark & {
+			background: rgb(113, 112, 111);
+			border-color: rgb(124, 122, 120);
+
+			&::placeholder {
+				color: rgb(147, 146, 145);
+			}
+		}
+	}
+
+	select {
+		body.dark & {
+			background: rgb(106, 104, 102);
+			border-color: rgb(124, 122, 120);
+		}
 	}
 
 	.settings-save {

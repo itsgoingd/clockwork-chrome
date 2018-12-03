@@ -18,6 +18,7 @@
 		<script src="assets/vendor/javascripts/clipboard.min.js"></script>
 		<script src="assets/vendor/javascripts/ngclipboard.min.js"></script>
 		<script src="assets/vendor/javascripts/callgrind.js"></script>
+		<script src="assets/vendor/javascripts/clickoutside.directive.js"></script>
 
 		<script src="assets/javascripts/app.js"></script>
 		<script src="assets/javascripts/directives/load-more-requests.js"></script>
@@ -40,7 +41,7 @@
 	</head>
 	<body>
 		<div class="split-view" ng-controller="PanelController" ng-init="init()">
-			<div class="split-view-pane split-view-requests" ng-show="! requestsListCollapsed">
+			<div class="split-view-pane split-view-requests" ng-show="! requestsListCollapsed" click-outside="alert('foo');">
 				<table class="requests-header" id="requests-header" resizable-columns data-resizable-columns-sync="#requests">
 					<thead>
 						<tr>
@@ -137,10 +138,10 @@
 
 					<div class="icons">
 						<div class="popover-container settings-container">
-							<a href="#" title="Settings" ng-click="openSettings()">
+							<a href="#" title="Settings" ng-click="toggleSettings($event)">
 								<span class="fa fa-cog"></span>
 							</a>
-							<div class="popover right-aligned" ng-show="showSettings">
+							<div class="popover right-aligned" ng-show="showSettings" click-outside="toggleSettings()">
 								<div class="popover-content">
 									<div class="controls-group">
 										<label for="settings-editor">Code editor</label>
@@ -164,11 +165,13 @@
 									<div class="controls-group">
 										<label for="settings-local-path-map">Local path map</label>
 
-										<input type="text" name="settings-local-path-map-real" ng-model="settings.localPathMapReal" placeholder="/real/path">
-										<input type="text" name="settings-local-path-map-local" ng-model="settings.localPathMapLocal" placeholder="/local/path">
+										<div class="controls-input-vgroup">
+											<input type="text" name="settings-local-path-map-real" ng-model="settings.localPathMapReal" placeholder="/real/path">
+											<input type="text" name="settings-local-path-map-local" ng-model="settings.localPathMapLocal" placeholder="/local/path">
+										</div>
 
 										<div class="help-text">
-											Map real to local path for the code editor links. Useful when using a virtual machine for development.
+											Map real to local path for the code editor links.
 										</div>
 									</div>
 

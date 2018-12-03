@@ -351,8 +351,17 @@ Clockwork.controller('PanelController', function ($scope, $q, $http, filter, pro
 		updateNotification.ignoreUpdate(requests.remoteUrl)
 	}
 
-	$scope.openSettings = function () {
-		$scope.showSettings = true
+	$scope.toggleSettings = function (ev) {
+		if (ev) {
+			ev.preventDefault()
+			ev.stopPropagation()
+		}
+
+		if (! $scope.showSettings) {
+			settings.reload()
+		}
+
+		$scope.showSettings = ! $scope.showSettings
 	}
 
 	$scope.saveSettings = function () {

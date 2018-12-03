@@ -3,7 +3,7 @@ class Settings
 	constructor (requests) {
 		this.requests = requests
 
-		this.settings = this.loadSettings()
+		this.reload()
 	}
 
 	get editor () {
@@ -44,6 +44,10 @@ class Settings
 		let settings = angular.merge(this.loadSettings(), this.settings)
 
 		localStorage.setItem('settings', JSON.stringify(settings))
+	}
+
+	reload() {
+		this.settings = this.loadSettings()
 	}
 
 	loadSettings() {
