@@ -1,12 +1,12 @@
 {
   "name": "clockwork",
-  "version": "3.0.1",
+  "version": "3.1",
   "description": "php dev tools integrated to your browser",
   "scripts": {
     "build": "node-sass \"Clockwork Chrome/assets/stylesheets/panel.scss\" \"Clockwork Chrome/assets/stylesheets/panel.css\"",
     "watch": "node-sass --watch \"Clockwork Chrome/assets/stylesheets/panel.scss\" \"Clockwork Chrome/assets/stylesheets/panel.css\""
   },
   "devDependencies": {
-    "node-sass": "^4.9.0"
+    "node-sass": "^4.10.0"
   }
 }
