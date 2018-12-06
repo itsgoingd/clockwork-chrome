@@ -1,3 +1,6 @@
+3.1.1
+- added new server-side update notification
+
 3.1
 - added showing of last exception to the request tab for HTTP 500 responses
 - added authenticated user info to the session tab
