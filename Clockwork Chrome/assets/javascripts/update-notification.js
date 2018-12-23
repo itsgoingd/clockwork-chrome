@@ -6,7 +6,7 @@ class UpdateNotification
 
 	latest () {
 		return {
-			version: '3.1.1',
+			version: '3.1.2',
 			url: 'https://underground.works/blog/clockwork-3.1-released-with-editor-links-and-better-exceptions'
 		}
 	}
