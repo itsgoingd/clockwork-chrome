@@ -3,9 +3,7 @@ class Requests
 	constructor () {
 		this.items = []
 
-		try {
-			this.tokens = JSON.parse(localStorage.getItem('requests.tokens'))
-		} catch (e) {}
+		this.tokens = LocalStore.get('requests.tokens')
 
 		if (! (this.tokens instanceof Object)) this.tokens = {}
 	}
@@ -114,7 +112,7 @@ class Requests
 
 	setAuthenticationToken (token) {
 		this.tokens[this.remoteUrl] = token
-		localStorage.setItem('requests.tokens', JSON.stringify(this.tokens))
+		LocalStore.set('requests.tokens', this.tokens)
 	}
 
 	callRemote (url) {

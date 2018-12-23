@@ -43,7 +43,7 @@ class Settings
 	save() {
 		let settings = angular.merge(this.loadSettings(), this.settings)
 
-		localStorage.setItem('settings', JSON.stringify(settings))
+		LocalStore.set('settings', settings)
 	}
 
 	reload() {
@@ -53,6 +53,6 @@ class Settings
 	loadSettings() {
 		let defaultSettings = { global: { editor: null }, site: {} }
 
-		return angular.merge(defaultSettings, JSON.parse(localStorage.getItem('settings')));
+		return angular.merge(defaultSettings, LocalStore.get('settings'));
 	}
 }

@@ -1,11 +1,7 @@
 class UpdateNotification
 {
 	get ignoredUpdates() {
-		try {
-			return JSON.parse(localStorage.getItem('update-notification.ignored-updates') || '{}')
-		} catch (e) {
-			return {}
-		}
+		return LocalStore.get('update-notification.ignored-updates') || {}
 	}
 
 	latest () {
@@ -36,7 +32,7 @@ class UpdateNotification
 
 		ignoredUpdates[host] = this.latest().version
 
-		localStorage.setItem('update-notification.ignored-updates', JSON.stringify(ignoredUpdates))
+		LocalStore.set('update-notification.ignored-updates', ignoredUpdates)
 	}
 
 	versionCompare (left, right) {
