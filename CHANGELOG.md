@@ -1,3 +1,7 @@
+3.1.2
+- fixed Clockwork not working when "Block third-party cookies" is enabled in Chrome (thanks betawax)
+- *note, if "Block third-party cookies" is enabled, settings, theme, authentication tokens and dismissed update notifications won't be preserved when you close Clockwork*
+
 3.1.1
 - added new server-side update notification
 
