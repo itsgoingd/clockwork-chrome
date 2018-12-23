@@ -21,10 +21,10 @@ class Standalone
 		let wantsDarkTheme = URI(window.location.href).query(true).dark
 
 		if (wantsDarkTheme == '1' || wantsDarkTheme == '0')	{
-			localStorage.setItem('use-dark-theme', wantsDarkTheme)
+			LocalStore.set('use-dark-theme', wantsDarkTheme)
 			wantsDarkTheme = wantsDarkTheme == '1'
-		} else if (localStorage.getItem('use-dark-theme')) {
-			wantsDarkTheme = localStorage.getItem('use-dark-theme') == '1'
+		} else if (LocalStore.get('use-dark-theme')) {
+			wantsDarkTheme = LocalStore.get('use-dark-theme') == '1'
 		} else {
 			wantsDarkTheme = wantsDarkTheme === null
 		}
