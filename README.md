@@ -1,3 +1,9 @@
+#### *Archived repository*
+
+*This repository contains the archived source of Clockwork Chrome up to version 3, you can find the latest version at https://github.com/underground-works/clockwork-app.*
+
+---
+
 <p align="center">
 	<img width="412px" src="https://underground.works/clockwork/images/github/title.png">
 	<img src="https://underground.works/clockwork/images/github/clockwork-intro.png">
